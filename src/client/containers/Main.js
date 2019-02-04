@@ -7,10 +7,14 @@ class Main extends Component {
     constructor() {
         super();
         this.store = mainStore;
+        setTimeout(() => {
+            this.store.setHello();
+        }, 3000)
     }
     render() {
+        console.log(this.store);
         return (
-            <h1>Hello world baby</h1>
+            <h1>Hello world {this.store.hello}</h1>
         )
     }
 }
