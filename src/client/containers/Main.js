@@ -1,6 +1,11 @@
-import React, {Component} from 'react';
-import {observer} from 'mobx-react';
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import { observer } from 'mobx-react';
+
 import mainStore from '../store/main';
+import userStore from '../store/user';
+
+import UserBarContainer from '../containers/UserBar';
 
 @observer
 class Main extends Component {
@@ -12,9 +17,15 @@ class Main extends Component {
         }, 3000)
     }
     render() {
-        console.log(this.store);
+
+        if (!userStore.isAuth) {
+            return <Redirect to={'/login'} />
+        }
+
         return (
-            <h1>Hello world {this.store.hello}</h1>
+            <div>
+                <UserBarContainer store={userStore}/>
+            </div>
         )
     }
 }

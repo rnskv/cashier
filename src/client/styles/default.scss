@@ -1,0 +1,57 @@
+body {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  font-family: 'PT Sans', sans-serif;
+}
+
+.userbar {
+  background: #294047;
+  width: 200px;
+  display: flex;
+  padding: 15px;
+}
+
+.userbar-avatar {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.userbar-login {
+  width: 150px;
+  margin-left: 10px;
+}
+
+.userbar-loginfield {
+  width: 100%;
+  display: block;
+  color: #fff;
+  font-size: 12pt;
+}
+
+.userbar-levelfield {
+  font-size: 10pt;
+  color: #f6e444;
+}
+
+.userbar-button {
+  border: 2px solid #f6e444;
+  background: #F6E444;
+  float: right;
+  position: relative;
+  margin-top: 10px;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 10pt;
+  cursor: pointer;
+  transition: .3s;
+}
+.userbar-button:hover {
+  background: #fff171;
+}
+.userbar-button:focus {
+  outline: none;
+  border: 2px solid #dcc60c;
+}

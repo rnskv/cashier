@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 
 import Router from './router'
 
+import './styles/default.scss';
+
 class Main extends Component {
     constructor() {
         super()
