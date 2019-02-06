@@ -4,8 +4,12 @@ import { observer } from 'mobx-react';
 
 import mainStore from '../store/main';
 import userStore from '../store/user';
+import lobbyStore from '../store/lobby';
 
 import UserBarContainer from '../containers/UserBar';
+import LobbyContainer from '../containers/Lobby';
+
+import { socket } from '../utils.js';
 
 @observer
 class Main extends Component {
@@ -14,8 +18,14 @@ class Main extends Component {
         this.store = mainStore;
         setTimeout(() => {
             this.store.setHello();
-        }, 3000)
+        }, 3000);
+        socket.emit('hello', {message: 'world'})
     }
+
+    componentWillUnmount() {
+        socket.emit('goodby', {message: 'world'})
+    }
+
     render() {
 
         if (!userStore.isAuth) {
@@ -23,9 +33,14 @@ class Main extends Component {
         }
 
         return (
-            <div>
-                <UserBarContainer store={userStore}/>
-            </div>
+            <React.Fragment>
+                <div className="header">
+                    <div className="manu_mock">Меню</div>
+                    <UserBarContainer store={userStore}/>
+                </div>
+
+                <LobbyContainer store={lobbyStore}/>
+            </React.Fragment>
         )
     }
 }

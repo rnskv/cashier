@@ -11,7 +11,9 @@ class Main extends Component {
     }
     render() {
         return (
-            <Router/>
+            <div className="wrapper">
+                <Router/>
+            </div>
         )
     }
 }

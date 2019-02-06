@@ -1,14 +1,27 @@
 body {
   padding: 0;
   margin: 0;
-  display: flex;
-  justify-content: center;
   font-family: 'PT Sans', sans-serif;
+}
+.wrapper {
+  width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  width: 100%;
+  background: black;
+  display: flex;
+}
+
+.manu_mock {
+  width: 800px;
 }
 
 .userbar {
   background: #294047;
   width: 200px;
+  height: 60px;
   display: flex;
   padding: 15px;
 }
@@ -17,6 +30,14 @@ body {
   width: 50px;
   height: 50px;
   object-fit: cover;
+  background: #fff;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
 }
 
 .userbar-login {
@@ -54,4 +75,67 @@ body {
 .userbar-button:focus {
   outline: none;
   border: 2px solid #dcc60c;
+}
+
+.lobby {
+  background: #294047;
+  border-bottom: 2px solid #f8e85f;
+  padding-bottom: 15px;
+
+  width: 400px;
+}
+
+.lobby-users {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 200px;
+  margin: 0 auto;
+}
+
+.lobby-user {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  margin: 5px 5px 0 0;
+}
+
+.lobby-user-avatar {
+  width: 80px;
+  height: 80px;
+  background: #fff;
+  object-fit: cover;
+  position: absolute;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.lobby-user-login {
+  position: absolute;
+  bottom: 0;
+  color: #fff;
+  background: #000000c9;
+  padding: 5px;
+  width: calc(100% - 10px);
+  box-sizing: padding-box;
+  font-size: 10pt;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.title {
+  padding: 10px;
+  margin: 0;
+  font-size: 15pt;
+  font-weight: normal;
+}
+
+.title--white {
+  color: #fff;
 }

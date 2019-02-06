@@ -1,3 +1,8 @@
+.loader {
+    color: #fff;
+    text-align: center;
+}
+
 #floatingCirclesG{
     position:relative;
     width:90px;
