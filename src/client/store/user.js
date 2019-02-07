@@ -1,4 +1,5 @@
 import { decorate, observable, action } from "mobx";
+import { socket } from '../utils';
 
 class MainStore {
     @observable login;
@@ -8,61 +9,60 @@ class MainStore {
     @observable actions;
 
     @observable isLoading;
-    @observable isAuth;
     @observable token;
 
     constructor() {
+        this.profile = {};
         this.login = '';
         this.password = '';
-        this.avatar = '';
-        this.level = 1;
-        this.actions = '';
-        this.isLoading = false;
-        this.isAuth = false;
-        this.token = localStorage.getItem('userToken') || '';
+
+        this.isLoading = true;
+
+        this.token = localStorage.getItem('userToken') || null;
 
         if (this.token) {
-            this.isAuth = true;
-            this.getUserData();
+            console.log(this.token);
+            socket.emit('user.profile', this.token)
+        } else {
+            this.isLoading = false;
         }
+
+        socket.on('user.token', this.setToken);
+        socket.on('user.profile', this.setProfile);
     }
 
     @action
     logIn = (login, password) => {
         this.login = login;
         this.password = password;
-        //Мок запроса на сервер
+
         this.isLoading = true;
-        console.log(this.isLoading);
-        setTimeout(() => {
-            this.isLoading = false;
-            this.isAuth = true;
-            this.token = '123213';
 
-            localStorage.setItem('userToken', this.token);
+        const user = {
+            login,
+            password
+        };
 
-        }, 3000)
+        socket.emit('user.login', user)
     };
 
     @action
     logOut = () => {
         this.isLoading = false;
-        this.isAuth = false;
         this.token = '';
         localStorage.removeItem('userToken');
     };
 
     @action
-    getUserData = () => {
-        this.isLoading = true;
+    setToken = (token) => {
+        this.token = token;
+        localStorage.setItem('userToken', token);
+    };
 
-        setTimeout(() => {
-            this.login = 'mock_rnskv';
-            this.level = 99;
-            this.avatar = 'https://cs8.pikabu.ru/post_img/big/2016/07/09/7/1468062365176514879.jpg';
-
-            this.isLoading = false;
-        }, 1000)
+    @action
+    setProfile = (profile) => {
+        this.profile = profile;
+        this.isLoading = false;
     }
 }
 

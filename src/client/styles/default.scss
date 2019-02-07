@@ -90,7 +90,7 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  width: 200px;
+  width: 360px;
   margin: 0 auto;
 }
 
@@ -99,12 +99,15 @@ body {
   height: 80px;
   position: relative;
   margin: 5px 5px 0 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #345158;
 }
 
 .lobby-user-avatar {
   width: 80px;
   height: 80px;
-  background: #fff;
+  background: #345158;
   object-fit: cover;
   position: absolute;
   img {
@@ -132,7 +135,7 @@ body {
 .title {
   padding: 10px;
   margin: 0;
-  font-size: 15pt;
+  font-size: 11pt;
   font-weight: normal;
 }
 

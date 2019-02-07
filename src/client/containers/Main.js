@@ -28,7 +28,7 @@ class Main extends Component {
 
     render() {
 
-        if (!userStore.isAuth) {
+        if (!userStore.token) {
             return <Redirect to={'/login'} />
         }
 

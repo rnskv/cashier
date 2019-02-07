@@ -21,9 +21,9 @@ class LoginForm extends Component {
 
     render() {
         const { store } = this.props;
-        console.log('this is auth', store.isAuth);
+        console.log('this is auth', store.token);
 
-        if (store.isAuth) {
+        if (!!store.token) {
             return <Redirect to='/'/>;
         }
 
