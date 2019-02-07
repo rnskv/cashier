@@ -17,7 +17,7 @@ class MainStore {
         this.avatar = '';
         this.level = 1;
         this.actions = '';
-        this.isLoading = false;
+        this.isLoading = true;
         this.isAuth = false;
         this.token = localStorage.getItem('userToken') || '';
 
@@ -63,7 +63,14 @@ class MainStore {
 
             this.isLoading = false;
         }, 1000)
+    };
+
+    @action
+    updateUserData = (data) => {
+        this.isLoading = false;
+        console.log('UserData', data)
     }
+
 }
 
 export default new MainStore()

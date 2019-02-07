@@ -19,11 +19,13 @@ class Main extends Component {
         setTimeout(() => {
             this.store.setHello();
         }, 3000);
-        socket.emit('hello', {message: 'world'})
+
+        socket.emit('lobby.join', {message: 'world'})
+
     }
 
     componentWillUnmount() {
-        socket.emit('goodby', {message: 'world'})
+        socket.emit('lobby.leave', {message: 'world'})
     }
 
     render() {
@@ -39,7 +41,7 @@ class Main extends Component {
                     <UserBarContainer store={userStore}/>
                 </div>
 
-                <LobbyContainer store={lobbyStore}/>
+                <LobbyContainer userStore={userStore} store={lobbyStore}/>
             </React.Fragment>
         )
     }
