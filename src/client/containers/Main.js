@@ -19,9 +19,6 @@ class Main extends Component {
         setTimeout(() => {
             this.store.setHello();
         }, 3000);
-
-        socket.emit('lobby.join', {message: 'world'})
-
     }
 
     componentWillUnmount() {

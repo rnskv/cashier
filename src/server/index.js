@@ -16,10 +16,11 @@ io.on('connection', function(socket){
     console.log('a user connected');
 
     socket.on('user.login', function(data) {
+
         const { login, password } = data;
 
         const token = random(111111111, 999999999);
-
+        console.log('user socket ' + socket.id + ' with token ' + token);
         const profile = {
             id: socket.id,
             login,
@@ -40,10 +41,11 @@ io.on('connection', function(socket){
 
 
     socket.on('lobby.join', function(token) {
+        console.log('Lobby join socket ' + socket.id + ' with token ' + token);
         socket.join('lobby');
         lobbyUsers.push(token);
         let res = lobbyUsers.map(token => users[token]);
-        console.log(res);
+        // console.log(res);
         io.to('lobby').emit('lobby.users', res);
     });
 
