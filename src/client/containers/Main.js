@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { browserHistory } from 'react-router';
 import { observer } from 'mobx-react';
 
 import mainStore from '../store/main';
@@ -19,10 +20,20 @@ class Main extends Component {
         setTimeout(() => {
             this.store.setHello();
         }, 3000);
+
+        socket.on('user.error', function(data) {
+            console.log(data)
+            switch (data.type) {
+                case 'AUTH_ERROR':
+                    userStore.logOut();
+                    break;
+            }
+            alert('Error:' + data.message)
+        })
+
     }
 
     componentWillUnmount() {
-        socket.emit('lobby.leave', {message: 'world'})
     }
 
     render() {

@@ -6,21 +6,21 @@ import LobbyUser from '../components/LobbyUser';
 
 import userStore from '../store/user';
 import { socket } from '../utils';
+import lobby from "../store/lobby";
 
 @observer
 class Lobby extends Component {
     constructor(props) {
         super();
-        socket.emit('lobby.join', userStore.token);
-
         socket.on('lobby.users', props.store.updateUsers);
     }
 
     componentWillUnmount() {
-        console.log(123);
-        socket.emit('lobby.leave', userStore.profile.id);
+        socket.emit('lobby.leave', userStore.token);
     }
-
+    componentDidMount() {
+        socket.emit('lobby.join', userStore.token);
+    }
     render() {
         const { store } = this.props;
         // console.log([...store.users]);
