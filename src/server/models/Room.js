@@ -1,5 +1,0 @@
-class Room {
-    constructor() {
-
-    }
-}
