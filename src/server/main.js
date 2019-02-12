@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser')
-
+const bodyParser = require('body-parser');
+const passport = require('passport');
 const app = express();
 
 const router = require('./router');
@@ -22,9 +22,17 @@ const player = new User({
 
 player.save().then(() => console.log('Player save'));
 
+app.use(require('cookie-parser')());
+app.use(require('express-session')({secret:'keyboard cat', resave: true, saveUninitialized: true}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.use('/api/v1', router);
 
-app.listen(1337, function () {
-    console.log('Example app listening on port 3000!');
+app.listen(config.server.port, function () {
+    console.log(config.server.startMessage);
 });
