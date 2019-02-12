@@ -14,16 +14,7 @@ const kitty = new Cat({ name: 'Zildjian' });
 kitty.save().then(() => console.log('meow'));
 
 
-router.get('/api', (req, res) => {
-    res.send('Api server');
-});
-
-
 app.use('/api/v1', router);
-
-app.get('/', function (req, res) {
-    res.send('Hello World!');
-});
 
 app.listen(1337, function () {
     console.log('Example app listening on port 3000!');
