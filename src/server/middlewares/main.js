@@ -1,6 +1,6 @@
 const passport = require('passport');
 const bodyParser = require('body-parser');
-const router = require('../router');
+const router = require('./router');
 const usePassportMiddleware = require('./passport');
 
 module.exports = (app) => {
