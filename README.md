@@ -2,6 +2,11 @@
 Gambling game with a `chance` get by `one player` a all game's bank.
 ______________
 
+Task tracker:
+======================
+
+***Trello***: <https://trello.com/b/zkQ7Re9N/cashier>
+
 Commands:
 ======================
 ```
