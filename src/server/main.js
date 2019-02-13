@@ -12,21 +12,29 @@ const config = require('./config');
 
 const User = require('./models/User');
 
+const redisManager = require('./managers/redis');
+
+redisManager.set('user', 2);
+
+redisManager.sadd('users', [1, 2, 3, 4, 5]);
+
+
+(async () => {
+    let test1 = await redisManager.get('user');
+    let test2 = await redisManager.smembers('users');
+
+    // redisManager.srem('test2', alalalaa);
+
+    test2 = await redisManager.smembers('usersss');
+
+    console.log('mmmm', test1);
+    console.log('mmmssssm', test2);
+
+})();
+
 mongoose.connect(`mongodb://${config.db.user}:${config.db.password}@ds131765.mlab.com:31765/cashier`, {useNewUrlParser: true});
 
-client.on("error", function (err) {
-    console.log("Error " + err);
-});
 
-client.set("user", "shit", redis.print);
-client.get("user", function(err, reply) {
-    // reply is null when the key is missing
-    console.log(reply);
-});
-client.get("missingkey", function(err, reply) {
-    // reply is null when the key is missing
-    console.log(reply);
-});
 const player = new User({
     name: 'Roman',
     uid: 666,

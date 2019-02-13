@@ -1,13 +1,5 @@
 const passport = require('passport');
 
-passport.serializeUser(function(user, done) {
-    done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-    done(null, user);
-});
-
 module.exports = {
     vkLogin: passport.authenticate('vkontakte'),
     vkLoginSuccess: passport.authenticate('vkontakte', {
@@ -23,6 +15,7 @@ module.exports = {
         //     return done(err, user);
         // });
         // console.log('User auth', refreshToken, accessToken, params, profile)
+        console.log(profile);
         return done(null, profile);
     }
 };
