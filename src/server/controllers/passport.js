@@ -16,5 +16,13 @@ module.exports = {
         }),
     vkLoginFailure: function() {
 
+    },
+    vkLoginCallback: function(accessToken, refreshToken, params, profile, done) {
+        // console.log(params.email); // getting the email
+        // User.findOrCreate({ vkontakteId: profile.id }, function (err, user) {
+        //     return done(err, user);
+        // });
+        // console.log('User auth', refreshToken, accessToken, params, profile)
+        return done(null, profile);
     }
 };
