@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const http = require('http');
 const redis = require('redis');
-const redisAdapter = require('socket.io-redis');
 
 const client = redis.createClient();
 
@@ -12,6 +11,7 @@ const io = require('socket.io')(server);
 
 
 const useMainMiddlewares = require('./middlewares/main');
+const useSocketMiddlewares = require('./middlewares/sockets');
 
 const config = require('./config');
 
@@ -37,8 +37,6 @@ const redisManager = require('./managers/redis');
 //
 // })();
 
-io.adapter(redisAdapter({ host: config.redis.host, port: config.redis.port }));
-
 mongoose.connect(`mongodb://${config.db.user}:${config.db.password}@ds131765.mlab.com:31765/cashier`, {useNewUrlParser: true});
 
 
@@ -54,6 +52,7 @@ const player = new User({
 player.save().then(() => console.log('Player save'));
 
 useMainMiddlewares(app);
+useSocketMiddlewares(io);
 
 server.listen(config.server.port, function () {
     console.log(config.server.startMessage);
