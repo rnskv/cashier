@@ -3,6 +3,10 @@ module.exports = {
         user: 'root',
         password: 'Qwerty123'
     },
+    redis: {
+        port: 6379,
+        host: '127.0.0.1'
+    },
     server: {
         port: 1337,
         startMessage: `-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n`+
