@@ -5,7 +5,9 @@ module.exports = {
         res.send('User register')
     },
     logIn: function(req, res) {
-
-        res.send('User logIn')
+        console.log('logIn user method activate');
+        res.json({
+            hello: 'world'
+        })
     }
 };

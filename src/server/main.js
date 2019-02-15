@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const http = require('http');
 const redis = require('redis');
 
@@ -18,6 +17,8 @@ const config = require('./config');
 const User = require('./models/User');
 
 const redisManager = require('./managers/redis');
+const mongoManager = require('./managers/mongo');
+
 //
 // redisManager.set('user', 2);
 //
@@ -37,8 +38,6 @@ const redisManager = require('./managers/redis');
 //
 // })();
 
-mongoose.connect(`mongodb://${config.db.user}:${config.db.password}@ds131765.mlab.com:31765/cashier`, {useNewUrlParser: true});
-
 
 const player = new User({
     name: 'Roman',
@@ -49,7 +48,7 @@ const player = new User({
     refreshToken: 'token123qwertyrefresh'
 });
 
-player.save().then(() => console.log('Player save'));
+// player.save().then(() => console.log('Player save'));
 
 useMainMiddlewares(app);
 useSocketMiddlewares(io);

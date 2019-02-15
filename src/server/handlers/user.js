@@ -1,5 +1,6 @@
 const GlobalManager = require('../managers/global');
 const UserManager = require('../managers/user');
+const request = require('request');
 
 module.exports = {
     login: (socket) => (data) => {

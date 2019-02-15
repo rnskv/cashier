@@ -63,6 +63,10 @@ class Test extends Component {
         socket.emit('user.logout');
     }
 
+    logInVk() {
+        window.location = "http://localhost:1337/api/v1/login/vk"
+    }
+
     render() {
         const { store } = this.props;
         return (
@@ -73,6 +77,8 @@ class Test extends Component {
                         : <h1>Welcome to test component</h1>
                 }
                 <hr/>
+                Log in by vk.com - <button onClick={this.logInVk}>Log In</button>
+                <br/>
                 Log in user - <button onClick={this.logIn}>Log In</button>
                 <br/>
                 Log out user - <button onClick={this.logOut}>Log out</button>

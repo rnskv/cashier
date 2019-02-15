@@ -1,21 +1,39 @@
 const passport = require('passport');
 
+const httpManager = require('../managers/http');
+
+const User = require('../models/User');
+const userSelector = require('../selectors/user');
+
 module.exports = {
     vkLogin: passport.authenticate('vkontakte'),
     vkLoginSuccess: passport.authenticate('vkontakte', {
-            successRedirect: '/',
+            successRedirect: '/api/v1/redirect/main',
             failureRedirect: '/api/v1/login'
         }),
     vkLoginFailure: function() {
 
     },
-    vkLoginCallback: function(accessToken, refreshToken, params, profile, done) {
+    vkLoginCallback: async function(accessToken, refreshToken, params, profile, done) {
         // console.log(params.email); // getting the email
-        // User.findOrCreate({ vkontakteId: profile.id }, function (err, user) {
+        // console.log(profile);
+
+        const response = await httpManager.request({
+            method: 'POST',
+            url: 'http://localhost:1337' + '/api/v1/user/login'
+        });
+
+        console.log(await response);
+
+        return done(null, profile);
+
+        // User.findOrCreate({
+        //     uid: profile.id,
+        //     name: profile.first_name,
+        //     avatar: profile.photo,
+        // }, function (err, user) {
+        //     console.log(user);
         //     return done(err, user);
         // });
-        // console.log('User auth', refreshToken, accessToken, params, profile)
-        console.log(profile);
-        return done(null, profile);
     }
 };

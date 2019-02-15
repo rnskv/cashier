@@ -30,13 +30,8 @@ class Global {
     }
 
     getUsers() {
-        return Object.keys(this.users).map(key => {
-            const profile = this.users[key].profile;
-            return {
-                login: profile.login,
-                avatar: profile.avatar
-            }
-        });
+        console.log(Object.keys(this.users).map(key => this.users[key].getProfile()));
+        return Object.keys(this.users).map(key => this.users[key].getProfile())
     }
 }
 
