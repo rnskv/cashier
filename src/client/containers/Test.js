@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
+import { Redirect } from 'react-router-dom';
 
 import Loader from '../components/Loader';
 
@@ -10,7 +11,7 @@ class Test extends Component {
     constructor(props) {
         super();
         this.state = {
-            token: props.match.params.token || null,
+            token: null,
             profile: {},
             users: [],
         };
@@ -22,7 +23,8 @@ class Test extends Component {
             this.setState({
                 token: data.token,
                 profile: data.profile
-            })
+            });
+            localStorage.setItem("token", data.token);
         });
 
         socket.on('user.logout', (data) => {
@@ -30,7 +32,8 @@ class Test extends Component {
                 token: null,
                 profile: {},
                 users: []
-            })
+            });
+            localStorage.removeItem("token")
         });
 
         socket.on('user.connect', (data) => {
@@ -49,10 +52,22 @@ class Test extends Component {
             alert('test')
         });
 
-        if (this.state.token) {
+        socket.on('global.error', (data) => {
+            console.log('global.error');
+            alert(data.message);
+            switch (data.type) {
+                case 1:
+                    window.location = '/test';
+                    localStorage.removeItem("token");
+                    break;
+            }
+        });
+
+        if (localStorage.getItem("token") || this.props.match.params.token) {
             const data = {
-                token: this.state.token,
+                token: localStorage.getItem("token") || this.props.match.params.token,
             };
+            console.log(data);
             socket.emit('user.login', data);
         }
     }
@@ -79,7 +94,10 @@ class Test extends Component {
 
     render() {
         const { store } = this.props;
-        console.log(this.props.match.params)
+
+        if (this.state.token && this.props.match.params.token) {
+            return <Redirect to={'/test'}/>
+        }
 
         return (
             <div>

@@ -16,13 +16,16 @@ module.exports = {
                 token: data.token
             }
         });
-
-        // console.log(response);
+        console.log(response);
+        if (!response) {
+            socket.emit('global.error', { message: 'Ошибка авторизации', type: 1 });
+            return;
+        }
 
         const user = new UserManager(response, response.accessToken);
 
         GlobalManager.addUser(socket.id, user);
-
+        console.log('WOTAFAK MATHERFUCKER')
         socket.emit('user.login', { profile: response, token: response.accessToken });
         socket.server.emit('user.disconnect', { users: GlobalManager.getUsers() });
     },
