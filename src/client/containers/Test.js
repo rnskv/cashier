@@ -85,7 +85,7 @@ class Test extends Component {
             <div>
                 {
                     this.state.token
-                        ? <h1>Welcome, {this.state.profile.login}, your token: {this.state.token}</h1>
+                        ? <React.Fragment><h1>Welcome, {this.state.profile.name} <img src={this.state.profile.avatar}/> ,</h1> your token: {this.state.token}</React.Fragment>
                         : <h1>Welcome to test component</h1>
                 }
                 <hr/>
@@ -98,7 +98,7 @@ class Test extends Component {
                 {
                     this.state.users.map((user, index) => {
                         return (
-                            <div key={index}>{user.login}</div>
+                            <div key={index}>{user.login} - <img src={this.state.profile.avatar} /></div>
                         )
                     })
                 }

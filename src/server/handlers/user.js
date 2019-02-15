@@ -17,13 +17,13 @@ module.exports = {
             }
         });
 
-        console.log(response);
+        // console.log(response);
 
-        const user = new UserManager({}, data.token);
+        const user = new UserManager(response, response.accessToken);
 
         GlobalManager.addUser(socket.id, user);
 
-        socket.emit('user.login', { profile: {}, token: data.token });
+        socket.emit('user.login', { profile: response, token: response.accessToken });
         socket.server.emit('user.disconnect', { users: GlobalManager.getUsers() });
     },
     logout: (socket) => () => {

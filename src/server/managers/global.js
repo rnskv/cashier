@@ -30,7 +30,7 @@ class Global {
     }
 
     getUsers() {
-        console.log(Object.keys(this.users).map(key => this.users[key].getProfile()));
+        // console.log(Object.keys(this.users).map(key => this.users[key].getProfile()));
         return Object.keys(this.users).map(key => this.users[key].getProfile())
     }
 }

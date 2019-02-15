@@ -24,8 +24,7 @@ module.exports = {
                 params,
             }
         });
-
-        console.log(await response);
+        console.log('2tf');
         return done(null, profile);
         // User.findOrCreate({
         //     uid: profile.id,

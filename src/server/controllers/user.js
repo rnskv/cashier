@@ -18,29 +18,27 @@ module.exports = {
             accessToken: params.access_token
         };
         let result = userData;
-        console.log(params);
 
         if (userData) {
-            console.log('User found - ', profile.id);
             await User.updateOne({_id: userData._id}, profileData)
         } else {
-            console.log('User create - ', profile.id);
             const user = new User(profileData);
             result = await user.save();
         }
-        store.set('token', result.accessToken);
+        // console.log(profileData.accessToken);
+        await store.set('token', profileData.accessToken);
         res.json(result)
     },
     loginRedirect: function(req, res) {
-        console.log(res.token);
         res.redirect(`${config.client.host}:${config.client.port}/test/${store.get('token')}`);
     },
     profile: async function(req, res) {
         //@todo Сделать нормальный jwt;
         const token = req.body.token;
+        console.log('profile', token);
         let userData = await User.findOne({accessToken: token});
-        console.log('Find user with token', token);
-        console.log('Find', userData);
+
+        console.log(userData);
         res.json(userData)
     },
     getToken() {
