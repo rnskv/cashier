@@ -1,6 +1,4 @@
 const Redis = require('ioredis');
-const redis = new Redis();
-
 
 class RedisManager {
     constructor(Redis) {
@@ -12,7 +10,12 @@ class RedisManager {
     }
 
     init() {
-        this.redis = new this.Redis();
+        try {
+            this.redis = new this.Redis();
+        } catch (err) {
+            console.log(`Can't connect to Redis database`);
+        }
+
     }
 
     subscribtions() {

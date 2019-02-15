@@ -18,11 +18,13 @@ module.exports = {
 
         GlobalManager.addUser(socket.id, user);
 
-        socket.emit('user.login', mock.profile);
-        socket.server.emit('user.connect');
+        socket.emit('user.login', { profile: mock.profile, token: mock.token });
+        socket.server.emit('user.disconnect', { users: GlobalManager.getUsers() });
     },
-    logout: function() {
-
+    logout: (socket) => (data) => {
+        GlobalManager.removeUser(socket.id);
+        socket.emit('user.logout', { users: []});
+        socket.server.emit('user.logout', { users: GlobalManager.getUsers() });
     },
     joinLobby: function() {
 
@@ -36,4 +38,8 @@ module.exports = {
     joinRoom: function() {
 
     },
+    disconnect: (socket) => () => {
+        GlobalManager.removeUser(socket.id);
+        socket.server.emit('user.disconnect', { users: GlobalManager.getUsers() });
+    }
 };

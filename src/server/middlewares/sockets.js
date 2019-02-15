@@ -8,6 +8,8 @@ module.exports = function(io) {
 
     io.on('connection', (socket) => {
         console.log('test server work');
-        socket.on('user.login', userHandlers.login(socket))
+        socket.on('user.login', userHandlers.login(socket));
+        socket.on('user.logout', userHandlers.logout(socket));
+        socket.on('disconnect', userHandlers.disconnect(socket));
     })
 };

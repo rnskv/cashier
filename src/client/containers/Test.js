@@ -10,16 +10,39 @@ class Test extends Component {
     constructor() {
         super();
 
-        this.state = {};
+        this.state = {
+            token: null,
+            profile: {},
+            users: [],
+        };
+
     }
 
     componentDidMount() {
-        socket.on('user.login', function() {
-            console.log('user.server.login')
+        socket.on('user.login', (data) => {
+            this.setState({
+                token: data.token,
+                profile: data.profile
+            })
         });
-        socket.on('user.connect', function() {
-            console.log('user.server.conect')
+
+        socket.on('user.logout', (data) => {
+            this.setState({
+                users: data.users
+            })
         });
+
+        socket.on('user.connect', (data) => {
+            this.setState({
+                users: data.users
+            })
+        });
+
+        socket.on('user.disconnect', (data) => {
+            this.setState({
+                users: data.users
+            })
+        })
     }
 
     logIn() {
@@ -41,10 +64,23 @@ class Test extends Component {
         const { store } = this.props;
         return (
             <div>
-                <h1>Welcome to test component</h1><hr/>
+                {
+                    this.state.token
+                        ? <h1>Welcome, {this.state.profile.login}, your token: {this.state.token}</h1>
+                        : <h1>Welcome to test component</h1>
+                }
+                <hr/>
                 Log in user - <button onClick={this.logIn}>Log In</button>
                 <br/>
                 Log out user - <button onClick={this.logOut}>Log out</button>
+                <hr/>
+                {
+                    this.state.users.map((user, index) => {
+                        return (
+                            <div key={index}>{user.login}</div>
+                        )
+                    })
+                }
             </div>
         )
     }

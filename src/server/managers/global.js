@@ -10,7 +10,7 @@ class Global {
     }
 
     removeUser(socketId) {
-
+        delete this.users[socketId]
     }
 
     addLobby() {
@@ -27,6 +27,16 @@ class Global {
 
     findFreeLobby() {
 
+    }
+
+    getUsers() {
+        return Object.keys(this.users).map(key => {
+            const profile = this.users[key].profile;
+            return {
+                login: profile.login,
+                avatar: profile.avatar
+            }
+        });
     }
 }
 
