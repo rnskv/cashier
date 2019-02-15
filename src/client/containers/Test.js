@@ -28,7 +28,9 @@ class Test extends Component {
 
         socket.on('user.logout', (data) => {
             this.setState({
-                users: data.users
+                token: null,
+                profile: {},
+                users: []
             })
         });
 
@@ -58,6 +60,7 @@ class Test extends Component {
 
     logOut() {
         console.log('log out');
+        socket.emit('user.logout');
     }
 
     render() {

@@ -21,10 +21,14 @@ module.exports = {
         socket.emit('user.login', { profile: mock.profile, token: mock.token });
         socket.server.emit('user.disconnect', { users: GlobalManager.getUsers() });
     },
-    logout: (socket) => (data) => {
+    logout: (socket) => () => {
         GlobalManager.removeUser(socket.id);
         socket.emit('user.logout', { users: []});
-        socket.server.emit('user.logout', { users: GlobalManager.getUsers() });
+        socket.server.emit('user.disconnect', { users: GlobalManager.getUsers() });
+    },
+    disconnect: (socket) => () => {
+        GlobalManager.removeUser(socket.id);
+        socket.server.emit('user.disconnect', { users: GlobalManager.getUsers() });
     },
     joinLobby: function() {
 
@@ -37,9 +41,5 @@ module.exports = {
     },
     joinRoom: function() {
 
-    },
-    disconnect: (socket) => () => {
-        GlobalManager.removeUser(socket.id);
-        socket.server.emit('user.disconnect', { users: GlobalManager.getUsers() });
     }
 };
