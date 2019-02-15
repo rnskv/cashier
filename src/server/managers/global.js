@@ -5,6 +5,7 @@ class Global {
     }
 
     addUser(socketId, user) {
+        console.log('global.addUser');
         this.users[socketId] = user;
     }
 

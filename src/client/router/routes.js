@@ -4,6 +4,9 @@ import { Route, Link } from 'react-router-dom'
 import MainContainer from '../containers/Main';
 import LoginContainer from '../containers/Login';
 
+import TestContainer from '../containers/Test';
+
+
 const Home = () => <h2>Home</h2>;
 const About = () => <h2>About</h2>;
 
@@ -19,5 +22,7 @@ export default () => (
 
         <Route path="/about" component={About} />
 
+
+        <Route path="/test" component={TestContainer} />
     </Fragment>
 )
