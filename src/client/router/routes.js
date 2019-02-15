@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import { Route, Link } from 'react-router-dom'
+import { Route, Link, Redirect } from 'react-router-dom'
 
 import MainContainer from '../containers/Main';
 import LoginContainer from '../containers/Login';
@@ -23,6 +23,6 @@ export default () => (
         <Route path="/about" component={About} />
 
 
-        <Route path="/test" component={TestContainer} />
+        <Route path='/test/:token?' component={TestContainer} />
     </Fragment>
 )

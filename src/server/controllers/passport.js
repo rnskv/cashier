@@ -1,16 +1,14 @@
 const passport = require('passport');
 
-const httpManager = require('../managers/http');
+const HttpManager = require('../managers/http');
 
 const User = require('../models/User');
 const userSelector = require('../selectors/user');
+const userController = require('../controllers/user');
 
 module.exports = {
     vkLogin: passport.authenticate('vkontakte'),
-    vkLoginSuccess: passport.authenticate('vkontakte', {
-            successRedirect: '/api/v1/redirect/main',
-            failureRedirect: '/api/v1/login'
-        }),
+    vkLoginSuccess: passport.authenticate('vkontakte', { failureRedirect: '/api/v1/login' }),
     vkLoginFailure: function() {
 
     },
@@ -18,15 +16,17 @@ module.exports = {
         // console.log(params.email); // getting the email
         // console.log(profile);
 
-        const response = await httpManager.request({
+        const response = await HttpManager.request({
             method: 'POST',
-            url: 'http://localhost:1337' + '/api/v1/user/login'
+            url: 'http://localhost:1337' + '/api/v1/user/login',
+            body: {
+                profile: profile._json,
+                params,
+            }
         });
 
         console.log(await response);
-
         return done(null, profile);
-
         // User.findOrCreate({
         //     uid: profile.id,
         //     name: profile.first_name,

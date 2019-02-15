@@ -7,10 +7,11 @@ const path = require('path');
 module.exports = {
     mode: 'development',
     entry: {
-        "main": path.resolve(__dirname, './src/client/app.js')
+        "main": path.join(__dirname, '/src/client/app.js')
     },
     output: {
-        path: path.resolve(__dirname, './dist'),
+        path: path.join(__dirname, '/dist'),
+        publicPath: path.join(__dirname, '/dist'),
         filename: '[name].js'
     },
     module: {
@@ -61,7 +62,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, './src/client/index.html')
+            template: path.join(__dirname, 'src/client/index.html')
         }),
         new webpack.HotModuleReplacementPlugin(),
     ],

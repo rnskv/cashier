@@ -1,4 +1,8 @@
 module.exports = {
+    client: {
+        host: 'http://localhost',
+        port: 9000
+    },
     db: {
         user: 'root',
         password: 'Qwerty123'

@@ -7,15 +7,14 @@ import {socket} from "../utils";
 
 @observer
 class Test extends Component {
-    constructor() {
+    constructor(props) {
         super();
-
         this.state = {
-            token: null,
+            token: props.match.params.token || null,
             profile: {},
             users: [],
         };
-
+        console.log(props)
     }
 
     componentDidMount() {
@@ -44,7 +43,18 @@ class Test extends Component {
             this.setState({
                 users: data.users
             })
-        })
+        });
+
+        socket.on('test', (data) => {
+            alert('test')
+        });
+
+        if (this.state.token) {
+            const data = {
+                token: this.state.token,
+            };
+            socket.emit('user.login', data);
+        }
     }
 
     logIn() {
@@ -69,6 +79,8 @@ class Test extends Component {
 
     render() {
         const { store } = this.props;
+        console.log(this.props.match.params)
+
         return (
             <div>
                 {

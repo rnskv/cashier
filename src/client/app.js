@@ -4,10 +4,14 @@ import ReactDOM from 'react-dom';
 import Router from './router'
 
 import './styles/default.scss';
+import {socket} from "./utils";
 
 class Main extends Component {
     constructor() {
-        super()
+        super();
+        socket.on('test', (data) => {
+            alert('test');
+        })
     }
     render() {
         return (

@@ -11,6 +11,7 @@ class HttpManager {
             this.client({
                 method: data.method || 'GET',
                 url: data.url,
+                body: data.body || {},
                 json: true
             }, (error, response, body) => {
                 error ? reject(error) : resolve(body);

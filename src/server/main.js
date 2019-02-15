@@ -51,7 +51,7 @@ const player = new User({
 // player.save().then(() => console.log('Player save'));
 
 useMainMiddlewares(app);
-useSocketMiddlewares(io);
+useSocketMiddlewares(io)(app);
 
 server.listen(config.server.port, function () {
     console.log(config.server.startMessage);

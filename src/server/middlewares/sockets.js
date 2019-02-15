@@ -3,10 +3,16 @@ const config = require('../config.js');
 
 const userHandlers = require('../handlers/user');
 
-module.exports = function(io) {
+module.exports = (io) => (app) => {
+
     io.adapter(redisAdapter({ host: config.redis.host, port: config.redis.port }));
 
     io.on('connection', (socket) => {
+
+        app.use((req, res) => {
+            res.socket = socket;
+        });
+
         console.log('test server work');
         socket.on('user.login', userHandlers.login(socket));
         socket.on('user.logout', userHandlers.logout(socket));

@@ -11,12 +11,11 @@ router.get('/', (req, res) => {
 });
 
 router.get('/login/vk', passportController.vkLogin);
-router.get('/login/vk/success', passportController.vkLoginSuccess);
-
-router.get('/redirect/main', (req, res) => {res.redirect('http://localhost:9000/test')});
+router.get('/login/vk/success', passportController.vkLoginSuccess, userController.loginRedirect);
 
 router.post('/user/register', userController.register);
 router.post('/user/login', userController.logIn);
+router.post('/user/profile', userController.profile);
 
 router.get('/login', (req, res) => {
     res.send('Mock for login page');
