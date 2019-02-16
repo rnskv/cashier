@@ -18,7 +18,7 @@ export default () => (
         <Link to="/login">Auth</Link>
 
         <Route exact path="/" component={MainContainer} />
-        <Route path="/login" component={LoginContainer} />
+        <Route path="/login/:token?" component={LoginContainer} />
 
         <Route path="/about" component={About} />
 

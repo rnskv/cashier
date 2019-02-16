@@ -9,7 +9,7 @@ class Login extends Component {
     render() {
         console.log(this.store);
         return (
-            <LoginForm store={userStore}/>
+            <LoginForm match={this.props.match} store={userStore}/>
         )
     }
 }

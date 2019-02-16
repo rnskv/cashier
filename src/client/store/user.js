@@ -18,7 +18,7 @@ class MainStore {
 
         this.isLoading = true;
 
-        this.token = localStorage.getItem('userToken') || null;
+        this.token = localStorage.getItem('token') || null;
 
         if (this.token) {
             console.log(this.token);
@@ -27,31 +27,48 @@ class MainStore {
             this.isLoading = false;
         }
 
-        socket.on('user.token', this.setToken);
-        socket.on('user.profile', this.setProfile);
+        socket.on('user.login', this.onLogIn);
+
+        socket.on('user.logout', this.onLogOut);
+
+        socket.on('global.error', (data) => {
+            console.log('global.error');
+            alert(data.message);
+            switch (data.type) {
+                case 1:
+                    localStorage.removeItem("token");
+                    window.location = '/login';
+                    break;
+            }
+        });
     }
 
     @action
-    logIn = (login, password) => {
-        this.login = login;
-        this.password = password;
-
-        this.isLoading = true;
-
-        const user = {
-            login,
-            password
-        };
-
-        socket.emit('user.login', user)
+    onLogIn = (data) => {
+        console.log('user.login');
+        this.token = data.token;
+        this.profile = data.profile;
+        localStorage.setItem("token", data.token);
     };
 
     @action
-    logOut = () => {
-        this.isLoading = false;
-        this.token = '';
-        localStorage.removeItem('userToken');
+    onLogOut = () => {
+        this.token = null;
+        this.profile = {};
+
+        localStorage.removeItem("token");
     };
+
+    @action
+    logOut() {
+        console.log('log out');
+        socket.emit('user.logout');
+    }
+
+    @action
+    logInVk() {
+        window.location = "http://localhost:1337/api/v1/login/vk"
+    }
 
     @action
     setToken = (token) => {

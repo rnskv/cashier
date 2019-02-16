@@ -30,7 +30,7 @@ module.exports = {
         res.json(result)
     },
     loginRedirect: function(req, res) {
-        res.redirect(`${config.client.host}:${config.client.port}/test/${store.get('token')}`);
+        res.redirect(`${config.client.host}:${config.client.port}/login/${store.get('token')}`);
     },
     profile: async function(req, res) {
         //@todo Сделать нормальный jwt;

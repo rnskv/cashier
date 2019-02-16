@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import { observer } from 'mobx-react';
+import {socket} from "../utils";
 
 @observer
 class LoginForm extends Component {
@@ -11,12 +12,29 @@ class LoginForm extends Component {
         this.passwordRef = React.createRef();
     }
 
+    componentDidMount() {
+        if (localStorage.getItem("token") || this.props.match.params.token) {
+            const data = {
+                token: localStorage.getItem("token") || this.props.match.params.token,
+            };
+            console.log(data);
+            socket.emit('user.login', data);
+        }
+    }
+
+
     logInAction = (e) => {
         const { store } = this.props;
         const login = this.loginRef.current.value;
         const password = this.passwordRef.current.value;
         console.log(login, password, store);
         store.logIn(login, password);
+    };
+
+    logInVkAction = (e) => {
+        const { store } = this.props;
+
+        store.logInVk();
     };
 
     render() {
@@ -34,6 +52,9 @@ class LoginForm extends Component {
                     <input type="text" placeholder="login" ref={this.loginRef}/>
                     <input type="password" placeholder="******" ref={this.passwordRef}/>
                     <input type="button" value="Log In" onClick={this.logInAction}/>
+
+                    <input type="button" value="Log VK" onClick={this.logInVkAction}/>
+
                 </form>
         )
     }
