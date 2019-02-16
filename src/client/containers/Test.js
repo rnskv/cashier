@@ -94,10 +94,10 @@ class Test extends Component {
 
     render() {
         const { store } = this.props;
-
-        if (this.state.token && this.props.match.params.token) {
-            return <Redirect to={'/test'}/>
-        }
+        //
+        // if (this.state.token && this.props.match.params.token) {
+        //     return <Redirect to={'/test'}/>
+        // }
 
         return (
             <div>

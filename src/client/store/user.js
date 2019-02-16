@@ -16,21 +16,13 @@ class MainStore {
         this.login = '';
         this.password = '';
 
-        this.isLoading = true;
+        this.isLoading = false;
 
         this.token = localStorage.getItem('token') || null;
 
-        if (this.token) {
-            console.log(this.token);
-            socket.emit('user.profile', this.token)
-        } else {
-            this.isLoading = false;
-        }
 
         socket.on('user.login', this.onLogIn);
-
         socket.on('user.logout', this.onLogOut);
-
         socket.on('global.error', (data) => {
             console.log('global.error');
             alert(data.message);
@@ -48,6 +40,7 @@ class MainStore {
         console.log('user.login');
         this.token = data.token;
         this.profile = data.profile;
+        this.loading = false;
         localStorage.setItem("token", data.token);
     };
 
@@ -63,6 +56,12 @@ class MainStore {
     logOut() {
         console.log('log out');
         socket.emit('user.logout');
+    }
+
+    @action
+    logIn(data) {
+        this.loading = true;
+        socket.emit('user.login', { token: data.token })
     }
 
     @action

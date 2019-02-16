@@ -13,12 +13,13 @@ class LoginForm extends Component {
     }
 
     componentDidMount() {
-        if (localStorage.getItem("token") || this.props.match.params.token) {
-            const data = {
-                token: localStorage.getItem("token") || this.props.match.params.token,
-            };
-            console.log(data);
-            socket.emit('user.login', data);
+        const { store } = this.props;
+        const data = {
+            token: localStorage.getItem("token") || this.props.match.params.token,
+        };
+
+        if (data.token) {
+            store.logIn(data);
         }
     }
 
