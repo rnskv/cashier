@@ -23,16 +23,36 @@ class UserBar extends Component {
     }
 
     componentDidUpdate() {
+        // const { store } = this.props;
+        // if (!store.isLoading) {
+        //     this.avatarRef.current.onload = this.avatarLoadHandler.bind(this);
+        // // }
+        // const { store } = this.props;
+        // const data = {
+        //     token: localStorage.getItem("token") || this.props.match.params.token,
+        // };
+        //
+        // if (data.token) {
+        //     store.logIn(data);
+        // }
+    }
+    componentDidMount() {
         const { store } = this.props;
-        if (!store.isLoading) {
-            this.avatarRef.current.onload = this.avatarLoadHandler.bind(this);
+        const data = {
+            token: localStorage.getItem("token") || this.props.match.params.token,
+        };
+
+        if (data.token) {
+            console.log('userBar login')
+            store.logIn(data);
         }
     }
-
     render() {
         const { store } = this.props;
+        console.log('userbar update');
+        console.log(store.token);
         return (
-            <div className="userbar" >
+            <div className="userbar">
                 {
                     store.isLoading
                         ? <Loader />
@@ -41,9 +61,9 @@ class UserBar extends Component {
                                 <img ref={this.avatarRef} style={{opacity: this.state.isShowAvatar ? 1 : 0}} src={store.profile.avatar} alt="avatar"/>
                             </div>
                             <div className="userbar-login">
-                                <span className="userbar-loginfield">{store.profile.login}</span>
+                                <span className="userbar-loginfield">{store.login}</span>
                                 <span className="userbar-levelfield">{store.profile.level} lvl</span>
-                                <input className="userbar-button" type="button" value="Выйти" onClick={store.logOut}/>
+                                <input className="userbar-button" type="button" value={store.login} onClick={store.logOut}/>
                             </div>
                         </React.Fragment>
                 }

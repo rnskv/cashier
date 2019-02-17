@@ -40,7 +40,11 @@ class MainStore {
         console.log('user.login');
         this.token = data.token;
         this.profile = data.profile;
+        this.login = data.profile.login;
+
         this.loading = false;
+        console.log(this);
+
         localStorage.setItem("token", data.token);
     };
 

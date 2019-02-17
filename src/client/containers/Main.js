@@ -35,9 +35,18 @@ class Main extends Component {
 
     componentWillUnmount() {
     }
+    componentDidUpdate() {
+        const { store } = this.props;
+        const data = {
+            token: localStorage.getItem("token") || this.props.match.params.token,
+        };
 
+        if (data.token) {
+            store.logIn(data);
+        }
+    }
     render() {
-
+        console.log('My', userStore.profile)
         if (!userStore.token) {
             return <Redirect to={'/login'} />
         }
