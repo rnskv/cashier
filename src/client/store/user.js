@@ -24,7 +24,6 @@ class MainStore {
         socket.on('user.login', this.onLogIn);
         socket.on('user.logout', this.onLogOut);
         socket.on('global.error', (data) => {
-            console.log('global.error');
             alert(data.message);
             switch (data.type) {
                 case 1:
@@ -37,13 +36,11 @@ class MainStore {
 
     @action
     onLogIn = (data) => {
-        console.log('user.login');
         this.token = data.token;
         this.profile = data.profile;
         this.login = data.profile.login;
 
         this.loading = false;
-        console.log(this);
 
         localStorage.setItem("token", data.token);
     };
@@ -58,7 +55,6 @@ class MainStore {
 
     @action
     logOut() {
-        console.log('log out');
         socket.emit('user.logout');
     }
 

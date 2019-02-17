@@ -6,7 +6,19 @@ class LobbyStore {
 
     constructor() {
         this.users = [];
+
+        socket.on('user.connect', this.onUserConnect);
+        socket.on('user.disconnect', this.onUserDisconnect)
     }
+
+    @action
+    onUserConnect = (data) => {
+        this.users = data.users;
+    };
+    @action
+    onUserDisconnect = (data) => {
+        this.users = data.users;
+    };
 
     @action
     addUser = (user) => {
@@ -15,7 +27,6 @@ class LobbyStore {
 
     @action
     removeUser = (id) => {
-        console.log('removeUser', id);
         this.users = this.users.filter(user => user.id !== id)
     };
 

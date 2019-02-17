@@ -24,16 +24,16 @@ class LobbyUser extends Component {
 
     render() {
         const { data } = this.props;
-        console.log(data);
+
         return (
             <div className="lobby-user">
                 <div className="lobby-user-avatar">
                     <img ref={this.avatarRef} src={data.avatar} style={{opacity: this.state.isShowAvatar ? 1 : 0}}/>
                 </div>
 
-                <div className="lobby-user-login">
-                    {data.login}
-                </div>
+                {/*<div className="lobby-user-login">*/}
+                    {/*{data.login}*/}
+                {/*</div>*/}
             </div>
         )
     }

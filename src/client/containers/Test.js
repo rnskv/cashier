@@ -15,7 +15,6 @@ class Test extends Component {
             profile: {},
             users: [],
         };
-        console.log(props)
     }
 
     componentDidMount() {
@@ -53,7 +52,6 @@ class Test extends Component {
         });
 
         socket.on('global.error', (data) => {
-            console.log('global.error');
             alert(data.message);
             switch (data.type) {
                 case 1:
@@ -67,14 +65,11 @@ class Test extends Component {
             const data = {
                 token: localStorage.getItem("token") || this.props.match.params.token,
             };
-            console.log(data);
             socket.emit('user.login', data);
         }
     }
 
     logIn() {
-        console.log('log in');
-
         const data = {
             login: 'rnskv',
             password: 'qwerty'
@@ -84,7 +79,6 @@ class Test extends Component {
     }
 
     logOut() {
-        console.log('log out');
         socket.emit('user.logout');
     }
 
@@ -94,10 +88,6 @@ class Test extends Component {
 
     render() {
         const { store } = this.props;
-        //
-        // if (this.state.token && this.props.match.params.token) {
-        //     return <Redirect to={'/test'}/>
-        // }
 
         return (
             <div>

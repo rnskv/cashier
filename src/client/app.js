@@ -16,26 +16,14 @@ class Main extends Component {
             alert('test');
         });
 
-        const { store } = props;
         const data = {
             token: localStorage.getItem("token"),
         };
-        console.log('main', data);
+
         if (data.token) {
             userStore.logIn(data);
         }
 
-    }
-
-    componentDidMount() {
-        // const { store } = this.props;
-        // const data = {
-        //     token: localStorage.getItem("token"),
-        // };
-        // console.log('main', data);
-        // if (data.token) {
-        //     userStore.logIn(data);
-        // }
     }
 
     render() {

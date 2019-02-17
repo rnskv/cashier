@@ -7,7 +7,6 @@ import LoginForm from '../components/LoginForm';
 @observer
 class Login extends Component {
     render() {
-        console.log(this.store);
         return (
             <LoginForm match={this.props.match} store={userStore}/>
         )

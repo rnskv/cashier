@@ -28,7 +28,6 @@ class LoginForm extends Component {
         const { store } = this.props;
         const login = this.loginRef.current.value;
         const password = this.passwordRef.current.value;
-        console.log(login, password, store);
         store.logIn(login, password);
     };
 
@@ -40,7 +39,6 @@ class LoginForm extends Component {
 
     render() {
         const { store } = this.props;
-        console.log('this is auth', store.token);
 
         if (!!store.token) {
             return <Redirect to='/'/>;

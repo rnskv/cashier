@@ -23,8 +23,6 @@ class Lobby extends Component {
     }
     render() {
         const { store } = this.props;
-        // console.log([...store.users]);
-
         return (
             <div className="lobby" >
                 <h1 className="title title--white">Сейчас онлайн:</h1>

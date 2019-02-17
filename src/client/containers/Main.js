@@ -22,7 +22,6 @@ class Main extends Component {
         }, 3000);
 
         socket.on('user.error', function(data) {
-            console.log(data)
             switch (data.type) {
                 case 'AUTH_ERROR':
                     userStore.logOut();
@@ -33,20 +32,19 @@ class Main extends Component {
 
     }
 
-    componentWillUnmount() {
-    }
+    componentWillUnmount() {/* some code will be there */}
+
     componentDidUpdate() {
-        const { store } = this.props;
         const data = {
             token: localStorage.getItem("token") || this.props.match.params.token,
         };
 
         if (data.token) {
-            store.logIn(data);
+            userStore.logIn(data);
         }
     }
+
     render() {
-        console.log('My', userStore.profile)
         if (!userStore.token) {
             return <Redirect to={'/login'} />
         }

@@ -27,7 +27,7 @@ module.exports = {
         GlobalManager.addUser(socket.id, user);
         console.log('WOTAFAK MATHERFUCKER')
         socket.emit('user.login', { profile: response, token: response.accessToken });
-        socket.server.emit('user.disconnect', { users: GlobalManager.getUsers() });
+        socket.server.emit('user.connect', { users: GlobalManager.getUsers() });
     },
     logout: (socket) => () => {
         GlobalManager.removeUser(socket.id);
