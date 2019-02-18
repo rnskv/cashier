@@ -16,6 +16,12 @@ module.exports = (io) => (app) => {
         console.log('test server work');
         socket.on('user.login', userHandlers.login(socket));
         socket.on('user.logout', userHandlers.logout(socket));
+
+        socket.on('room.add', userHandlers.addRoom(socket));
+        socket.on('room.join', userHandlers.joinRoom(socket));
+        // socket.on('room.leave', userHandlers.leaveRoom(socket));
+
+
         socket.on('disconnect', userHandlers.disconnect(socket));
     })
 };

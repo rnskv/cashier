@@ -7,8 +7,8 @@ class LobbyStore {
     constructor() {
         this.users = [];
 
-        socket.on('user.connect', this.onUserConnect);
-        socket.on('user.disconnect', this.onUserDisconnect)
+        socket.on('lobby.connect', this.onUserConnect);
+        socket.on('lobby.disconnect', this.onUserDisconnect)
     }
 
     @action

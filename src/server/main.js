@@ -16,8 +16,6 @@ const config = require('./config');
 
 const User = require('./models/User');
 
-const redisManager = require('./managers/redis');
-const mongoManager = require('./managers/mongo');
 
 //
 // redisManager.set('user', 2);

@@ -1,6 +1,6 @@
 const userSelector = require('../selectors/user');
 
-class User {
+class UserManager {
     constructor(profile, token) {
         this.profile = profile;
         this.token = token;
@@ -10,4 +10,4 @@ class User {
     }
 }
 
-module.exports = User;
+module.exports = UserManager;

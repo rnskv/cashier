@@ -1,0 +1,52 @@
+const Manager = require('../Essenses/Manager');
+
+class GlobalManager extends Manager {
+    constructor(settings) {
+        super(settings);
+        this.rooms = {};
+        this.users = {};
+
+        this.addRoom(0)
+        console.log('ManagerList', this.managers);
+    }
+
+    addUser(socketId, user) {
+        console.log('global.addUser');
+        this.users[socketId] = user;
+    }
+
+    removeUser(socketId) {
+        delete this.users[socketId]
+    }
+
+    addRoom(token) {
+        // this.rooms[token] = new Room(token);
+    }
+
+    deleteRoom(id) {
+
+    }
+
+    getLobbiesCount() {
+
+    }
+
+    findFreeLobby() {
+
+    }
+
+    getUsers() {
+        // console.log(Object.keys(this.users).map(key => this.users[key].getProfile()));
+        return Object.keys(this.users).map(key => this.users[key].getProfile())
+    }
+
+    getUserByToken(token) {
+        return this.getUsers().filter(user => user.token === token)
+    }
+
+    getUsersByTokens(tokens) {
+        return tokens.map(token => this.getUserByToken(token))
+    }
+}
+
+module.exports = new GlobalManager({ managers: ['http', 'rooms'] });
