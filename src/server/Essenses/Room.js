@@ -1,9 +1,13 @@
 class Room {
-    constructor(token) {
-        this.id = token;
-        this.creator = token || {};
-        this.participants = [/* tokens */];
+    constructor(data) {
+        this.id = Math.random();
+        this.creator = data._id;
+        this.participantsTokens = [/* tokens */];
+    }
+
+    getId() {
+        return this.is;
     }
 }
 
-module.export = Room;
+module.exports = Room;

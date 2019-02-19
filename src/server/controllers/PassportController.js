@@ -3,7 +3,7 @@ const passport = require('passport');
 const HttpManager = require('../managers/').HttpManager;
 
 const User = require('../models/User');
-const userSelector = require('../selectors/user');
+const userSelector = require('../selectors/UserSelectors');
 const userController = require('./UserController');
 
 module.exports = {

@@ -24,7 +24,7 @@ module.exports = {
         }
 
         const user = new User(response, response.accessToken);
-
+        console.log('User log in ->', user._id);
         GlobalManager.addUser(socket.id, user);
         socket.emit('user.login', { profile: response, token: response.accessToken });
         socket.server.emit('lobby.connect', { users: GlobalManager.getUsers() });
@@ -40,14 +40,13 @@ module.exports = {
     },
     addRoom: (socket) => (data) => {
         const { token } = data;
-        // console.log(`room - ${roomId}, token - ${token}`);
-        //
-        // console.log(RoomManager.participants);
+        console.log(`token - ${token} create room`);
 
-        //Add verification for token
+        // console.log(RoomManager.participants);
+        //
         // socket.join(`room_${roomId}`);
         // RoomManager.addParticipant(token);
-
+        //
         // socket.server.emit('room.add', { users: RoomManager.getParticipants() });
     },
     joinRoom: (socket) => (data) => {

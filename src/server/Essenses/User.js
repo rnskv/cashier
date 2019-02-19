@@ -1,4 +1,4 @@
-const userSelector = require('../selectors/user');
+const userSelector = require('../selectors/UserSelectors');
 
 class User {
     constructor(profile, token) {

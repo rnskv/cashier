@@ -14,39 +14,9 @@ const useSocketMiddlewares = require('./middlewares/sockets');
 
 const config = require('./config');
 
-const User = require('./models/User');
-
 const MongoManager = require('./managers').MongoManager;
-//
-// redisManager.set('user', 2);
-//
-// redisManager.sadd('users', [1, 2, 3, 4, 5]);
 
-//
-// (async () => {
-//     let test1 = await redisManager.get('user');
-//     let test2 = await redisManager.smembers('users');
-//
-//     // redisManager.srem('test2', alalalaa);
-//
-//     test2 = await redisManager.smembers('usersss');
-//
-//     console.log('mmmm', test1);
-//     console.log('mmmssssm', test2);
-//
-// })();
-
-
-const player = new User({
-    name: 'Roman',
-    uid: 666,
-    login: 'rnskv',
-    password: 'qwerty',
-    token: 'token123qwer',
-    refreshToken: 'token123qwertyrefresh'
-});
-
-// player.save().then(() => console.log('Player save'));
+MongoManager.connect();
 
 useMainMiddlewares(app);
 useSocketMiddlewares(io)(app);

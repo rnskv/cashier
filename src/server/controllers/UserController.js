@@ -2,7 +2,7 @@ const User = require( '../models/User');
 const store = require('store');
 const config = require('../config');
 
-const userSelector = require('../selectors/user');
+const userSelector = require('../selectors/UserSelectors');
 
 module.exports = {
     register: function(req, res) {
