@@ -1,8 +1,9 @@
 const Managers = require('../managers');
 const GlobalManager = Managers.GlobalManager;
 const RoomsManager = Managers.RoomsManager;
-const UserManager = Managers.UserManager;
 const HttpManager = Managers.HttpManager;
+
+const User = require('../Essenses/User');
 
 const request = require('request');
 
@@ -22,7 +23,7 @@ module.exports = {
             return;
         }
 
-        const user = new UserManager(response, response.accessToken);
+        const user = new User(response, response.accessToken);
 
         GlobalManager.addUser(socket.id, user);
         socket.emit('user.login', { profile: response, token: response.accessToken });
