@@ -3,7 +3,7 @@ import {observer} from 'mobx-react';
 
 import Loader from '../components/Loader';
 import LobbyUser from '../components/LobbyUser';
-import Room from '../components/Room';
+import Rooms from './Rooms';
 import userStore from '../store/user';
 import { socket } from '../utils';
 import lobby from "../store/lobby";
@@ -31,7 +31,7 @@ class Lobby extends Component {
                         store.users.map((user, id) => <LobbyUser key={id} data={user}/>)
                     }
                 </div>
-                <Room/>
+                <Rooms/>
             </div>
         )
     }

@@ -2,11 +2,11 @@ class Room {
     constructor(data) {
         this.id = Math.random();
         this.creator = data._id;
-        this.participantsTokens = [/* tokens */];
+        this.participants = [/* ids */];
     }
 
     getId() {
-        return this.is;
+        return this.id;
     }
 }
 

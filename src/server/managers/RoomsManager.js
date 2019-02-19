@@ -20,7 +20,18 @@ class RoomsManager extends Manager {
         delete this.rooms[id];
     }
 
+    getRooms() {
+        return Object.keys(this.rooms).map(id => this.getRoom(id));
+    }
 
+    getRoom(id) {
+        const room = this.rooms[id];
+        return {
+            id: room.id,
+            creator: room.creator,
+            participants: room.participants
+        }
+    }
     // addUser() {
     //
     // }

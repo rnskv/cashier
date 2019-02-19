@@ -40,18 +40,18 @@ module.exports = {
     },
     addRoom: (socket) => (data) => {
         const { token } = data;
-        console.log(`token - ${token} create room`);
+        const roomId = RoomsManager.addRoom({_id: token});
 
-        // console.log(RoomManager.participants);
-        //
-        // socket.join(`room_${roomId}`);
-        // RoomManager.addParticipant(token);
-        //
-        // socket.server.emit('room.add', { users: RoomManager.getParticipants() });
+        socket.server.emit('room.add', { room: RoomsManager.getRoom(roomId) });
+    },
+    getRooms: (socket) => (data) => {
+        socket.server.emit('rooms.get', { rooms: RoomsManager.getRooms() });
     },
     joinRoom: (socket) => (data) => {
         const { roomId, token } = data;
         console.log(`room - ${roomId}, token - ${token}`);
+
+        // const roomId = RoomsManager.addRoom({_id: token});
         //
         // const RoomManager = GlobalManager.rooms[roomId];
         // console.log(RoomManager.participants);

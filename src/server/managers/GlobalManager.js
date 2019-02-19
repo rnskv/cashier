@@ -18,7 +18,7 @@ class GlobalManager extends Manager {
     }
 
     addRoom(token) {
-        // this.rooms[token] = new Room(token);
+        // this.rooms[token] = new Rooms(token);
     }
 
     deleteRoom(id) {
