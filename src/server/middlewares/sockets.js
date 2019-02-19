@@ -20,7 +20,7 @@ module.exports = (io) => (app) => {
 
         socket.on('room.add', userHandlers.addRoom(socket));
         socket.on('room.remove', userHandlers.removeRoom(socket));
-        // socket.on('room.join', userHandlers.joinRoom(socket));
+        socket.on('room.join', userHandlers.joinRoom(socket));
         // socket.on('room.leave', userHandlers.joinRoom(socket));
         // socket.on('room.leave', userHandlers.leaveRoom(socket));
 

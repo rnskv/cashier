@@ -15,9 +15,9 @@ class Rooms extends Component {
 
     }
 
-    joinRoom() {
-        socket.emit('room.join', {token: userStore.token, roomId: 0})
-    }
+    joinRoom = (id) => () => {
+        socket.emit('room.join', {roomId: id})
+    };
 
     addRoom() {
         socket.emit('room.add', { token: userStore.token })
@@ -38,7 +38,13 @@ class Rooms extends Component {
                     // roomsStore.rooms.map(room => {
                     //     return <div key={room.id}>Комната ${room.id} <button onClick={this.removeRoom(room.id)} >Remove</button></div>
                     // })
-                    roomsStore.rooms.reverse().map(room => <Room remove={this.removeRoom(room.id)}/>)
+                    roomsStore.rooms.reverse().map(room =>
+                         <Room key={room.id}
+                               participants={room.participants}
+                               join={this.joinRoom(room.id)}
+                               remove={this.removeRoom(room.id)}
+                         />
+                    )
                 }
             </div>
         )

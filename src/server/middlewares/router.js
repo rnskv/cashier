@@ -15,7 +15,9 @@ router.get('/login/vk/success', passportController.vkLoginSuccess, userControlle
 
 router.post('/user/register', userController.register);
 router.post('/user/login', userController.logIn);
-router.post('/user/profile', userController.profile);
+router.post('/user/profile', userController.getUserByToken);
+router.post('/user', userController.getUserById);
+router.post('/users', userController.getUsersByIds);
 
 router.get('/login', (req, res) => {
     res.send('Mock for login page');

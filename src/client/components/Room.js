@@ -5,14 +5,18 @@ class Room extends Component {
     render() {
         return <div className="room">
             <div className="room-users">
-                <div className="room-user">
-                    Олег
-                </div>
+                {
+                    this.props.participants.map((participant, index) =>
+                        <div className="room-user" key={index}>
+                            {/*{ participant.name }*/}
+                            <img className="room-user__avatar" src={participant.avatar} />
+                        </div>)
+                }
             </div>
             <div className="room-control">
                 <button className="button room-control__button" onClick={this.props.remove}>Начать игру</button>
+                <button className="button room-control__button" onClick={this.props.join}>Войти</button>
                 <button className="button room-control__button" onClick={this.props.remove}>Удалить комнату</button>
-                <button className="button room-control__button" onClick={this.props.remove}>Настройки</button>
             </div>
         </div>
     }

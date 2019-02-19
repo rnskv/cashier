@@ -1,11 +1,12 @@
-import { decorate, observable, action } from "mobx";
+import { computed, observable, action, values } from "mobx";
 import { socket } from '../utils';
 
 class RoomsStore {
-    @observable rooms;
+    @observable roomsMap;
     @observable isLoading;
+
     constructor() {
-        this.rooms = [];
+        this.roomsMap = {};
         this.isLoading = true;
         socket.emit('rooms.get');
 
@@ -20,7 +21,7 @@ class RoomsStore {
     onGetRooms = (data) => {
         console.log('onGetRooms', data);
         this.isLoading = false;
-        this.rooms = data.rooms;
+        this.roomsMap = data.rooms;
     };
 
     @action
@@ -28,30 +29,36 @@ class RoomsStore {
         // this.hello = 'mobX';
         console.log('onAddRoom', data);
 
-        this.rooms.push(data.room)
-
+        this.roomsMap[data.room.id] = data.room;
     };
 
     @action
     onRemoveRoom = (data) => {
         // this.hello = 'mobX';
-        console.log('onRemoveRoom', data);
         const { roomId } = data;
-
-        this.rooms = this.rooms.filter(room => room.id !== roomId);
+        delete this.roomsMap[roomId];
     };
 
     @action
     onJoinUser = (data) => {
         // this.hello = 'mobX';
-        console.log('onJoinUser')
+        console.log('onJoinUser', data);
+        const room = {...this.roomsMap[data.roomId]};
+        room.participants.push(data.user);
+        this.roomsMap[data.roomId] = room;
     };
 
     @action
     onLeaveUser = (data) => {
         // this.hello = 'mobX';
         console.log('onLeaveUser')
+    };
+
+    @computed
+    get rooms() {
+        return values(this.roomsMap);
     }
+
 }
 
 export default new RoomsStore()

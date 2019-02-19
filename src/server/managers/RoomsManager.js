@@ -23,7 +23,11 @@ class RoomsManager extends Manager {
     }
 
     getRooms() {
-        return Object.keys(this.rooms).map(id => this.getRoom(id));
+        let rooms = {...this.rooms};
+        Object.keys(rooms).forEach(id => {
+            rooms[id] = this.getRoom(id)
+        });
+        return rooms;
     }
 
     getRoom(id) {
@@ -34,6 +38,11 @@ class RoomsManager extends Manager {
             participants: room.participants
         }
     }
+
+    addParticipant(roomId, user) {
+        this.rooms[roomId].join(user);
+    }
+
     // addUser() {
     //
     // }

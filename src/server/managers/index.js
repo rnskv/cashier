@@ -1,12 +1,22 @@
-const HttpManager = require('./HttpManager');
-const LobbyManager = require('./LobbyManager');
-const RoomsManager = require('./RoomsManager');
-const GlobalManager = require('./GlobalManager');
-const MongoManager = require('./MongoManager');
+const Http = require('./HttpManager');
+const Lobby = require('./LobbyManager');
+const Rooms = require('./RoomsManager');
+const Global = require('./GlobalManager');
+const Mongo = require('./MongoManager');
+const Users = require('./UsersManager');
+
+const HttpManager = new Http();
+const LobbyManager = new Lobby();
+const GlobalManager = new Global();
+const MongoManager = new Mongo();
+
+const RoomsManager = new Rooms({managers: {HttpManager, GlobalManager}});
+const UsersManager = new Users({managers: {HttpManager, RoomsManager}});
 
 
-module.exports.HttpManager = new HttpManager();
-module.exports.LobbyManager = new LobbyManager();
-module.exports.MongoManager = new MongoManager();
-module.exports.RoomsManager = new RoomsManager({managers: {HttpManager, GlobalManager}});
-module.exports.GlobalManager = new GlobalManager({managers: {HttpManager, RoomsManager}});
+module.exports.HttpManager = HttpManager;
+module.exports.LobbyManager = LobbyManager;
+module.exports.MongoManager = MongoManager;
+module.exports.RoomsManager = RoomsManager;
+module.exports.UsersManager = UsersManager;
+module.exports.GlobalManager = GlobalManager;

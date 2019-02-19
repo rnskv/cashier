@@ -2,6 +2,7 @@ const Managers = require('../managers');
 const GlobalManager = Managers.GlobalManager;
 const RoomsManager = Managers.RoomsManager;
 const HttpManager = Managers.HttpManager;
+const UsersManager = Managers.UsersManager;
 
 const User = require('../Essenses/User');
 
@@ -24,7 +25,9 @@ module.exports = {
         }
 
         const user = new User(response, response.accessToken);
-        console.log('User log in ->', user._id);
+
+        socket.userId = user.profile._id;
+
         GlobalManager.addUser(socket.id, user);
         socket.emit('user.login', { profile: response, token: response.accessToken });
         socket.server.emit('lobby.connect', { users: GlobalManager.getUsers() });
@@ -40,7 +43,7 @@ module.exports = {
     },
     addRoom: (socket) => (data) => {
         const { token } = data;
-        const roomId = RoomsManager.addRoom({_id: token});
+        const roomId = RoomsManager.addRoom({_id: socket.userId });
 
         socket.server.emit('room.add', { room: RoomsManager.getRoom(roomId) });
     },
@@ -55,20 +58,12 @@ module.exports = {
     getRooms: (socket) => (data) => {
         socket.server.emit('rooms.get', { rooms: RoomsManager.getRooms() });
     },
-    joinRoom: (socket) => (data) => {
-        const { roomId, token } = data;
-        console.log(`room - ${roomId}, token - ${token}`);
-
-        // const roomId = RoomsManager.addRoom({_id: token});
-        //
-        // const RoomManager = GlobalManager.rooms[roomId];
-        // console.log(RoomManager.participants);
-
-        //Add verification for token
-        // socket.join(`room_${roomId}`);
-        // RoomManager.addParticipant(token);
-
-        // socket.server.emit('room.join', { users: RoomManager.getParticipants() });
+    joinRoom: (socket) => async (data) => {
+        const { roomId } = data;
+        console.log(`user - ${socket.userId } join to room ${roomId}`);
+        let user = await UsersManager.joinRoom(roomId, socket.userId);
+        console.log('user join', user);
+        socket.server.emit('room.join', {roomId, user})
     },
     leaveLobby: function() {
 
