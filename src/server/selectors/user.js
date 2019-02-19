@@ -7,6 +7,6 @@ module.exports = {
         uid: profile.id,
         name: profile.first_name,
         avatar: profile.photo,
-        accessToken: params.access_token
+        accessToken: profile.access_token
     })
 };

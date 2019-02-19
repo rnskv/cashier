@@ -11,10 +11,11 @@ module.exports = {
     logIn: async function(req, res) {
         let result = null;
         const profile = req.body.profile;
+        const params = req.body.params;
 
         let userData = await User.findOne({uid: profile.id});
 
-        const profileData = userSelector.dbData(profile);
+        const profileData = userSelector.dbData({...profile, ...params});
 
         if (userData) {
             await User.updateOne({_id: userData._id}, profileData)
