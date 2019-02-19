@@ -5,7 +5,6 @@ class Manager {
     constructor(settings = {}) {
         const { managers = [] } = settings;
         this.managers = {};
-        console.log('Manager init', managers);
         this.setManagers(managers)
     }
 

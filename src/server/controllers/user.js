@@ -7,13 +7,11 @@ module.exports = {
         res.send('User register')
     },
     logIn: async function(req, res) {
-        console.log('log In');
-
         const profile = req.body.profile;
         const params = req.body.params;
 
         let userData = await User.findOne({uid: profile.id});
-        console.log(profile);
+
         const profileData = {
             uid: profile.id,
             name: profile.first_name,
@@ -21,7 +19,6 @@ module.exports = {
             accessToken: params.access_token
         };
 
-        console.log('log In Find One');
         let result = userData;
 
         if (userData) {
@@ -30,7 +27,6 @@ module.exports = {
             const user = new User(profileData);
             result = await user.save();
         }
-        console.log(profileData.accessToken);
         await store.set('token', profileData.accessToken);
         res.json(result)
     },
@@ -40,10 +36,8 @@ module.exports = {
     profile: async function(req, res) {
         //@todo Сделать нормальный jwt;
         const token = req.body.token;
-        console.log('profile', token);
         let userData = await User.findOne({accessToken: token});
 
-        console.log(userData);
         res.json(userData)
     },
     getToken() {

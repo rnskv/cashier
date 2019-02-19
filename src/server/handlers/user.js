@@ -9,8 +9,6 @@ const request = require('request');
 module.exports = {
     login: (socket) => async (data) => {
         //отправляем запрос на сервер с data.password and data.login;
-        console.log('user.login', data);
-
         const response = await HttpManager.request({
             method: 'POST',
             url: 'http://localhost:1337' + '/api/v1/user/profile',
@@ -18,7 +16,7 @@ module.exports = {
                 token: data.token
             }
         });
-        console.log(response);
+
         if (!response) {
             socket.emit('global.error', { message: 'Ошибка авторизации', type: 1 });
             return;
@@ -40,7 +38,6 @@ module.exports = {
         socket.server.emit('lobby.disconnect', { users: GlobalManager.getUsers() });
     },
     addRoom: (socket) => (data) => {
-        console.log('add Room');
         const { token } = data;
         // console.log(`room - ${roomId}, token - ${token}`);
         //
@@ -53,7 +50,6 @@ module.exports = {
         // socket.server.emit('room.add', { users: RoomManager.getParticipants() });
     },
     joinRoom: (socket) => (data) => {
-        console.log('activate joinRoom handler');
         const { roomId, token } = data;
         console.log(`room - ${roomId}, token - ${token}`);
         //

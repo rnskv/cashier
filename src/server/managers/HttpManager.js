@@ -3,7 +3,6 @@ const request = require('request');
 class HttpManager {
     constructor() {
         this.client = request;
-        console.log('request')
     }
     request(data) {
         return new Promise((resolve, reject) => {

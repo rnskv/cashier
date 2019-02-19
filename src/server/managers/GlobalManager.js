@@ -6,12 +6,10 @@ class GlobalManager extends Manager {
         this.rooms = {};
         this.users = {};
 
-        this.addRoom(0)
-        console.log('ManagerList', this.managers);
+        this.addRoom(0);
     }
 
     addUser(socketId, user) {
-        console.log('global.addUser');
         this.users[socketId] = user;
     }
 

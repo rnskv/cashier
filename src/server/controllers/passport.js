@@ -9,9 +9,7 @@ const userController = require('../controllers/user');
 module.exports = {
     vkLogin: passport.authenticate('vkontakte'),
     vkLoginSuccess: passport.authenticate('vkontakte', { failureRedirect: '/api/v1/login' }),
-    vkLoginFailure: function() {
-        console.log('123');
-    },
+    vkLoginFailure: function() { /* some code will be there */},
     vkLoginCallback: async function(accessToken, refreshToken, params, profile, done) {
         console.log('vkLoginCallback');
         await HttpManager.request({

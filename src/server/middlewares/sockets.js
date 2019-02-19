@@ -13,7 +13,6 @@ module.exports = (io) => (app) => {
             res.socket = socket;
         });
 
-        console.log('test server work');
         socket.on('user.login', userHandlers.login(socket));
         socket.on('user.logout', userHandlers.logout(socket));
 
