@@ -1,8 +1,8 @@
-const Redis = require('ioredis');
+const RedisManager = require('ioredis');
 
 class RedisManager {
     constructor() {
-        this.Redis = Redis;
+        this.Redis = RedisManager;
         this.redis = null;
 
         this.init();

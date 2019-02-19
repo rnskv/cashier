@@ -4,7 +4,7 @@ const HttpManager = require('../managers/').HttpManager;
 
 const User = require('../models/User');
 const userSelector = require('../selectors/user');
-const userController = require('../controllers/user');
+const userController = require('./UserController');
 
 module.exports = {
     vkLogin: passport.authenticate('vkontakte'),

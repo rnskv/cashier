@@ -1,7 +1,7 @@
 const redisAdapter = require('socket.io-redis');
 const config = require('../config.js');
 
-const userHandlers = require('../handlers/user');
+const userHandlers = require('../handlers/UserHandlers');
 
 module.exports = (io) => (app) => {
 

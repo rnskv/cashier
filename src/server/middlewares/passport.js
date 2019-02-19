@@ -1,5 +1,5 @@
 const VKontakteStrategy = require('passport-vkontakte').Strategy;
-const passportController = require('../controllers/passport');
+const passportController = require('../controllers/PassportController');
 module.exports = (passport) => {
     passport.use(new VKontakteStrategy({
             clientID:     6858499, // VK.com docs call it 'API ID', 'app_id', 'api_id', 'client_id' or 'apiId'

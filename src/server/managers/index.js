@@ -1,9 +1,9 @@
 const HttpManager = require('./HttpManager');
-const LobbyManager = require('./lobby');
-const RoomsManager = require('./rooms');
+const LobbyManager = require('./LobbyManager');
+const RoomsManager = require('./RoomManager');
 const GlobalManager = require('./GlobalManager');
-const UserManager = require('./user');
-const MongoManager = require('./mongo');
+const UserManager = require('./UserManager');
+const MongoManager = require('./MongoManager');
 
 
 module.exports.HttpManager = new HttpManager();

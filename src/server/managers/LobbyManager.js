@@ -1,4 +1,4 @@
-class Lobby {
+class LobbyManager {
     constructor(id) {
         this.users = {};
         this.rooms = {};
@@ -25,4 +25,4 @@ class Lobby {
     }
 }
 
-module.exports = Lobby;
+module.exports = LobbyManager;

@@ -2,8 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
-const userController = require('../controllers/user');
-const passportController = require('../controllers/passport');
+const userController = require('../controllers/UserController');
+const passportController = require('../controllers/PassportController');
 
 
 router.get('/', (req, res) => {
