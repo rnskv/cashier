@@ -44,6 +44,14 @@ module.exports = {
 
         socket.server.emit('room.add', { room: RoomsManager.getRoom(roomId) });
     },
+    removeRoom: (socket) => (data) => {
+        const { token, id } = data;
+        //Потом проверка прав пользователя будет тут;
+
+        RoomsManager.removeRoom(id);
+        console.log('Remove', id);
+        socket.server.emit('room.remove', { roomId: id });
+    },
     getRooms: (socket) => (data) => {
         socket.server.emit('rooms.get', { rooms: RoomsManager.getRooms() });
     },

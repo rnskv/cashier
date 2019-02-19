@@ -3,9 +3,10 @@ import { socket } from '../utils';
 
 class RoomsStore {
     @observable rooms;
-
+    @observable isLoading;
     constructor() {
         this.rooms = [];
+        this.isLoading = true;
         socket.emit('rooms.get');
 
         socket.on('rooms.get', this.onGetRooms);
@@ -18,8 +19,9 @@ class RoomsStore {
     @action
     onGetRooms = (data) => {
         console.log('onGetRooms', data);
+        this.isLoading = false;
         this.rooms = data.rooms;
-    }
+    };
 
     @action
     onAddRoom = (data) => {
@@ -33,7 +35,10 @@ class RoomsStore {
     @action
     onRemoveRoom = (data) => {
         // this.hello = 'mobX';
-        console.log('onRemoveRoom')
+        console.log('onRemoveRoom', data);
+        const { roomId } = data;
+
+        this.rooms = this.rooms.filter(room => room.id !== roomId);
     };
 
     @action

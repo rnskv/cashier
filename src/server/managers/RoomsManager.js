@@ -18,6 +18,8 @@ class RoomsManager extends Manager {
 
     removeRoom(id) {
         delete this.rooms[id];
+        console.log('Remove room', id);
+        console.log(this.rooms);
     }
 
     getRooms() {
