@@ -1,7 +1,7 @@
 'use strict';
-const DependenciesManager = require('../managers/DependenciesManager');
+// const DependenciesManager = require('../managers/DependenciesManager');
 
-const Manager = class {
+class Manager {
     constructor(settings = {}) {
         const { managers = [] } = settings;
         this.managers = {};
@@ -10,8 +10,8 @@ const Manager = class {
     }
 
     setManagers(managers) {
-        this.managers = DependenciesManager.getManagers(managers);
+        this.managers = managers;
     }
-};
+}
 
 module.exports = Manager;

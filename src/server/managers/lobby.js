@@ -24,3 +24,5 @@ class Lobby {
         //Удаляем проперти объекта равное socket.id
     }
 }
+
+module.exports = Lobby;

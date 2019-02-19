@@ -1,8 +1,8 @@
-const GlobalManager = require('../managers/GlobalManager');
-const RoomsManager = require('../managers/rooms');
-
-const UserManager = require('../managers/user');
-const HttpManager = require('../managers/HttpManager');
+const Managers = require('../managers');
+const GlobalManager = Managers.GlobalManager;
+const RoomsManager = Managers.RoomsManager;
+const UserManager = Managers.UserManager;
+const HttpManager = Managers.HttpManager;
 
 const request = require('request');
 
@@ -44,28 +44,27 @@ module.exports = {
         const { token } = data;
         // console.log(`room - ${roomId}, token - ${token}`);
         //
-        const RoomManager = GlobalManager.addRoom[socket.id];
         // console.log(RoomManager.participants);
 
         //Add verification for token
         // socket.join(`room_${roomId}`);
         // RoomManager.addParticipant(token);
 
-        socket.server.emit('room.add', { users: RoomManager.getParticipants() });
+        // socket.server.emit('room.add', { users: RoomManager.getParticipants() });
     },
     joinRoom: (socket) => (data) => {
         console.log('activate joinRoom handler');
         const { roomId, token } = data;
         console.log(`room - ${roomId}, token - ${token}`);
         //
-        const RoomManager = GlobalManager.rooms[roomId];
-        console.log(RoomManager.participants);
+        // const RoomManager = GlobalManager.rooms[roomId];
+        // console.log(RoomManager.participants);
 
         //Add verification for token
-        socket.join(`room_${roomId}`);
-        RoomManager.addParticipant(token);
+        // socket.join(`room_${roomId}`);
+        // RoomManager.addParticipant(token);
 
-        socket.server.emit('room.join', { users: RoomManager.getParticipants() });
+        // socket.server.emit('room.join', { users: RoomManager.getParticipants() });
     },
     leaveLobby: function() {
 

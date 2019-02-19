@@ -49,4 +49,4 @@ class GlobalManager extends Manager {
     }
 }
 
-module.exports = new GlobalManager({ managers: ['http', 'rooms'] });
+module.exports = GlobalManager;

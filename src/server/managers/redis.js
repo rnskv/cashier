@@ -1,7 +1,7 @@
 const Redis = require('ioredis');
 
 class RedisManager {
-    constructor(Redis) {
+    constructor() {
         this.Redis = Redis;
         this.redis = null;
 
@@ -45,4 +45,4 @@ class RedisManager {
     }
 }
 
-module.exports = new RedisManager(Redis);
+module.exports = RedisManager;

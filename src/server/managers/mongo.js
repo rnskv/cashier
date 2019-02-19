@@ -1,8 +1,8 @@
-const mongoose = require('mongoose')
-;
+const mongoose = require('mongoose');
+
 const config = require('../config');
 class MongoManager {
-    constructor(mongoose) {
+    constructor() {
         this.mongoose = mongoose;
         this.init();
     }
@@ -15,4 +15,4 @@ class MongoManager {
     }
 }
 
-module.exports = new MongoManager(mongoose);
+module.exports = MongoManager;

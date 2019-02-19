@@ -1,11 +1,11 @@
 const userSelector = require('../selectors/user');
 const Manager = require('../Essenses/Manager');
 
-console.log('RoomManager', Manager);
-
+console.log('Proto: ', Manager.__proto__);
 class RoomsManager extends Manager {
-    constructor() {
-
+    constructor(settings) {
+        super(settings);
+        console.log('rooms', this.managers)
     }
 }
 

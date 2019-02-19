@@ -1,9 +1,9 @@
 const request = require('request');
 
 class HttpManager {
-    constructor(request) {
+    constructor() {
         this.client = request;
-
+        console.log('request')
     }
     request(data) {
         return new Promise((resolve, reject) => {
@@ -20,4 +20,4 @@ class HttpManager {
     }
 }
 
-module.exports = new HttpManager(request);
+module.exports = HttpManager;
