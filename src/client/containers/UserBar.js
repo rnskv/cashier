@@ -20,7 +20,7 @@ class UserBar extends Component {
                             <div className="userbar-login">
                                 <span className="userbar-loginfield">{store.login}</span>
                                 <span className="userbar-levelfield">{store.profile.level} lvl</span>
-                                <input className="userbar-button" type="button" value="Выйти" onClick={store.logOut}/>
+                                <input className="button userbar-button" type="button" value="Выйти" onClick={store.logOut}/>
                             </div>
                         </React.Fragment>
                 }

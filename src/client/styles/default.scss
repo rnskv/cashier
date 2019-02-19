@@ -58,23 +58,9 @@ body {
 }
 
 .userbar-button {
-  border: 2px solid #f6e444;
-  background: #F6E444;
   float: right;
   position: relative;
   margin-top: 10px;
-  padding: 5px;
-  border-radius: 3px;
-  font-size: 10pt;
-  cursor: pointer;
-  transition: .3s;
-}
-.userbar-button:hover {
-  background: #fff171;
-}
-.userbar-button:focus {
-  outline: none;
-  border: 2px solid #dcc60c;
 }
 
 .lobby {
@@ -141,4 +127,47 @@ body {
 
 .title--white {
   color: #fff;
+}
+
+.room {
+  background: #13252b;
+  margin-bottom: 10px;
+}
+
+.room-users {
+  color: #fff;
+  padding: 10px;
+}
+
+.room-user {
+  width: 50px;
+  height: 50px;
+  background: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.room-control {
+  background: #0d1214;
+  padding: 10px;
+}
+
+.button {
+  border: 2px solid #f6e444;
+  background: #F6E444;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 10pt;
+  cursor: pointer;
+  transition: .3s;
+}
+.button:hover {
+  background: #fff171;
+}
+.button:focus {
+  outline: none;
+  border: 2px solid #dcc60c;
+}
+.room-control__button {
+  margin-right: 10px;
 }

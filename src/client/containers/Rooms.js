@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Room from '../components/Room';
 import { socket } from '../utils';
 import userStore from '../store/user';
 import roomsStore from '../store/rooms';
@@ -32,12 +33,13 @@ class Rooms extends Component {
         if (roomsStore.isLoading) return <div>Комнаты загружаются</div>
         return (
             <div>
+                <input type="button" value="Создать комнату" onClick={this.addRoom}/>
                 {
-                    roomsStore.rooms.map(room => {
-                        return <div key={room.id}>Комната ${room.id} <button onClick={this.removeRoom(room.id)} >Remove</button></div>
-                    })
+                    // roomsStore.rooms.map(room => {
+                    //     return <div key={room.id}>Комната ${room.id} <button onClick={this.removeRoom(room.id)} >Remove</button></div>
+                    // })
+                    roomsStore.rooms.reverse().map(room => <Room remove={this.removeRoom(room.id)}/>)
                 }
-                <input type="button" value="Create" onClick={this.addRoom}/>
             </div>
         )
     }
