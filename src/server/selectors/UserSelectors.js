@@ -10,6 +10,7 @@ module.exports = {
         accessToken: profile.access_token
     }),
     roomData: (dbData) => ({
+        id: dbData._id,
         uid: dbData.uid,
         name: dbData.name,
         avatar: dbData.avatar,

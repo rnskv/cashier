@@ -16,6 +16,7 @@ class Room extends Component {
             <div className="room-control">
                 <button className="button room-control__button" onClick={this.props.remove}>Начать игру</button>
                 <button className="button room-control__button" onClick={this.props.join}>Войти</button>
+                <button className="button room-control__button" onClick={this.props.leave}>Выйти</button>
                 <button className="button room-control__button" onClick={this.props.remove}>Удалить комнату</button>
             </div>
         </div>

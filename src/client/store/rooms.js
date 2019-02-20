@@ -15,6 +15,11 @@ class RoomsStore {
         socket.on('room.remove', this.onRemoveRoom);
         socket.on('room.join', this.onJoinUser);
         socket.on('room.leave', this.onLeaveUser);
+
+        socket.on('error', () => {
+            alert('error')
+        });
+
     }
 
     @action
@@ -50,8 +55,12 @@ class RoomsStore {
 
     @action
     onLeaveUser = (data) => {
-        // this.hello = 'mobX';
         console.log('onLeaveUser')
+        const room = {...this.roomsMap[data.roomId]};
+        room.participants = room.participants.filter((participant) => {
+            return participant.id !== data.userId
+        });
+        this.roomsMap[data.roomId] = room;
     };
 
     @computed

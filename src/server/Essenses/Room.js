@@ -17,6 +17,19 @@ class Room {
     join(user) {
         this.participants.push(user)
     }
+
+    leave(userId) {
+        console.log(`Игрок ${userId} вышел`);
+        this.participants = [...this.participants].filter(participant => {
+            console.log(participant)
+
+            return  participant.id !== userId
+        })
+    }
+
+    inRoom(userId) {
+        return !!this.participants.filter(participant => participant.id === userId).length
+    }
 }
 
 module.exports = Room;

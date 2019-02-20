@@ -32,6 +32,7 @@ class RoomsManager extends Manager {
 
     getRoom(id) {
         const room = this.rooms[id];
+        //To selector
         return {
             id: room.id,
             creator: room.creator,
@@ -43,6 +44,19 @@ class RoomsManager extends Manager {
         this.rooms[roomId].join(user);
     }
 
+    removeParticipant(roomId, userId) {
+        this.rooms[roomId].leave(userId);
+    }
+
+    userInRoom(roomId, userId) {
+        return this.rooms[roomId].inRoom(userId);
+    }
+
+    getUserRooms(userId) {
+        return this.rooms.filter(room => {
+            return room.participants.forEach()
+        })
+    }
     // addUser() {
     //
     // }

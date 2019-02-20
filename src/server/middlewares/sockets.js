@@ -8,7 +8,6 @@ module.exports = (io) => (app) => {
     io.adapter(redisAdapter({ host: config.redis.host, port: config.redis.port }));
 
     io.on('connection', (socket) => {
-
         app.use((req, res) => {
             res.socket = socket;
         });
@@ -21,7 +20,7 @@ module.exports = (io) => (app) => {
         socket.on('room.add', userHandlers.addRoom(socket));
         socket.on('room.remove', userHandlers.removeRoom(socket));
         socket.on('room.join', userHandlers.joinRoom(socket));
-        // socket.on('room.leave', userHandlers.joinRoom(socket));
+        socket.on('room.leave', userHandlers.leaveRoom(socket));
         // socket.on('room.leave', userHandlers.leaveRoom(socket));
 
 
