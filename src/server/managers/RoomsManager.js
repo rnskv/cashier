@@ -2,6 +2,8 @@ const Room = require('../Essenses/Room');
 const userSelector = require('../selectors/UserSelectors');
 const Manager = require('../Essenses/Manager');
 
+const UserRoomStore = require('../store/UserRoom');
+
 class RoomsManager extends Manager {
     constructor(settings) {
         super(settings);
@@ -17,6 +19,7 @@ class RoomsManager extends Manager {
     }
 
     removeRoom(id) {
+        this.kickAllPlayersFromRoom(id);
         delete this.rooms[id];
         console.log('Remove room', id);
         console.log(this.rooms);
@@ -28,6 +31,14 @@ class RoomsManager extends Manager {
             rooms[id] = this.getRoom(id)
         });
         return rooms;
+    }
+
+    kickAllPlayersFromRoom(id) {
+        console.log('id-', this.rooms[id]);
+        this.rooms[id].participants.forEach(participant => {
+            this.removeParticipant(id, participant.id);
+            UserRoomStore.delete(participant.id)
+        });
     }
 
     getRoom(id) {

@@ -7,8 +7,8 @@ class RoomsStore {
 
     constructor() {
         this.roomsMap = {};
+
         this.isLoading = true;
-        socket.emit('rooms.get');
 
         socket.on('rooms.get', this.onGetRooms);
         socket.on('room.add', this.onAddRoom);

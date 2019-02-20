@@ -35,23 +35,27 @@ class Rooms extends Component {
     render() {
         const { data } = this.props;
         if (roomsStore.isLoading) return <div>Комнаты загружаются</div>
+        console.log(userStore.roomId)
         return (
-            <div>
+            <React.Fragment>
                 <input type="button" value="Создать комнату" onClick={this.addRoom}/>
-                {
-                    // roomsStore.rooms.map(room => {
-                    //     return <div key={room.id}>Комната ${room.id} <button onClick={this.removeRoom(room.id)} >Remove</button></div>
-                    // })
-                    roomsStore.rooms.reverse().map(room =>
-                         <Room key={room.id}
-                               participants={room.participants}
-                               join={this.joinRoom(room.id)}
-                               leave={this.leaveRoom(room.id)}
-                               remove={this.removeRoom(room.id)}
-                         />
-                    )
-                }
-            </div>
+                <div className="rooms">
+                    {
+                        // roomsStore.rooms.map(room => {
+                        //     return <div key={room.id}>Комната ${room.id} <button onClick={this.removeRoom(room.id)} >Remove</button></div>
+                        // })
+                        roomsStore.rooms.reverse().map(room =>
+                            <Room key={room.id}
+                                  isUserRoom={room.id === userStore.roomId}
+                                  participants={room.participants}
+                                  join={this.joinRoom(room.id)}
+                                  leave={this.leaveRoom(room.id)}
+                                  remove={this.removeRoom(room.id)}
+                            />
+                        )
+                    }
+                </div>
+            </React.Fragment>
         )
     }
 }

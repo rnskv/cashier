@@ -11,6 +11,8 @@ class MainStore {
     @observable isLoading;
     @observable token;
 
+    @observable roomId;
+
     constructor() {
         this.profile = {};
         this.login = '';
@@ -20,6 +22,12 @@ class MainStore {
 
         this.token = localStorage.getItem('token') || null;
 
+        this.roomId = null;
+
+
+        socket.on('user.roomId', this.onRoomId);
+        socket.on('user.joinRoom', this.onJoinRoom);
+        socket.on('user.leaveRoom', this.onLeaveRoom);
 
         socket.on('user.login', this.onLogIn);
         socket.on('user.logout', this.onLogOut);
@@ -34,6 +42,24 @@ class MainStore {
         });
     }
 
+
+    @action
+    onRoomId = (data) => {
+        console.log('Я получил айди своей комнаты', data);
+        this.roomId = data.roomId;
+    };
+
+    @action
+    onJoinRoom = (data) => {
+        console.log('Я зашел в комнату')
+    };
+
+    @action
+    onLeaveRoom = (data) => {
+        console.log('Я вышел из комнаты')
+    };
+
+
     @action
     onLogIn = (data) => {
         this.token = data.token;
@@ -43,6 +69,8 @@ class MainStore {
         this.loading = false;
 
         localStorage.setItem("token", data.token);
+
+        socket.emit('rooms.get');
     };
 
     @action

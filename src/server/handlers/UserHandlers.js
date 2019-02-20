@@ -5,6 +5,8 @@ const HttpManager = Managers.HttpManager;
 const UsersManager = Managers.UsersManager;
 const ErrorsManager = Managers.ErrorsManager;
 
+const UserRoomStore = require('../store/UserRoom');
+
 const User = require('../Essenses/User');
 
 const request = require('request');
@@ -45,7 +47,7 @@ module.exports = {
     addRoom: (socket) => async (data) => {
         const { token } = data;
 
-        const userRoomId = UsersManager.getUserRoomId(socket.userId);
+        const userRoomId = UserRoomStore.get(socket.userId);
         if (userRoomId) {
             socket.emit('global.error', { message: 'Вы уже в комнате', type: 'error', code: 4 });
             return
@@ -62,11 +64,13 @@ module.exports = {
         socket.server.emit('room.remove', { roomId: id });
     },
     getRooms: (socket) => (data) => {
+        console.log(socket.userId);
+        socket.emit('user.roomId', {roomId: UserRoomStore.get(socket.userId)});
         socket.server.emit('rooms.get', { rooms: RoomsManager.getRooms() });
     },
     joinRoom: (socket) => async (data) => {
         const { roomId } = data;
-        const userRoomId = UsersManager.getUserRoomId(socket.userId);
+        const userRoomId = UserRoomStore.get(socket.userId);
 
         if (roomId === userRoomId) {
             socket.emit('global.error', { message: 'Уже в комнате', type: 'error', code: 2 });
@@ -78,17 +82,22 @@ module.exports = {
         }
 
         let user = await UsersManager.joinRoom(roomId, socket.userId);
+
+        socket.emit('user.roomId', {roomId: roomId});
+
         socket.server.emit('room.join', {roomId, user})
     },
     leaveRoom: (socket) => (data) => {
         const { roomId } = data;
-        const userRoomId = UsersManager.getUserRoomId(socket.userId);
+        const userRoomId = UserRoomStore.get(socket.userId);
         if (userRoomId !== roomId) {
             socket.emit('global.error', { message: 'Вы не в этой комнате', type: 'error', code: 3 });
             return;
         }
         console.log(`Leave ${socket.userId} from ${roomId}`);
         UsersManager.leaveRoom(roomId, socket.userId);
+
+        socket.emit('user.roomId', {roomId: null});
         socket.server.emit('room.leave', {roomId, userId: socket.userId})
     },
     leaveLobby: function() {
