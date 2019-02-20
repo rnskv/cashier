@@ -42,10 +42,16 @@ module.exports = {
         GlobalManager.removeUser(socket.id);
         socket.server.emit('lobby.disconnect', { users: GlobalManager.getUsers() });
     },
-    addRoom: (socket) => (data) => {
+    addRoom: (socket) => async (data) => {
         const { token } = data;
-        const roomId = RoomsManager.addRoom({_id: socket.userId });
 
+        const userRoomId = UsersManager.getUserRoomId(socket.userId);
+        if (userRoomId) {
+            socket.emit('global.error', { message: 'Вы уже в комнате', type: 'error', code: 4 });
+            return
+        }
+        const roomId = RoomsManager.addRoom({_id: socket.userId });
+        await UsersManager.joinRoom(roomId, socket.userId);
         socket.server.emit('room.add', { room: RoomsManager.getRoom(roomId) });
     },
     removeRoom: (socket) => (data) => {
@@ -79,6 +85,7 @@ module.exports = {
         const userRoomId = UsersManager.getUserRoomId(socket.userId);
         if (userRoomId !== roomId) {
             socket.emit('global.error', { message: 'Вы не в этой комнате', type: 'error', code: 3 });
+            return;
         }
         console.log(`Leave ${socket.userId} from ${roomId}`);
         UsersManager.leaveRoom(roomId, socket.userId);
