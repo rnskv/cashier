@@ -63,17 +63,17 @@ module.exports = {
         const { roomId } = data;
         const userRoomId = UsersManager.getUserRoomId(socket.userId);
         console.log('userRoomId', userRoomId);
+        if (roomId === userRoomId) {
+            socket.emit('global.error', { message: 'Уже в комнате', type: 'error', code: 2 });
+            return;
+        }
         if (userRoomId) {
             UsersManager.leaveRoom(userRoomId, socket.userId);
             socket.server.emit('room.leave', {roomId: userRoomId, userId: socket.userId});
         }
+
         console.log(`user - ${socket.userId } join to room ${roomId}`);
         let user = await UsersManager.joinRoom(roomId, socket.userId);
-        if (user.type === 'error') {
-            socket.emit('global.error', user);
-            return;
-        }
-
         socket.server.emit('room.join', {roomId, user})
     },
     leaveRoom: (socket) => (data) => {

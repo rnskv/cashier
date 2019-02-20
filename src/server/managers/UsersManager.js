@@ -10,12 +10,7 @@ class UsersManager extends Manager {
     async joinRoom(roomId, userId) {
         const { HttpManager, RoomsManager } = this.managers;
 
-        const alreadyInRoom = RoomsManager.userInRoom(roomId, userId);
         this.usersRoomId[userId] = roomId;
-        if (alreadyInRoom) {
-            const error = { message: 'Уже в комнате', type: 'error', code: 2 };
-            return error;
-        }
 
         const user = await HttpManager.request({
             method: 'POST',
