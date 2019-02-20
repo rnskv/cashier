@@ -5,9 +5,11 @@ class UsersManager extends Manager {
         super(settings);
         console.log(this.managers.RoomsManager);
         this.usersRoomId = {};
+        this.usersProccess = {};
     }
 
     async joinRoom(roomId, userId) {
+
         const { HttpManager, RoomsManager } = this.managers;
 
         this.usersRoomId[userId] = roomId;
@@ -21,7 +23,6 @@ class UsersManager extends Manager {
         });
 
         RoomsManager.addParticipant(roomId, UserSelectors.roomData(user));
-
         return UserSelectors.roomData(user);
     }
 

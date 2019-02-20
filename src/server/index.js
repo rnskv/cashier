@@ -33,7 +33,6 @@ function leaveRoom(socket) {
     socket.leave && socket.leave('lobby');
     delete lobbyTokens[socket.id];
     showLobbyUsers();
-    console.log('socket leave:' + socket.id, ++idLeaver, lobbyTokens, socket);
 }
 
 function showLobbyUsers() {

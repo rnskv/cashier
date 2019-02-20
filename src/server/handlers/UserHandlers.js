@@ -53,7 +53,6 @@ module.exports = {
         //Потом проверка прав пользователя будет тут;
 
         RoomsManager.removeRoom(id);
-        console.log('Remove', id);
         socket.server.emit('room.remove', { roomId: id });
     },
     getRooms: (socket) => (data) => {
@@ -62,7 +61,7 @@ module.exports = {
     joinRoom: (socket) => async (data) => {
         const { roomId } = data;
         const userRoomId = UsersManager.getUserRoomId(socket.userId);
-        console.log('userRoomId', userRoomId);
+
         if (roomId === userRoomId) {
             socket.emit('global.error', { message: 'Уже в комнате', type: 'error', code: 2 });
             return;
@@ -72,13 +71,16 @@ module.exports = {
             socket.server.emit('room.leave', {roomId: userRoomId, userId: socket.userId});
         }
 
-        console.log(`user - ${socket.userId } join to room ${roomId}`);
         let user = await UsersManager.joinRoom(roomId, socket.userId);
         socket.server.emit('room.join', {roomId, user})
     },
     leaveRoom: (socket) => (data) => {
         const { roomId } = data;
-        console.log(`user - ${socket.userId } leave from room ${roomId}`);
+        const userRoomId = UsersManager.getUserRoomId(socket.userId);
+        if (userRoomId !== roomId) {
+            socket.emit('global.error', { message: 'Вы не в этой комнате', type: 'error', code: 3 });
+        }
+        console.log(`Leave ${socket.userId} from ${roomId}`);
         UsersManager.leaveRoom(roomId, socket.userId);
         socket.server.emit('room.leave', {roomId, userId: socket.userId})
     },
