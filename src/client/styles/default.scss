@@ -120,6 +120,10 @@ body {
   font-weight: normal;
 }
 
+.title--room {
+  padding: 0 0 5px 0;
+}
+
 .title--white {
   color: #fff;
 }
@@ -182,14 +186,13 @@ body {
 .room-component {
   width: 50%;
   background: #182328;
-  padding: 10px;
   box-sizing: padding-box;
 }
 
 .room-info {
   width: 50%;
   background: #213137;
-  padding: 10px 0;
+  padding: 20px 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -229,3 +232,37 @@ body {
 .room-control__button {
   margin-right: 10px;
 }
+
+.room-component-user {
+  width: 35px;
+  height: 35px;
+  background: black;
+  border-radius: 50%;
+  border: 1px solid #ffffff;
+  margin: 0 0 0 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.room-component-users {
+  border-bottom: 2px solid #213137;
+  padding: 10px 15px;
+  box-sizing: padding-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.room-component-users__list {
+  display: flex;
+  min-height: 37px;
+}
+
+.room-component-user__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+

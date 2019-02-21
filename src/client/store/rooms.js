@@ -55,7 +55,7 @@ class RoomsStore {
 
     @action
     onLeaveUser = (data) => {
-        console.log('onLeaveUser')
+        console.log('onLeaveUser');
         const room = {...this.roomsMap[data.roomId]};
         room.participants = room.participants.filter((participant) => {
             return participant.id !== data.userId
