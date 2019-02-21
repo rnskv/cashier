@@ -9,6 +9,9 @@ const ErrorsManager = Managers.ErrorsManager;
 const SocketsManager = Managers.SocketsManager;
 
 const UserRoomStore = require('../store/UserRoom');
+const SocketUserStore = require('../store/SocketUser');
+
+const UserSelector = require('../selectors/UserSelectors');
 
 const User = require('../Essenses/User');
 
@@ -40,7 +43,8 @@ module.exports = {
         const user = new User(response, response.token);
 
         socket.userId = user.profile._id;
-
+        console.log('Need for pr', user.profile);
+        SocketUserStore.set(socket.id, UserSelector.socketData(user.profile));
         GlobalManager.addUser(socket.id, user);
 
         SocketsManager.syncUsersSockets(socket);
@@ -54,6 +58,7 @@ module.exports = {
         SocketsManager.emitAll(socket, 'lobby.disconnect', { users: GlobalManager.getUsers() });
     },
     disconnect: (socket) => () => {
+        SocketUserStore.delete(socket.id);
         GlobalManager.removeUser(socket.id);
         SocketsManager.emitAll(socket, 'lobby.disconnect', { users: GlobalManager.getUsers() });
     },

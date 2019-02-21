@@ -16,12 +16,12 @@ module.exports = (io) => (app) => {
             res.socket = socket;
         });
 
-        socket.on('user.login', rm(userHandlers.login, 1));
+        socket.on('user.login', rm(userHandlers.login));
         socket.on('user.logout', rm(userHandlers.logout));
 
         socket.on('rooms.get', rm(userHandlers.getRooms));
 
-        socket.on('room.add', rm(userHandlers.addRoom));
+        socket.on('room.add', rm(userHandlers.addRoom, 999));
         socket.on('room.remove', rm(userHandlers.removeRoom));
         socket.on('room.join', rm(userHandlers.joinRoom));
         socket.on('room.leave', rm(userHandlers.leaveRoom));

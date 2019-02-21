@@ -14,6 +14,10 @@ const IUser = new mongoose.Schema({
     accessToken: String,
     token: String,
     refreshToken: String,
+    accessLevel: {
+        type: Number,
+        default: 1
+    }
 }, {
     timestamps: {
         createdAt: 'createAt',

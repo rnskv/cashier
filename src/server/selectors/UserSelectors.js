@@ -8,12 +8,17 @@ module.exports = {
         name: profile.first_name,
         avatar: profile.photo,
         accessToken: profile.access_token,
-        token: profile.token
+        token: profile.token,
+        accessLevel: profile.accessLevel
     }),
     roomData: (dbData) => ({
         id: dbData._id,
         uid: dbData.uid,
         name: dbData.name,
         avatar: dbData.avatar,
+    }),
+    socketData: (dbData) => ({
+        id: dbData._id,
+        accessLevel: dbData.accessLevel
     })
 };
