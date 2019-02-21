@@ -35,8 +35,8 @@ module.exports = {
         socket.userId = user.profile._id;
 
         GlobalManager.addUser(socket.id, user);
-        socket.join(`user_${socket.userId}`);
 
+        SocketsManager.syncUsersSockets(socket);
         SocketsManager.emitUser(socket, 'user.login', { profile: response, token: response.token });
         SocketsManager.emitAll(socket, 'lobby.connect', { users: GlobalManager.getUsers() });
     },
