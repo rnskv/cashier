@@ -1,0 +1,51 @@
+
+.lobby {
+  width: 900px;
+}
+
+.lobby-users {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 360px;
+  margin: 0 auto;
+}
+
+.lobby-user {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  margin: 5px 5px 0 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #345158;
+}
+
+.lobby-user-avatar {
+  width: 100%;
+  height: 100%;
+  background: #345158;
+  object-fit: cover;
+  position: absolute;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.lobby-user-login {
+  position: absolute;
+  bottom: 0;
+  color: #fff;
+  background: #000000c9;
+  padding: 5px;
+  width: calc(100% - 10px);
+  box-sizing: padding-box;
+  font-size: 10pt;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

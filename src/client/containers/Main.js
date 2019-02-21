@@ -9,7 +9,7 @@ import lobbyStore from '../store/lobby';
 
 import UserBarContainer from '../containers/UserBar';
 import LobbyContainer from '../containers/Lobby';
-
+import RoomsContainer from '../containers/Rooms';
 import { socket } from '../utils.js';
 
 @observer
@@ -17,10 +17,6 @@ class Main extends Component {
     constructor() {
         super();
         this.store = mainStore;
-        setTimeout(() => {
-            this.store.setHello();
-        }, 3000);
-
         socket.on('user.error', function(data) {
             switch (data.type) {
                 case 'AUTH_ERROR':
@@ -34,16 +30,6 @@ class Main extends Component {
 
     componentWillUnmount() {/* some code will be there */}
 
-    componentDidUpdate() {
-        const data = {
-            token: localStorage.getItem("token") || this.props.match.params.token,
-        };
-
-        if (data.token) {
-            userStore.logIn(data);
-        }
-    }
-
     render() {
         if (!userStore.token) {
             return <Redirect to={'/login'} />
@@ -52,11 +38,10 @@ class Main extends Component {
         return (
             <React.Fragment>
                 <div className="header">
-                    <div className="manu_mock">Меню</div>
                     <UserBarContainer store={userStore}/>
+                    {/*<LobbyContainer userStore={userStore} store={lobbyStore}/>*/}
                 </div>
-
-                <LobbyContainer userStore={userStore} store={lobbyStore}/>
+                <RoomsContainer/>
             </React.Fragment>
         )
     }

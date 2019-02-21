@@ -1,0 +1,39 @@
+
+
+.button {
+  border: none;
+  background: #F6E444;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 10pt;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.button:hover {
+  background: #fff7b0;
+}
+
+.button:focus {
+  background: #fff7b0;
+}
+
+.changer {
+  padding: 10px 0;
+  background: none;
+  color: #d8d8d8;
+  font-size: 12pt;
+  border: none;
+  text-decoration: initial;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: .1s;
+  display: block;
+}
+.changer:hover {
+  border-bottom: 1px solid #fff;
+}
+.changer:focus {
+  border-bottom: 1px solid #F6E444;
+  color: #F6E444;
+}
