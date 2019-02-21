@@ -29,31 +29,21 @@ let users = {};
 let lobbyTokens = {};
 
 function leaveRoom(socket) {
-    // console.log('Lobby leave socket ' + socket.id + ' with token ' + token);
     socket.leave && socket.leave('lobby');
     delete lobbyTokens[socket.id];
     showLobbyUsers();
 }
 
 function showLobbyUsers() {
-    // const lobbyUsers = Object.keys(lobbyTokens).map(socketId => users[lobbyTokens[socketId]]);
     const lobbyIds = Object.keys(lobbyTokens);
     const lobbyTokensArray = lobbyIds.map(id => lobbyTokens[id]);
     const lobbyUsers = lobbyTokensArray.map(token => users[token]);
-    //
-    // console.log(lobbyIds);
-    // console.log(lobbyTokensArray);
-    // console.log(lobbyUsers);
-
     io.to('lobby').emit('lobby.users', lobbyUsers.filter(filters.unique).filter(filters.essence));
 }
 
 io.on('connection', function(socket){
-    // console.log('a user connected');
     socket.on('disconnect', function() {
-        // console.log('WORAFAK');
         if (socket.token) {
-            // console.log(socket.token, 'leave')
             leaveRoom(socket)
         }
     });
@@ -63,7 +53,6 @@ io.on('connection', function(socket){
         const { login, password } = data;
 
         const token = random(111111111, 999999999);
-        // console.log('user socket ' + socket.id + ' with token ' + token);
         const profile = {
             id: token,
             login,
@@ -90,22 +79,9 @@ io.on('connection', function(socket){
 
 
     socket.on('lobby.join', function(token) {
-        // console.log('Lobby join socket ' + socket.id + ' with token ' + token);
         socket.join('lobby');
-
         lobbyTokens[socket.id] = token;
-
-
         showLobbyUsers();
-
-        // if (token && lobbyUsers.filter(userToken => userToken === token).length === 0) {
-        //     lobbyUsers.push(token);
-        //     // console.log(res);
-        //     let res = lobbyUsers.map(token => users[token]);
-        //     io.to('lobby').emit('lobby.users', res);
-        // } else {
-        //     socket.emit('user.error', {message: 'Вы уже в комнате с другого устройства или вкладки'});
-        // }
     });
 
     socket.on('lobby.leave', () => leaveRoom(socket));

@@ -37,6 +37,7 @@
     "http": "0.0.0",
     "image-webpack-loader": "^4.6.0",
     "ioredis": "^4.6.2",
+    "jsonwebtoken": "^8.5.0",
     "less-loader": "^4.1.0",
     "mobx": "^5.9.0",
     "mobx-react": "^5.4.3",

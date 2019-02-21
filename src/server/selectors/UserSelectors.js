@@ -7,7 +7,8 @@ module.exports = {
         uid: profile.id,
         name: profile.first_name,
         avatar: profile.photo,
-        accessToken: profile.access_token
+        accessToken: profile.access_token,
+        token: profile.token
     }),
     roomData: (dbData) => ({
         id: dbData._id,

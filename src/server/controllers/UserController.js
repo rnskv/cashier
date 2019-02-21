@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const User = require( '../models/User');
 const store = require('store');
 const config = require('../config');
@@ -15,7 +16,9 @@ module.exports = {
 
         let userData = await User.findOne({uid: profile.id});
 
-        const profileData = userSelector.dbData({...profile, ...params});
+        const token = jwt.sign({_id: userData._id}, 'supersecretlolitsjoke');
+
+        const profileData = userSelector.dbData({...profile, ...params, token});
 
         if (userData) {
             await User.updateOne({_id: userData._id}, profileData)
@@ -24,16 +27,20 @@ module.exports = {
             result = await user.save();
         }
 
-        await store.set('token', profileData.accessToken);
+
+
+        console.log('give token', token);
+
+        await store.set('token', profileData.token);
         res.json(result)
     },
     loginRedirect: function(req, res) {
-        res.redirect(`${config.client.host}:${config.client.port}/login/${store.get('token')}`);
+        res.redirect(`${config.client.host}:${config.client.port}/login/${store.get('token').split('.').join('_')}`);
     },
     getUserByToken: async function(req, res) {
         //@todo Сделать нормальный jwt;
         const token = req.body.token;
-        let userData = await User.findOne({accessToken: token});
+        let userData = await User.findOne({token});
 
         res.json(userData)
     },

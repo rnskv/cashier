@@ -22,7 +22,6 @@ class RoomsManager extends Manager {
         this.kickAllPlayersFromRoom(id);
         delete this.rooms[id];
         console.log('Remove room', id);
-        console.log(this.rooms);
     }
 
     getRooms() {
@@ -34,7 +33,6 @@ class RoomsManager extends Manager {
     }
 
     kickAllPlayersFromRoom(id) {
-        console.log('id-', this.rooms[id]);
         this.rooms[id].participants.forEach(participant => {
             this.removeParticipant(id, participant.id);
             UserRoomStore.delete(participant.id)

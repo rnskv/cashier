@@ -28,7 +28,6 @@ class Rooms extends Component {
     }
 
     removeRoom = (id) => () => {
-        console.log('Send request for delete room_'+id);
         socket.emit('room.remove', { token: userStore.token, id })
     };
 

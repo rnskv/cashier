@@ -9,7 +9,6 @@ module.exports = (io) => (app) => {
 
     io.on('connection', (socket) => {
         app.use((req, res) => {
-            console.log('middleware')
             res.socket = socket;
         });
 

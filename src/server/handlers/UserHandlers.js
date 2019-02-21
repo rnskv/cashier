@@ -27,12 +27,12 @@ module.exports = {
             return;
         }
 
-        const user = new User(response, response.accessToken);
+        const user = new User(response, response.token);
 
         socket.userId = user.profile._id;
 
         GlobalManager.addUser(socket.id, user);
-        socket.emit('user.login', { profile: response, token: response.accessToken });
+        socket.emit('user.login', { profile: response, token: response.token });
         socket.server.emit('lobby.connect', { users: GlobalManager.getUsers() });
     },
     logout: (socket) => () => {

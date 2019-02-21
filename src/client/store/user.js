@@ -24,7 +24,7 @@ class MainStore {
 
         this.roomId = null;
 
-
+        socket.on('user.getToken', this.onGetToken);
         socket.on('user.roomId', this.onRoomId);
         socket.on('user.joinRoom', this.onJoinRoom);
         socket.on('user.leaveRoom', this.onLeaveRoom);
@@ -42,21 +42,25 @@ class MainStore {
         });
     }
 
+    @action
+    onGetToken = (data) => {
+        console.log('onGetToken', onGetToken)
+    };
 
     @action
     onRoomId = (data) => {
-        console.log('Я получил айди своей комнаты', data);
+        console.log('onRoomId', data);
         this.roomId = data.roomId;
     };
 
     @action
     onJoinRoom = (data) => {
-        console.log('Я зашел в комнату')
+        console.log('onJoinRoom')
     };
 
     @action
     onLeaveRoom = (data) => {
-        console.log('Я вышел из комнаты')
+        console.log('onLeaveRoom')
     };
 
 
@@ -89,7 +93,7 @@ class MainStore {
     @action
     logIn(data) {
         this.loading = true;
-        socket.emit('user.login', { token: data.token })
+        socket.emit('user.login', { token: data.token.split('_').join('.') })
     }
 
     @action
