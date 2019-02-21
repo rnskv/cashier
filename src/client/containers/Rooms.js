@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Room from '../components/Room';
+import Room from '../components/room';
 import { socket } from '../utils';
 import userStore from '../store/user';
 import roomsStore from '../store/rooms';
@@ -35,7 +35,7 @@ class Rooms extends Component {
     render() {
         const { data } = this.props;
         if (roomsStore.isLoading) return <div>Комнаты загружаются</div>
-        console.log(userStore.roomId)
+        console.log(userStore.profile)
         return (
             <React.Fragment>
                 <input type="button" value="Создать комнату" onClick={this.addRoom}/>
@@ -47,12 +47,12 @@ class Rooms extends Component {
                         roomsStore.rooms.reverse().map(room =>
                             <Room key={room.id}
                                   isUserRoom={room.id === userStore.roomId}
-                                  isUserCreator={room.creator === userStore.userId}
+                                  isUserCreator={room.creator === userStore.profile._id}
                                   creator={room.creator}
                                   participants={room.participants}
-                                  join={this.joinRoom(room.id)}
-                                  leave={this.leaveRoom(room.id)}
-                                  remove={this.removeRoom(room.id)}
+                                  userJoin={this.joinRoom(room.id)}
+                                  userLeave={this.leaveRoom(room.id)}
+                                  removeRoom={this.removeRoom(room.id)}
                             />
                         )
                     }

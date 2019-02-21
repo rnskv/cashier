@@ -246,13 +246,14 @@ body {
 }
 
 .room-component-users {
-  border-bottom: 2px solid #213137;
-  padding: 10px 15px;
-  box-sizing: padding-box;
   display: flex;
   flex-direction: column;
 }
-
+.room-component-section {
+  border-bottom: 2px solid #213137;
+  padding: 10px 15px;
+  box-sizing: padding-box;
+}
 .room-component-users__list {
   display: flex;
   min-height: 37px;
@@ -275,6 +276,7 @@ body {
   cursor: pointer;
   border-bottom: 1px solid transparent;
   transition: .1s;
+  display: block;
 }
 .changer:hover {
   border-bottom: 1px solid #fff;
@@ -286,4 +288,48 @@ body {
 
 .room-component-controls {
   padding: 10px 15px;
+}
+
+.room-component-userinfo {
+  display: flex;
+  align-items: center;
+}
+
+.room-component-userinfo__name {
+  color: #fff;
+  margin-left: 10px;
+}
+
+.room-component-host {
+
+}
+
+.flashbox {
+  background: #121a1e;
+  color: #fff;
+  width: 140px;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+}
+
+.room-component-information__title {
+  background: #3a4364;
+  display: block;
+  width: 100px;
+  text-align: center;
+  margin: 10px;
+  font-size: 10pt;
+  color: #fff;
+}
+.room-component-information__description {
+  padding: 0 15px;
+  color: #fff;
+  font-size: 9pt;
+}
+.readmore {
+  display: block;
+  color: #a1a9ab;
 }
