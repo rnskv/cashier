@@ -93,7 +93,7 @@ class MainStore {
     @action
     logIn(data) {
         this.loading = true;
-        socket.emit('user.login', { token: data.token.split('_').join('.') })
+        socket.emit('user.login', { token: data.token.split('*').join('.') })
     }
 
     @action

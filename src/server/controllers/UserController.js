@@ -15,33 +15,38 @@ module.exports = {
         const params = req.body.params;
 
         let userData = await User.findOne({uid: profile.id});
+        let token;
 
-        const token = jwt.sign({_id: userData._id}, 'supersecretlolitsjoke');
-
-        const profileData = userSelector.dbData({...profile, ...params, token});
+        let profileData;
 
         if (userData) {
+            profileData = userSelector.dbData({...profile, ...params});
             await User.updateOne({_id: userData._id}, profileData)
         } else {
-            const user = await new User(profileData).save();
-            result = await user.save();
+            profileData = userSelector.dbData({...profile, ...params});
+            userData = await new User(profileData).save();
         }
 
+        console.log('userdata', userData._id);
+        token = jwt.sign({id: userData._id}, 'supersecretlolitsjoke');
+        console.log('token', token);
+        result = await User.updateOne({_id: userData._id}, { token });
 
+        await store.set('token', token);
 
-        console.log('give token', token);
-
-        await store.set('token', profileData.token);
-        res.json(result)
+        console.log('first', token);
+        res.json(result);
     },
     loginRedirect: function(req, res) {
-        res.redirect(`${config.client.host}:${config.client.port}/login/${store.get('token').split('.').join('_')}`);
+        console.log('second');
+
+        res.redirect(`${config.client.host}:${config.client.port}/login/${store.get('token').split('.').join('*')}`);
     },
     getUserByToken: async function(req, res) {
         //@todo Сделать нормальный jwt;
         const token = req.body.token;
         let userData = await User.findOne({token});
-
+        console.log('Find User By Token', userData, token);
         res.json(userData)
     },
     getUsersByIds: async function (req, res) {
