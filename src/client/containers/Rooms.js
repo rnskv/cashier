@@ -47,6 +47,8 @@ class Rooms extends Component {
                         roomsStore.rooms.reverse().map(room =>
                             <Room key={room.id}
                                   isUserRoom={room.id === userStore.roomId}
+                                  isUserCreator={room.creator === userStore.userId}
+                                  creator={room.creator}
                                   participants={room.participants}
                                   join={this.joinRoom(room.id)}
                                   leave={this.leaveRoom(room.id)}

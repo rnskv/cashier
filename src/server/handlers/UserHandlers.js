@@ -53,6 +53,7 @@ module.exports = {
             return
         }
         const roomId = RoomsManager.addRoom({_id: socket.userId });
+        socket.emit('user.roomId', {roomId});
         await UsersManager.joinRoom(roomId, socket.userId);
         socket.server.emit('room.add', { room: RoomsManager.getRoom(roomId) });
     },

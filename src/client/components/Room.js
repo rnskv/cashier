@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 class Room extends Component {
     render() {
+        console.log(this.props.creator);
         return <div className="room">
             {/*/!*{ this.props.isUserRoom ? 'Моя комната' : 'Не моя комната'}*!/*/}
             {/*/!*<div className="room-users">*!/*/}
@@ -51,6 +52,17 @@ class Room extends Component {
                         }
                     </div>
                 </div>
+                {
+                    this.props.isUserCreator && this.props.isUserRoom
+                        ? <div className="room-component-controls">
+                            <div className="title title--grey title--room">Room settings:</div>
+                            <button className="changer" onClick={this.props.remove}>Kick player</button>
+                            <button className="changer" onClick={this.props.remove}>Change game</button>
+                            <button className="changer" onClick={this.props.remove}>Remove room</button>
+                        </div>
+                        : 'Инфо'
+                }
+
             </div>
         </div>
     }
