@@ -40,7 +40,8 @@ module.exports = {
     loginRedirect: function(req, res) {
         console.log('second');
 
-        res.redirect(`${config.client.host}:${config.client.port}/login/${store.get('token').split('.').join('*')}`);
+
+        res.redirect(`${config.client.protocol}://${config.client.host}:${config.client.port}/login/${store.get('token').split('.').join('*')}`);
     },
     getUserByToken: async function(req, res) {
         //@todo Сделать нормальный jwt;

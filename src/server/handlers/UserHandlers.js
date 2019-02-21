@@ -13,18 +13,25 @@ const UserRoomStore = require('../store/UserRoom');
 const User = require('../Essenses/User');
 
 const request = require('request');
+const config = require('../config');
 
 module.exports = {
     login: (socket) => async (data) => {
         //отправляем запрос на сервер с data.password and data.login;
         const response = await HttpManager.request({
             method: 'POST',
-            url: 'http://localhost:1337' + '/api/v1/user/profile',
+            url: `${config.server.protocol}://${config.server.host}:${config.server.port}/api/v1/user/profile`,
             body: {
                 token: data.token
             }
         });
-
+        console.log({
+            method: 'POST',
+            url: `${config.server.protocol}://${config.server.host}:${config.server.port}/api/v1/user/profile`,
+            body: {
+                token: data.token
+            }
+        });
         if (!response) {
             socket.emit('global.error', { message: 'Ошибка авторизации', type: 1 });
             return;
