@@ -75,6 +75,7 @@ class MainStore {
         localStorage.setItem("token", data.token);
 
         socket.emit('rooms.get');
+        socket.emit('test', {hello: 'world'});
     };
 
     @action

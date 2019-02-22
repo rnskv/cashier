@@ -20,6 +20,7 @@ const config = require('../config');
 
 module.exports = {
     accessDenied: (socket) => (data) => {
+        console.log('accessDenied');
         SocketsManager.emitUser(socket, 'global.error', { message: 'Нет доступа', type: 'error', code: 4 });
     }
 };

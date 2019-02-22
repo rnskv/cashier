@@ -43,7 +43,6 @@ module.exports = {
         const user = new User(response, response.token);
 
         socket.userId = user.profile._id;
-        console.log('Need for pr', user.profile);
         SocketUserStore.set(socket.id, UserSelector.socketData(user.profile));
         GlobalManager.addUser(socket.id, user);
 
@@ -66,7 +65,6 @@ module.exports = {
         const { token } = data;
         console.log(token);
         const payload = jwt.decode(token, 'supersecretlolitsjoke');
-        console.log('payload', payload);
         const userRoomId = UserRoomStore.get(socket.userId);
         if (userRoomId) {
             socket.server.to(`user_${socket.userId}`).emit('global.error', { message: 'Вы уже в комнате', type: 'error', code: 4 });

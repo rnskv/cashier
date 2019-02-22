@@ -47,7 +47,6 @@ module.exports = {
         //@todo Сделать нормальный jwt;
         const token = req.body.token;
         let userData = await User.findOne({token});
-        console.log('Find User By Token', userData, token);
         res.json(userData)
     },
     getUsersByIds: async function (req, res) {
