@@ -22,7 +22,7 @@ const checkAccess = async (data) => {
     if (!data.accessLvl) return true;
 
     let user = null;
-    const decodedToken = jwt.decode(data.token, 'supersecretlolitsjoke');
+    const decodedToken = jwt.decode(data.token, config.jwt.secret);
     if (decodedToken) {
         user = IdUserStore.get(decodedToken.id);
         if (!user) {

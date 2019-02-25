@@ -60,7 +60,7 @@ module.exports = {
     },
     addRoom: (socket) => async (data) => {
         const { token } = data;
-        const payload = jwt.decode(token, 'supersecretlolitsjoke');
+        const payload = jwt.decode(token, config.jwt.secret);
         const userRoomId = UserRoomStore.get(socket.userId);
         if (userRoomId) {
             socket.server.to(`user_${socket.userId}`).emit('global.error', { message: 'Вы уже в комнате', type: 'error', code: 4 });

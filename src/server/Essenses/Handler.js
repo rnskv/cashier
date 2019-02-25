@@ -29,7 +29,7 @@ class Handler {
                 const next = await this.middlewares[mwId](routineData);
 
                 if (!next) {
-                    ErrorsHandlers.accessDenied(this.socket)({message: 'accessDenied'});
+                    ErrorsHandlers.accessDenied(this.socket)();
                     return;
                 }
             }

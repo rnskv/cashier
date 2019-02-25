@@ -27,7 +27,7 @@ module.exports = {
             userData = await new User(profileData).save();
         }
 
-        token = jwt.sign({id: userData._id}, 'supersecretlolitsjoke');
+        token = jwt.sign({id: userData._id}, config.jwt.secret);
         result = await User.updateOne({_id: userData._id}, { token });
 
         await store.set('token', token);
