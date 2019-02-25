@@ -60,7 +60,6 @@ module.exports = {
     },
     addRoom: (socket) => async (data) => {
         const { token } = data;
-        console.log(token);
         const payload = jwt.decode(token, 'supersecretlolitsjoke');
         const userRoomId = UserRoomStore.get(socket.userId);
         if (userRoomId) {
@@ -83,8 +82,6 @@ module.exports = {
 
     },
     getRooms: (socket) => (data) => {
-        console.log(socket.userId);
-
         SocketsManager.emitUser(socket, 'user.roomId', {roomId: UserRoomStore.get(socket.userId)});
         SocketsManager.emitAll(socket, 'rooms.get', { rooms: RoomsManager.getRooms() });
     },

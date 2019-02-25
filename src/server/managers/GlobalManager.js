@@ -34,7 +34,6 @@ class GlobalManager extends Manager {
     }
 
     getUsers() {
-        // console.log(Object.keys(this.users).map(key => this.users[key].getProfile()));
         return Object.keys(this.users).map(key => this.users[key].getProfile())
     }
 

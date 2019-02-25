@@ -14,9 +14,6 @@ class Handler {
 
     setSocket(socket) {
         this.socket = socket;
-        // Object.keys(this.methods).forEach(methodName => {
-        //     this.handlers[methodName] = this.methods[methodName](socket)
-        // })
     }
 
     addMiddleware(fn) {
@@ -25,12 +22,12 @@ class Handler {
 
     execute(methodName, params) {
         let routineData = {};
-        return (data) => {
+        return async (data) => {
             routineData = {...data, ...params};
 
             for (let mwId in this.middlewares) {
 
-                const next = this.middlewares[mwId](routineData);
+                const next = await this.middlewares[mwId](routineData);
 
                 if (!next) {
                     ErrorsHandlers.accessDenied(this.socket)({message: 'accessDenied'});

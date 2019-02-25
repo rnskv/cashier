@@ -5,7 +5,6 @@ const UserRoomStore = require('../store/UserRoom');
 class UsersManager extends Manager {
     constructor(settings) {
         super(settings);
-        console.log(this.managers.RoomsManager);
     }
 
     async joinRoom(roomId, userId) {

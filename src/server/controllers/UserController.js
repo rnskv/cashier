@@ -27,20 +27,14 @@ module.exports = {
             userData = await new User(profileData).save();
         }
 
-        console.log('userdata', userData._id);
         token = jwt.sign({id: userData._id}, 'supersecretlolitsjoke');
-        console.log('token', token);
         result = await User.updateOne({_id: userData._id}, { token });
 
         await store.set('token', token);
 
-        console.log('first', token);
         res.json(result);
     },
     loginRedirect: function(req, res) {
-        console.log('second');
-
-
         res.redirect(`${config.client.protocol}://${config.client.host}:${config.client.port}/login/${store.get('token').split('.').join('*')}`);
     },
     getUserByToken: async function(req, res) {
@@ -51,7 +45,6 @@ module.exports = {
     },
     getUsersByIds: async function (req, res) {
         const ids = req.body.ids;
-        console.log('Получаю пользователей с id:', ids);
 
         User.find({
             '_id': { $in: ids }
