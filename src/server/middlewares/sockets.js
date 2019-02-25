@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const redisAdapter = require('socket.io-redis');
 const config = require('../config.js');
 
@@ -6,6 +8,7 @@ const userHandlers = require('../handlers/UserHandlers');
 const rolesMiddleware = require('./roles');
 const ErrorsHandlers = require('../handlers/ErrorsHandlers');
 
+const IdUserStore = require('../store/IdUser');
 
 const Handler = require('../Essenses/Handler');
 const testHandler = new Handler();
@@ -17,12 +20,28 @@ testHandler.setMethods({
 });
 
 const mw1 = (data) => {
-    console.log('test middleware 1');
+    console.log('test middleware 1', data);
     return true;
 };
 
 const mw2 = (data) => {
-    console.log('test middleware 2');
+    console.log('test middleware 2', data);
+    let user = null;
+    const decodedToken = jwt.decode(data.token, 'supersecretlolitsjoke');
+    console.log('decoded token', decodedToken);
+    if (decodedToken) {
+        user = IdUserStore.get(decodedToken.id);
+
+        console.log('get USer', user);
+        if (!user) {
+            //get from database by request;
+        }
+    }
+    console.log('accessLvl', user.accessLvl, data.accessLvl);
+    if (user.accessLvl >= data.accessLvl) {
+        console.log('access get');
+        return true;
+    }
     return false;
 };
 
@@ -55,7 +74,7 @@ module.exports = (io) => (app) => {
         socket.on('room.leave', userHandlers.leaveRoom(socket));
         // socket.on('room.leave', userHandlers.leaveRoom(socket));
 
-        socket.on('test', testHandler.execute('test', 0));
+        socket.on('test', testHandler.execute('test', {accessLvl: 0}));
 
         socket.on('disconnect', userHandlers.disconnect(socket));
     })

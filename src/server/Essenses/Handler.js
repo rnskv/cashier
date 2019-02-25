@@ -4,7 +4,7 @@ class Handler {
     constructor() {
         this.methods = {};
         this.handlers = {};
-
+        this.socket = null;
         this.middlewares = [];
     }
 
@@ -13,26 +13,32 @@ class Handler {
     }
 
     setSocket(socket) {
-        Object.keys(this.methods).forEach(methodName => {
-            this.handlers[methodName] = this.methods[methodName](socket)
-        })
+        this.socket = socket;
+        // Object.keys(this.methods).forEach(methodName => {
+        //     this.handlers[methodName] = this.methods[methodName](socket)
+        // })
     }
 
     addMiddleware(fn) {
         this.middlewares.push(fn);
     }
 
-    execute(methodName, accessLevel) {
+    execute(methodName, params) {
+        let routineData = {};
         return (data) => {
+            routineData = {...data, ...params};
 
             for (let mwId in this.middlewares) {
 
-                const next = this.middlewares[mwId](data);
+                const next = this.middlewares[mwId](routineData);
 
-                if (!next) return;
+                if (!next) {
+                    ErrorsHandlers.accessDenied(this.socket)({message: 'accessDenied'});
+                    return;
+                }
             }
 
-            this.handlers[methodName](data);
+            this.methods[methodName](this.socket)(routineData);
         }
     }
 }

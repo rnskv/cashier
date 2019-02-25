@@ -14,7 +14,7 @@ const IUser = new mongoose.Schema({
     accessToken: String,
     token: String,
     refreshToken: String,
-    accessLevel: {
+    accessLvl: {
         type: Number,
         default: 1
     }

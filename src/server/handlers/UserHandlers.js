@@ -10,6 +10,7 @@ const SocketsManager = Managers.SocketsManager;
 
 const UserRoomStore = require('../store/UserRoom');
 const SocketUserStore = require('../store/SocketUser');
+const IdUserStore = require('../store/IdUser');
 
 const UserSelector = require('../selectors/UserSelectors');
 
@@ -28,19 +29,15 @@ module.exports = {
                 token: data.token
             }
         });
-        console.log({
-            method: 'POST',
-            url: `${config.server.protocol}://${config.server.host}:${config.server.port}/api/v1/user/profile`,
-            body: {
-                token: data.token
-            }
-        });
+
         if (!response) {
             socket.emit('global.error', { message: 'Ошибка авторизации', type: 1 });
             return;
         }
 
         const user = new User(response, response.token);
+
+        IdUserStore.set(user.profile._id, user.profile);
 
         socket.userId = user.profile._id;
         SocketUserStore.set(socket.id, UserSelector.socketData(user.profile));
