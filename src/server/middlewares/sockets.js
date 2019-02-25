@@ -63,6 +63,9 @@ module.exports = (io) => (app) => {
         socket.on('room.join', userHandler.execute('joinRoom', { accessLvl: 1 }));
         socket.on('room.leave', userHandler.execute('leaveRoom', { accessLvl: 1 }));
 
+        socket.on('game.start', userHandler.execute('startGame', { accessLvl: 1 }));
+
+
         socket.on('disconnect', userHandler.execute('disconnect'));
 
     })

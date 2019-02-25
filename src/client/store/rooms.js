@@ -68,6 +68,7 @@ class RoomsStore {
     @action
     onStartGame = (data) => {
         console.log('onStartGame');
+        history.replace('/game/' + data.roomId)
     };
 
 

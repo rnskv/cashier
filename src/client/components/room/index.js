@@ -28,7 +28,7 @@ class Room extends Component {
     };
 
     render() {
-        const { participants, isUserCreator, isUserRoom, userJoin, userLeave, removeRoom } = this.props;
+        const { participants, isUserCreator, isUserRoom, userJoin, userLeave, removeRoom, startGame } = this.props;
         const { isShowInstructions } = this.state;
 
         return <div className="room" onMouseLeave={this.onMouseLeave} onMouseEnter={this.onMouseEnter}>
@@ -55,6 +55,7 @@ class Room extends Component {
                                         removeRoom={removeRoom}
                                         kickPlayer={() => {}}
                                         changeGame={() => {}}
+                                        startGame={startGame}
                                     />
                                     : <div className="room-component-host room-component-section">
                                         <div className="title title--grey title--room">Room's host</div>

@@ -118,6 +118,19 @@ module.exports = {
         SocketsManager.emitAll(socket, 'room.leave', { roomId, userId: socket.userId });
 
     },
+    startGame: (socket) => (data) => {
+      console.log('Start game with data', data);
+      const room = RoomsManager.getRoom(data.roomId);
+      console.log(room);
+      const roomName = `game_${data.roomId}`;
+
+      const roomSockets = [];
+
+      room.participants.forEach(participant => {
+          SocketsManager.emitOtherUser(socket, participant.id, 'game.start', { roomId: data.roomId });
+      });
+
+    },
     leaveLobby: function() {
 
     }

@@ -15,6 +15,10 @@ class Rooms extends Component {
 
     }
 
+    startGame = (id) => () => {
+        socket.emit('game.start', { token: userStore.token, roomId: id })
+    };
+
     joinRoom = (id) => () => {
         socket.emit('room.join', { token: userStore.token, roomId: id })
     };
@@ -48,6 +52,7 @@ class Rooms extends Component {
                                   isUserCreator={room.creator === userStore.profile._id}
                                   creator={room.creator}
                                   participants={room.participants}
+                                  startGame={this.startGame(room.id)}
                                   userJoin={this.joinRoom(room.id)}
                                   userLeave={this.leaveRoom(room.id)}
                                   removeRoom={this.removeRoom(room.id)}
