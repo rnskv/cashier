@@ -1,5 +1,5 @@
 import { computed, observable, action, values } from "mobx";
-import { socket } from '../utils';
+import { socket, history } from '../utils';
 
 class RoomsStore {
     @observable roomsMap;
@@ -15,6 +15,8 @@ class RoomsStore {
         socket.on('room.remove', this.onRemoveRoom);
         socket.on('room.join', this.onJoinUser);
         socket.on('room.leave', this.onLeaveUser);
+
+        socket.on('game.start', this.onStartGame);
 
         socket.on('error', () => {
             alert('error')
@@ -33,7 +35,7 @@ class RoomsStore {
     onAddRoom = (data) => {
         // this.hello = 'mobX';
         console.log('onAddRoom', data);
-
+        history.replace('/about')
         this.roomsMap[data.room.id] = data.room;
     };
 
@@ -62,6 +64,12 @@ class RoomsStore {
         });
         this.roomsMap[data.roomId] = room;
     };
+
+    @action
+    onStartGame = (data) => {
+        console.log('onStartGame');
+    };
+
 
     @computed
     get rooms() {

@@ -16,11 +16,11 @@ class Rooms extends Component {
     }
 
     joinRoom = (id) => () => {
-        socket.emit('room.join', {roomId: id})
+        socket.emit('room.join', { token: userStore.token, roomId: id })
     };
 
     leaveRoom = (id) => () => {
-        socket.emit('room.leave', {roomId: id})
+        socket.emit('room.leave', { token: userStore.token, roomId: id})
     };
 
     addRoom() {

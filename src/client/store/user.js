@@ -44,7 +44,7 @@ class MainStore {
 
     @action
     onGetToken = (data) => {
-        console.log('onGetToken', onGetToken)
+        console.log('onGetToken', data)
     };
 
     @action

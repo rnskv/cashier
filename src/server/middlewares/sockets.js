@@ -38,6 +38,7 @@ const checkAccess = async (data) => {
 
     return user.accessLvl >= data.accessLvl;
 };
+
 const socketToReq = (socket) => (req, res) => {
     res.socket = socket;
 };
@@ -57,10 +58,10 @@ module.exports = (io) => (app) => {
 
         socket.on('rooms.get', userHandler.execute('getRooms'));
 
-        socket.on('room.add', userHandler.execute('addRoom', {accessLvl: 2}));
-        socket.on('room.remove', userHandler.execute('removeRoom'));
-        socket.on('room.join', userHandler.execute('joinRoom'));
-        socket.on('room.leave', userHandler.execute('leaveRoom'));
+        socket.on('room.add', userHandler.execute('addRoom', { accessLvl: 1 }));
+        socket.on('room.remove', userHandler.execute('removeRoom', { accessLvl: 1 }));
+        socket.on('room.join', userHandler.execute('joinRoom', { accessLvl: 1 }));
+        socket.on('room.leave', userHandler.execute('leaveRoom', { accessLvl: 1 }));
 
         socket.on('disconnect', userHandler.execute('disconnect'));
 

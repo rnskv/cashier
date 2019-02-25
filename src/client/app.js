@@ -6,7 +6,8 @@ import Router from './router'
 import userStore from './store/user';
 
 import './styles/default.scss';
-import {socket} from "./utils";
+import { socket } from "./utils";
+import { history } from './utils';
 
 @observer
 class Main extends Component {
@@ -29,7 +30,7 @@ class Main extends Component {
     render() {
         return (
             <div className="wrapper">
-                <Router/>
+                <Router />
             </div>
         )
     }
