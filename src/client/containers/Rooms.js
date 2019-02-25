@@ -34,7 +34,6 @@ class Rooms extends Component {
     render() {
         const { data } = this.props;
         if (roomsStore.isLoading) return <div>Комнаты загружаются</div>
-        console.log(userStore.profile)
         return (
             <React.Fragment>
                 <input type="button" value="Создать комнату" onClick={this.addRoom}/>

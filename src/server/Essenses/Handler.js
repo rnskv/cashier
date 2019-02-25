@@ -3,7 +3,6 @@ const ErrorsHandlers = require('../handlers/ErrorsHandlers');
 class Handler {
     constructor() {
         this.methods = {};
-        this.handlers = {};
         this.socket = null;
         this.middlewares = [];
     }
