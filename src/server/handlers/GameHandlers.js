@@ -31,11 +31,13 @@ module.exports = {
         });
     },
     getState: (socket) => (data) => {
-        console.log('Game try get data');
-        const game = RoomsManager.getRoomGame(data.roomId);
-        const room = RoomsManager.getRoom(data.roomId);
-        console.log(game);
-        SocketsManager.emitUser(socket, 'game.state', { game, room })
+        try {
+            const game = RoomsManager.getRoomGame(data.roomId);
+            const room = RoomsManager.getRoom(data.roomId);
+            SocketsManager.emitUser(socket, 'game.state', { game, room })
+        } catch (error) {
+            throw new Error('Custom error type')
+        }
     },
     nextStep: (socket) => (data) => {
         console.log('nextStep');

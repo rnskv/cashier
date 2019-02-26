@@ -34,7 +34,11 @@ class Handler {
                 }
             }
 
-            this.methods[methodName](this.socket)(routineData);
+            try {
+                this.methods[methodName](this.socket)(routineData);
+            } catch (error) {
+                console.log(`Something went wrong in ${methodName}. Full: ${error}`)
+            }
         }
     }
 }
