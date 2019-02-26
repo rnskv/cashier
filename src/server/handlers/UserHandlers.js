@@ -22,11 +22,12 @@ const config = require('../config');
 module.exports = {
     login: (socket) => async (data) => {
         //отправляем запрос на сервер с data.password and data.login;
+        const decodedToken = jwt.decode(data.token, config.jwt.secret)
         const response = await HttpManager.request({
             method: 'POST',
-            url: `${config.server.protocol}://${config.server.host}:${config.server.port}/api/v1/user/profile`,
+            url: `${config.server.protocol}://${config.server.host}:${config.server.port}/api/v1/user/`,
             body: {
-                token: data.token
+                id: decodedToken.id
             }
         });
 
@@ -37,9 +38,10 @@ module.exports = {
 
         const user = new User(response, response.token);
 
-        UsersStore.set(user.profile._id, user.profile);
+        UsersStore.update(decodedToken.id, UserSelector.storeData(user.profile));
 
-        socket.userId = user.profile._id;
+        socket.userId = decodedToken.id;
+
         SocketUserStore.set(socket.id, UserSelector.socketData(user.profile));
         GlobalManager.addUser(socket.id, user);
 
@@ -61,8 +63,9 @@ module.exports = {
     addRoom: (socket) => async (data) => {
         const { token } = data;
         const payload = jwt.decode(token, config.jwt.secret);
-        const userRoomId = UserStore.get(socket.userId).roomId;
+        const userRoomId = UserStore.get(socket.userId) && UserStore.get(socket.userId).roomId;
         if (userRoomId) {
+            console.log('Yout already in room');
             socket.server.to(`user_${socket.userId}`).emit('global.error', { message: 'Вы уже в комнате', type: 'error', code: 4 });
             return
         }
@@ -82,14 +85,15 @@ module.exports = {
 
     },
     getRooms: (socket) => (data) => {
-        SocketsManager.emitUser(socket, 'user.roomId', {roomId: UsersStore.get(socket.userId).roomId});
+        console.log(UsersStore.get(socket.userId));
+        // SocketsManager.emitUser(socket, 'user.roomId', {roomId: UsersStore.get(socket.userId).roomId});
         SocketsManager.emitAll(socket, 'rooms.get', { rooms: RoomsManager.getRooms() });
     },
     joinRoom: (socket) => async (data) => {
         const { roomId } = data;
-        const userRoomId = UsersStore.get(socket.userId).roomId;
-
-        if (roomId === userRoomId) {
+        const userRoomId = UserStore.get(socket.userId) && UserStore.get(socket.userId).roomId;
+        console.log('join room, ', userRoomId)
+        if (Number(roomId) === Number(userRoomId)) {
             socket.to(`user_${socket.userId}`).emit('global.error', { message: 'Уже в комнате', type: 'error', code: 2 });
             return;
         }

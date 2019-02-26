@@ -20,5 +20,12 @@ module.exports = {
     socketData: (dbData) => ({
         id: dbData._id,
         accessLevel: dbData.accessLevel
+    }),
+    storeData: (dbData) => ({
+        uid: dbData._id,
+        name: dbData.name,
+        avatar: dbData.avatar,
+        token: dbData.token,
+        accessLvl: dbData.accessLvl
     })
 };

@@ -26,8 +26,17 @@ class Store {
         return result;
     }
 
+    update(key, value) {
+        console.log('update', value);
+        console.log('update old',key, this.get(key));
+        this.set(key, {...this.get(key) || {}, ...value});
+        console.log('Update store to from', this.get(key), {...this.get(key) || {}, ...value} )
+    }
+
     modify(key, fn) {
-        const newValue = fn(this.get(key));
+        const value = this.get(key);
+        const newValue = fn({...value});
+        console.log('Модифицирую стор,', key, newValue);
         this.set(key, newValue)
     }
 }
