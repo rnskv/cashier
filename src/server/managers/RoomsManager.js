@@ -21,6 +21,10 @@ class RoomsManager extends Manager {
         return id;
     }
 
+    startGame(id) {
+        this.rooms[id].startGame();
+    }
+
     removeRoom(id) {
         this.kickAllPlayersFromRoom(id);
         delete this.rooms[id];
@@ -42,6 +46,10 @@ class RoomsManager extends Manager {
                 return data;
             });
         });
+    }
+
+    getRoomGame(id) {
+        return this.rooms[id].game;
     }
 
     getRoom(id) {

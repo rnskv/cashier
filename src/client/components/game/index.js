@@ -20,8 +20,48 @@ class Room extends Component {
     };
 
     render() {
+        console.log(gameStore);
         if (gameStore.isLoading) return <div>Get initial game state....</div>;
-        return <div>Welcome to the game {this.props.match.params.id} </div>;
+        return <div>
+            <h1>Welcome to the game {this.props.match.params.id}</h1>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            id
+                        </td>
+                        <td>
+                            { gameStore.room.id }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Creator
+                        </td>
+                        <td>
+                            { gameStore.room.creator }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Participants
+                        </td>
+                        <td>
+                            { gameStore.room.participants && gameStore.room.participants.map(participant => participant.name) }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Step
+                        </td>
+                        <td>
+                            { gameStore.game.step }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button onClick={gameStore.nextStep}>Следующий шаг</button>
+        </div>;
     }
 }
 

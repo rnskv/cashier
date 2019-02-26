@@ -20,8 +20,28 @@ const request = require('request');
 const config = require('../config');
 
 module.exports = {
+    startGame: (socket) => (data) => {
+        console.log('Start game');
+        RoomsManager.startGame(data.roomId);
+
+        const room = RoomsManager.getRoom(data.roomId);
+
+        room.participants.forEach(participant => {
+            SocketsManager.emitOtherUser(socket, participant.id, 'game.start', { roomId: data.roomId });
+        });
+    },
     getState: (socket) => (data) => {
         console.log('Game try get data');
-        SocketsManager.emitUser(socket, 'game.state', { hello: 'world' })
+        const game = RoomsManager.getRoomGame(data.roomId);
+        const room = RoomsManager.getRoom(data.roomId);
+        console.log(game);
+        SocketsManager.emitUser(socket, 'game.state', { game, room })
+    },
+    nextStep: (socket) => (data) => {
+        console.log('nextStep');
+        const roomId = UsersStore.get(socket.userId).roomId;
+        const game = RoomsManager.getRoomGame(roomId);
+        game.nextStep();
+        SocketsManager.emitUser(socket, 'game.update', { game })
     }
 };

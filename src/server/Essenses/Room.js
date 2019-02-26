@@ -1,9 +1,12 @@
+const Game = require('./Game');
+
 class Room {
     constructor(data) {
         this.id = data.id;
         this.maxParticipantsCount = 4;
         this.creatorId = data.creatorId;
         this.participants = [];
+        this.game = null;
     }
 
     getId() {
@@ -26,6 +29,10 @@ class Room {
 
     inRoom(userId) {
         return !!this.participants.filter(participant => participant.id === userId).length
+    }
+
+    startGame() {
+        this.game = new Game(this.getId());
     }
 }
 
