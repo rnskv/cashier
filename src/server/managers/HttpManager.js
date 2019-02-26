@@ -6,7 +6,6 @@ class HttpManager {
     }
     request(data) {
         return new Promise((resolve, reject) => {
-            console.log('request to:', data.url);
             this.client({
                 method: data.method || 'GET',
                 url: data.url,

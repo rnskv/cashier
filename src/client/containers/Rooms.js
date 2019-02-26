@@ -39,7 +39,6 @@ class Rooms extends Component {
         const { data } = this.props;
         if (roomsStore.isLoading) return <div>Комнаты загружаются</div>;
 
-        console.log('________', userStore);
         return (
             <React.Fragment>
                 <input type="button" value="Создать комнату" onClick={this.addRoom}/>
@@ -51,8 +50,8 @@ class Rooms extends Component {
                         roomsStore.rooms.reverse().map(room =>
                             <Room key={room.id}
                                   isUserRoom={room.id === userStore.session.roomId}
-                                  isUserCreator={room.creator === userStore.profile.id}
-                                  creator={room.creator}
+                                  isUserCreator={room.creatorId === userStore.profile.id}
+                                  creator={room.creatorId}
                                   participants={room.participants}
                                   startGame={this.startGame(room.id)}
                                   userJoin={this.joinRoom(room.id)}

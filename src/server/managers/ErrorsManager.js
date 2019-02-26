@@ -5,7 +5,6 @@ class ErrorsManager extends Manager {
         super(settings);
     }
     sendError(socket, error) {
-        console.log('sendError', error);
         socket.emit('error', error)
     }
 }

@@ -47,11 +47,8 @@ class UserStore {
 
     @action
     onGetRoomId = (data) => {
-        console.log('roomId');
-
         this.session.roomId = data.roomId;
-        // socket.emit('user.profile', { data });
-    }
+    };
 
 
     @action
@@ -61,7 +58,6 @@ class UserStore {
 
     @action
     onGetProfile = (data) => {
-        console.log('onGetProfile', data);
         this.profile.avatar = data.profile.avatar;
         this.profile.name = data.profile.name;
         this.profile.uid = data.profile.uid;
@@ -74,14 +70,12 @@ class UserStore {
 
     @action
     onJoinRoom = (data) => {
-        console.log('onJoinRoom', data);
-        // this.session.roomId = data.roomId;
+
     };
 
     @action
     onLeaveRoom = (data) => {
-        console.log('onLeaveRoom');
-        // this.session.roomId = null;
+
     };
 
 
@@ -107,7 +101,6 @@ class UserStore {
 
     @action
     logIn(data) {
-        console.log('logIn', data);
         this.loading = true;
         socket.emit('user.login', { token: data.token.split('*').join('.') })
     }

@@ -9,10 +9,13 @@ class RoomsManager extends Manager {
         super(settings);
 
         this.rooms = {};
+
+        this.roomsCount = 0;
     }
 
     addRoom(data) {
-        const room = new Room({_id: data._id});
+        this.roomsCount += 1;
+        const room = new Room({id: this.roomsCount, creatorId: data.id});
         const id = room.getId();
         this.rooms[id] = room;
         return id;
@@ -21,7 +24,6 @@ class RoomsManager extends Manager {
     removeRoom(id) {
         this.kickAllPlayersFromRoom(id);
         delete this.rooms[id];
-        console.log('Remove room', id);
     }
 
     getRooms() {
@@ -47,7 +49,7 @@ class RoomsManager extends Manager {
         //To selector
         return {
             id: room.id,
-            creator: room.creator,
+            creatorId: room.creatorId,
             participants: room.participants
         }
     }

@@ -22,7 +22,8 @@ const config = require('../config');
 module.exports = {
     login: (socket) => async (data) => {
         //отправляем запрос на сервер с data.password and data.login;
-        const decodedToken = jwt.decode(data.token, config.jwt.secret)
+        const decodedToken = jwt.decode(data.token, config.jwt.secret);
+
         const response = await HttpManager.request({
             method: 'POST',
             url: `${config.server.protocol}://${config.server.host}:${config.server.port}/api/v1/user/`,
@@ -46,11 +47,11 @@ module.exports = {
         GlobalManager.addUser(socket.id, user);
 
         SocketsManager.syncUsersSockets(socket);
+
         SocketsManager.emitUser(socket, 'user.login', { profile: response, token: response.token });
         SocketsManager.emitAll(socket, 'lobby.connect', { users: GlobalManager.getUsers() });
     },
     profile: (socket) => (data) => {
-        console.log('want get profile', socket.userId);
         const profile = UsersStore.get(socket.userId);
 
         SocketsManager.emitUser(socket, 'user.profile', {
@@ -75,11 +76,10 @@ module.exports = {
         const payload = jwt.decode(token, config.jwt.secret);
         const userRoomId = UserStore.get(socket.userId) && UserStore.get(socket.userId).roomId;
         if (userRoomId) {
-            console.log('Yout already in room');
             socket.server.to(`user_${socket.userId}`).emit('global.error', { message: 'Вы уже в комнате', type: 'error', code: 4 });
             return
         }
-        const roomId = RoomsManager.addRoom({_id: socket.userId });
+        const roomId = RoomsManager.addRoom({id: socket.userId });
         await UsersManager.joinRoom(roomId, socket.userId);
 
         SocketsManager.emitUser(socket, 'user.roomId', { roomId });
@@ -95,8 +95,6 @@ module.exports = {
 
     },
     getRooms: (socket) => (data) => {
-        console.log(UsersStore.get(socket.userId));
-        // SocketsManager.emitUser(socket, 'user.roomId', {roomId: UsersStore.get(socket.userId).roomId});
         SocketsManager.emitAll(socket, 'rooms.get', { rooms: RoomsManager.getRooms() });
     },
     joinRoom: (socket) => async (data) => {
@@ -124,7 +122,6 @@ module.exports = {
             socket.server.to(`user_${socket.userId}`).emit('global.error', { message: 'Вы не в этой комнате', type: 'error', code: 3 });
             return;
         }
-        console.log(`Leave ${socket.userId} from ${roomId}`);
         UsersManager.leaveRoom(roomId, socket.userId);
 
         SocketsManager.emitUser(socket, 'user.roomId', { roomId: null });
@@ -132,9 +129,7 @@ module.exports = {
 
     },
     startGame: (socket) => (data) => {
-      console.log('Start game with data', data);
       const room = RoomsManager.getRoom(data.roomId);
-      console.log(room);
       const roomName = `game_${data.roomId}`;
 
       const roomSockets = [];

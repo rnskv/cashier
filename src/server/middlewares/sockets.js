@@ -23,7 +23,6 @@ const checkAccess = async (data) => {
 
     let user = null;
     const decodedToken = jwt.decode(data.token, config.jwt.secret);
-    console.log(decodedToken);
     if (decodedToken) {
         user = UsersStore.get(decodedToken.id);
         if (!user) {
@@ -37,7 +36,6 @@ const checkAccess = async (data) => {
         }
     }
     if (!user) return false;
-    console.log(user);
     return user.accessLvl >= data.accessLvl;
 };
 

@@ -27,7 +27,7 @@ class Main extends Component {
 
         socket.on('global.error', (data) => {
             alert(data.message);
-            console.log(123);
+
             switch (data.type) {
                 case 1:
                     localStorage.removeItem("token");

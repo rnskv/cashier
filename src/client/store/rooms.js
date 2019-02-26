@@ -26,7 +26,6 @@ class RoomsStore {
 
     @action
     onGetRooms = (data) => {
-        console.log('onGetRooms', data);
         this.isLoading = false;
         this.roomsMap = data.rooms;
     };
@@ -34,7 +33,6 @@ class RoomsStore {
     @action
     onAddRoom = (data) => {
         // this.hello = 'mobX';
-        console.log('onAddRoom', data);
         this.roomsMap[data.room.id] = data.room;
     };
 
@@ -47,8 +45,6 @@ class RoomsStore {
 
     @action
     onJoinUser = (data) => {
-        // this.hello = 'mobX';
-        console.log('onJoinUser', data);
         const room = {...this.roomsMap[data.roomId]};
         room.participants.push(data.user);
         this.roomsMap[data.roomId] = room;
@@ -56,7 +52,6 @@ class RoomsStore {
 
     @action
     onLeaveUser = (data) => {
-        console.log('onLeaveUser');
         const room = {...this.roomsMap[data.roomId]};
         room.participants = room.participants.filter((participant) => {
             return participant.id !== data.userId
@@ -66,7 +61,6 @@ class RoomsStore {
 
     @action
     onStartGame = (data) => {
-        console.log('onStartGame');
         history.replace('/game/' + data.roomId)
     };
 

@@ -1,8 +1,8 @@
 class Room {
     constructor(data) {
-        this.id = Math.random();
+        this.id = data.id;
         this.maxParticipantsCount = 4;
-        this.creator = data._id;
+        this.creatorId = data.creatorId;
         this.participants = [];
     }
 
@@ -20,7 +20,7 @@ class Room {
 
     leave(userId) {
         this.participants = [...this.participants].filter(participant => {
-            return  participant.id !== userId
+            return participant.id !== userId
         })
     }
 
