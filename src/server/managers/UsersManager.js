@@ -1,6 +1,6 @@
 const Manager = require('../Essenses/Manager');
 const UserSelectors = require('../selectors/UserSelectors');
-const UserRoomStore = require('../store/UserRoom');
+const UsersStore = require('../store/Users');
 
 class UsersManager extends Manager {
     constructor(settings) {
@@ -11,7 +11,10 @@ class UsersManager extends Manager {
 
         const { HttpManager, RoomsManager } = this.managers;
 
-        UserRoomStore.set(userId, roomId);
+        UsersStore.modify(userId, data => {
+            data.roomId = roomId;
+            return data;
+        });
 
         const user = await HttpManager.request({
             method: 'POST',
@@ -27,7 +30,10 @@ class UsersManager extends Manager {
 
     leaveRoom(roomId, userId) {
         const { RoomsManager } = this.managers;
-        UserRoomStore.delete(userId);
+        UsersStore.modify(userId, data => {
+            data.roomId = null;
+            return data;
+        });
         RoomsManager.removeParticipant(roomId, userId);
     }
 }

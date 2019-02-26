@@ -8,9 +8,9 @@ const UsersManager = Managers.UsersManager;
 const ErrorsManager = Managers.ErrorsManager;
 const SocketsManager = Managers.SocketsManager;
 
-const UserRoomStore = require('../store/UserRoom');
+const UserStore = require('../store/Users');
 const SocketUserStore = require('../store/SocketUser');
-const IdUserStore = require('../store/IdUser');
+const UsersStore = require('../store/Users');
 
 const UserSelector = require('../selectors/UserSelectors');
 
@@ -37,7 +37,7 @@ module.exports = {
 
         const user = new User(response, response.token);
 
-        IdUserStore.set(user.profile._id, user.profile);
+        UsersStore.set(user.profile._id, user.profile);
 
         socket.userId = user.profile._id;
         SocketUserStore.set(socket.id, UserSelector.socketData(user.profile));
@@ -61,7 +61,7 @@ module.exports = {
     addRoom: (socket) => async (data) => {
         const { token } = data;
         const payload = jwt.decode(token, config.jwt.secret);
-        const userRoomId = UserRoomStore.get(socket.userId);
+        const userRoomId = UserStore.get(socket.userId).roomId;
         if (userRoomId) {
             socket.server.to(`user_${socket.userId}`).emit('global.error', { message: 'Вы уже в комнате', type: 'error', code: 4 });
             return
@@ -82,12 +82,12 @@ module.exports = {
 
     },
     getRooms: (socket) => (data) => {
-        SocketsManager.emitUser(socket, 'user.roomId', {roomId: UserRoomStore.get(socket.userId)});
+        SocketsManager.emitUser(socket, 'user.roomId', {roomId: UsersStore.get(socket.userId).roomId});
         SocketsManager.emitAll(socket, 'rooms.get', { rooms: RoomsManager.getRooms() });
     },
     joinRoom: (socket) => async (data) => {
         const { roomId } = data;
-        const userRoomId = UserRoomStore.get(socket.userId);
+        const userRoomId = UsersStore.get(socket.userId).roomId;
 
         if (roomId === userRoomId) {
             socket.to(`user_${socket.userId}`).emit('global.error', { message: 'Уже в комнате', type: 'error', code: 2 });
@@ -106,7 +106,7 @@ module.exports = {
     },
     leaveRoom: (socket) => (data) => {
         const { roomId } = data;
-        const userRoomId = UserRoomStore.get(socket.userId);
+        const userRoomId = UsersStore.get(socket.userId).roomId;
         if (userRoomId !== roomId) {
             socket.server.to(`user_${socket.userId}`).emit('global.error', { message: 'Вы не в этой комнате', type: 'error', code: 3 });
             return;

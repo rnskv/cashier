@@ -26,6 +26,10 @@ class Store {
         return result;
     }
 
+    modify(key, fn) {
+        const newValue = fn(this.get(key));
+        this.set(key, newValue)
+    }
 }
 
 module.exports = Store;

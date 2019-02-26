@@ -8,7 +8,7 @@ const userHandlers = require('../handlers/UserHandlers');
 const rolesMiddleware = require('./roles');
 const ErrorsHandlers = require('../handlers/ErrorsHandlers');
 
-const IdUserStore = require('../store/IdUser');
+const UsersStore = require('../store/Users');
 
 const Handler = require('../Essenses/Handler');
 
@@ -24,7 +24,7 @@ const checkAccess = async (data) => {
     let user = null;
     const decodedToken = jwt.decode(data.token, config.jwt.secret);
     if (decodedToken) {
-        user = IdUserStore.get(decodedToken.id);
+        user = UsersStore.get(decodedToken.id);
         if (!user) {
             user = await HttpManager.request({
                 method: 'POST',

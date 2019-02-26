@@ -2,7 +2,7 @@ const Room = require('../Essenses/Room');
 const userSelector = require('../selectors/UserSelectors');
 const Manager = require('../Essenses/Manager');
 
-const UserRoomStore = require('../store/UserRoom');
+const UsersStore = require('../store/Users');
 
 class RoomsManager extends Manager {
     constructor(settings) {
@@ -36,6 +36,10 @@ class RoomsManager extends Manager {
         this.rooms[id].participants.forEach(participant => {
             this.removeParticipant(id, participant.id);
             UserRoomStore.delete(participant.id)
+            UsersStore.modify(userId, data => {
+                data.roomId = null;
+                return data;
+            });
         });
     }
 
