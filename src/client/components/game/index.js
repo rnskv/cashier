@@ -7,15 +7,18 @@ import gameStore from "../../store/game";
 
 @observer
 class Room extends Component {
-    constructor() {
+    constructor(props) {
         super();
+        socket.on('user.login', () => {
+            this.getState()
+        });
     }
 
     componentDidMount() {
         this.getState()
     };
 
-    getState() {
+    getState = () =>  {
         socket.emit('game.state', { roomId: this.props.match.params.id, token: userStore.session.token })
     };
 

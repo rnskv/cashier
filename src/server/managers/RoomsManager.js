@@ -4,6 +4,8 @@ const Manager = require('../Essenses/Manager');
 
 const UsersStore = require('../store/Users');
 
+const RnskvError = require('../Essenses/RnskvError');
+
 class RoomsManager extends Manager {
     constructor(settings) {
         super(settings);
@@ -49,7 +51,15 @@ class RoomsManager extends Manager {
     }
 
     getRoomGame(id) {
-        return this.rooms[id].game;
+        try {
+            return this.rooms[id].game;
+        } catch (error) {
+            throw new RnskvError({
+                type: 'default',
+                code: 0,
+                message: `Не удалось получить комнату с указанным id.`
+            })
+        }
     }
 
     getRoom(id) {

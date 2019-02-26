@@ -45,7 +45,7 @@ module.exports = {
 
         SocketUserStore.set(socket.id, UserSelector.socketData(user.profile));
         GlobalManager.addUser(socket.id, user);
-
+        console.log('PREV SYNC USERS');
         SocketsManager.syncUsersSockets(socket);
 
         SocketsManager.emitUser(socket, 'user.login', { profile: response, token: response.token });

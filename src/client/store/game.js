@@ -22,14 +22,13 @@ class GameStore {
         this.room = new Room();
         this.game = new Game();
         this.isLoading = true;
-        socket.on('game.state', this.onGetState);
 
+        socket.on('game.state', this.onGetState);
         socket.on('game.update.state', this.onUpdateState);
         socket.on('game.update.room', this.onUpdateRoom);
-
         socket.on('game.leave', this.onGameLeave);
 
-        console.log('construct')
+        console.log('construct', socket);
     }
 
     @action

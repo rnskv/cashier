@@ -8,6 +8,7 @@ import userStore from './store/user';
 import './styles/default.scss';
 import { socket } from "./utils";
 import { history } from './utils';
+import gameStore from "./store/game";
 
 @observer
 class Main extends Component {

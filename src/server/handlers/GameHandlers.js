@@ -19,6 +19,8 @@ const User = require('../Essenses/User');
 const request = require('request');
 const config = require('../config');
 
+const RnskvError = require('../Essenses/RnskvError');
+
 module.exports = {
     startGame: (socket) => (data) => {
         console.log('Start game');
@@ -31,13 +33,9 @@ module.exports = {
         });
     },
     getState: (socket) => (data) => {
-        try {
-            const game = RoomsManager.getRoomGame(data.roomId);
-            const room = RoomsManager.getRoom(data.roomId);
-            SocketsManager.emitUser(socket, 'game.state', { game, room })
-        } catch (error) {
-            throw new Error('Custom error type')
-        }
+        const game = RoomsManager.getRoomGame(data.roomId);
+        const room = RoomsManager.getRoom(data.roomId);
+        SocketsManager.emitUser(socket, 'game.state', { game, room })
     },
     nextStep: (socket) => (data) => {
         console.log('nextStep');
