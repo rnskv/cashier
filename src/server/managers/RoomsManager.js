@@ -3,6 +3,7 @@ const userSelector = require('../selectors/UserSelectors');
 const Manager = require('../Essenses/Manager');
 
 const UsersStore = require('../store/Users');
+const UserSelector = require('../selectors/UserSelectors');
 
 const RnskvError = require('../Essenses/RnskvError');
 
@@ -67,7 +68,7 @@ class RoomsManager extends Manager {
         //To selector
         return {
             id: room.id,
-            creatorId: room.creatorId,
+            creator: UserSelector.clientProfileData(UsersStore.get(room.creatorId)),
             participants: room.participants
         }
     }

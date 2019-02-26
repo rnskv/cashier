@@ -47,17 +47,21 @@ class Rooms extends Component {
                         // roomsStore.rooms.map(room => {
                         //     return <div key={room.id}>Комната ${room.id} <button onClick={this.removeRoom(room.id)} >Remove</button></div>
                         // })
-                        roomsStore.rooms.reverse().map(room =>
-                            <Room key={room.id}
-                                  isUserRoom={room.id === userStore.session.roomId}
-                                  isUserCreator={room.creatorId === userStore.profile.id}
-                                  creator={room.creatorId}
-                                  participants={room.participants}
-                                  startGame={this.startGame(room.id)}
-                                  userJoin={this.joinRoom(room.id)}
-                                  userLeave={this.leaveRoom(room.id)}
-                                  removeRoom={this.removeRoom(room.id)}
-                            />
+                        roomsStore.rooms.reverse().map(room => {
+                            console.log(room)
+                            return (
+                                <Room key={room.id}
+                                     isUserRoom={room.id === userStore.session.roomId}
+                                     isUserCreator={room.creator.id === userStore.profile.id}
+                                     creator={room.creator}
+                                     participants={room.participants}
+                                     startGame={this.startGame(room.id)}
+                                     userJoin={this.joinRoom(room.id)}
+                                     userLeave={this.leaveRoom(room.id)}
+                                     removeRoom={this.removeRoom(room.id)}
+                                />
+                            )
+                        }
                         )
                     }
                 </div>

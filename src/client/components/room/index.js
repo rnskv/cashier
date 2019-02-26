@@ -31,7 +31,7 @@ class Room extends Component {
     };
 
     render() {
-        const { participants, isUserCreator, isUserRoom, userJoin, userLeave, removeRoom, startGame } = this.props;
+        const { participants, isUserCreator, creator, isUserRoom, userJoin, userLeave, removeRoom, startGame } = this.props;
         const { isShowInstructions } = this.state;
 
         return <div className="room" onMouseLeave={this.onMouseLeave} onMouseEnter={this.onMouseEnter}>
@@ -65,9 +65,9 @@ class Room extends Component {
 
                                         <div className="room-component-userinfo">
                                             <div className="room-component-user">
-                                                <img className="room-component-user__avatar" src={'https://pp.userapi.com/c850428/v850428216/cdbb/PbE05TFTQdM.jpg?ava=1'} />
+                                                <img className="room-component-user__avatar" src={creator.avatar} />
                                             </div>
-                                            <span className="room-component-userinfo__name">MySQL</span>
+                                            <span className="room-component-userinfo__name">{ creator.name } </span>
                                         </div>
                                     </div>
                             }
