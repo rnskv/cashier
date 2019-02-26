@@ -4,6 +4,7 @@ const redisAdapter = require('socket.io-redis');
 const config = require('../config.js');
 
 const userHandlers = require('../handlers/UserHandlers');
+const gameHandlers = require('../handlers/GameHandlers');
 
 const rolesMiddleware = require('./roles');
 const ErrorsHandlers = require('../handlers/ErrorsHandlers');
@@ -16,7 +17,10 @@ const Managers = require('../managers');
 const HttpManager = Managers.HttpManager;
 
 const userHandler = new Handler();
+const gameHandler = new Handler();
+
 userHandler.setMethods(userHandlers);
+gameHandler.setMethods(gameHandlers);
 
 const checkAccess = async (data) => {
     if (!data.accessLvl) return true;
@@ -52,6 +56,8 @@ module.exports = (io) => (app) => {
         userHandler.setSocket(socket);
         userHandler.addMiddleware(checkAccess);
 
+        gameHandler.setSocket(socket);
+        gameHandler.addMiddleware(checkAccess);
 
         socket.on('user.login', userHandler.execute('login'));
         socket.on('user.logout', userHandler.execute('logout'));
@@ -66,6 +72,8 @@ module.exports = (io) => (app) => {
         socket.on('room.leave', userHandler.execute('leaveRoom', { accessLvl: 1 }));
 
         socket.on('game.start', userHandler.execute('startGame', { accessLvl: 1 }));
+
+        socket.on('game.state', gameHandler.execute('getState', { accessLvl: 1 }));
 
 
         socket.on('disconnect', userHandler.execute('disconnect'));

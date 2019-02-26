@@ -11,13 +11,15 @@ class GameStore {
         this.isLoading = true;
         this.currentStep = 0;
 
-        socket.emit('game.init', this.onInit);
-        socket.on('game.init', this.onInit)
+        socket.on('game.state', this.onGetState);
+
+        console.log('construct')
     }
 
-    onInit = (data) => {
-        console.log('onInitGame', data);
-    }
+    onGetState = (data) => {
+        console.log('try get state', data);
+        this.isLoading = false;
+    };
 }
 
 export default new GameStore()
