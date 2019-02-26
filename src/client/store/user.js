@@ -10,6 +10,16 @@ class Profile {
 class Session {
     @observable roomId = null;
     @observable token = localStorage.getItem('token') || null;
+
+    @action
+    setRoomId(roomId) {
+        this.roomId = roomId;
+    }
+
+    reset() {
+        this.roomId = null;
+        this.token = null;
+    }
 }
 
 class UserStore {
@@ -17,6 +27,7 @@ class UserStore {
 
 
     @observable profile;
+    @observable session;
 
     constructor() {
         this.profile = new Profile();
@@ -31,8 +42,17 @@ class UserStore {
         socket.on('user.logout', this.onLogOut);
 
         socket.on('user.profile', this.onGetProfile);
-
+        socket.on('user.roomId', this.onGetRoomId);
     }
+
+    @action
+    onGetRoomId = (data) => {
+        console.log('roomId');
+
+        this.session.roomId = data.roomId;
+        // socket.emit('user.profile', { data });
+    }
+
 
     @action
     getProfile(data) {
@@ -54,19 +74,20 @@ class UserStore {
 
     @action
     onJoinRoom = (data) => {
-        console.log('onJoinRoom')
+        console.log('onJoinRoom', data);
+        // this.session.roomId = data.roomId;
     };
 
     @action
     onLeaveRoom = (data) => {
-        console.log('onLeaveRoom')
+        console.log('onLeaveRoom');
+        // this.session.roomId = null;
     };
 
 
     @action
     onLogIn = (data) => {
         localStorage.setItem("token", data.token);
-        console.log(data)
         this.getProfile(data);
     };
 
@@ -74,8 +95,7 @@ class UserStore {
     onLogOut = () => {
         this.token = null;
 
-        this.profile = null;
-        this.session.token = null;
+        this.session.reset();
 
         localStorage.removeItem("token");
     };

@@ -35,7 +35,6 @@ class RoomsStore {
     onAddRoom = (data) => {
         // this.hello = 'mobX';
         console.log('onAddRoom', data);
-        history.replace('/about')
         this.roomsMap[data.room.id] = data.room;
     };
 

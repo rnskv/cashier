@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { observer } from 'mobx-react';
+
 
 import Settings from './Settings';
 import Users from './Users';
@@ -7,6 +9,7 @@ import Bank from './Bank';
 import InteractionButton from './InteractionButton';
 import Information from './Information';
 
+@observer
 class Room extends Component {
     constructor() {
         super();
