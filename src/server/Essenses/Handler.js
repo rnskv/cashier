@@ -35,7 +35,7 @@ class Handler {
             }
 
             try {
-                this.methods[methodName](this.socket)(routineData);
+                await this.methods[methodName](this.socket)(routineData)
             } catch (error) {
                 ErrorsHandlers.sendError(this.socket)(error);
                 console.log(`Something went wrong in ${methodName}. Full: ${error}`)

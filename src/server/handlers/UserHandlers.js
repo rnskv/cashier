@@ -16,6 +16,8 @@ const UserSelector = require('../selectors/UserSelectors');
 
 const User = require('../Essenses/User');
 
+const RnskvError = require('../Essenses/RnskvError');
+
 const request = require('request');
 const config = require('../config');
 
@@ -33,8 +35,11 @@ module.exports = {
         });
 
         if (!response) {
-            socket.emit('global.error', { message: 'Ошибка авторизации', type: 1 });
-            return;
+            throw new RnskvError({
+                type: 'default',
+                code: 0,
+                message: `Во время авторизации произошла ошибка.`
+            })
         }
 
         const user = new User(response, response.token);
@@ -76,8 +81,11 @@ module.exports = {
         const payload = jwt.decode(token, config.jwt.secret);
         const userRoomId = UserStore.get(socket.userId) && UserStore.get(socket.userId).roomId;
         if (userRoomId) {
-            socket.server.to(`user_${socket.userId}`).emit('global.error', { message: 'Вы уже в комнате', type: 'error', code: 4 });
-            return
+            throw new RnskvError({
+                type: 'default',
+                code: 0,
+                message: `Сначала выйдите из комнаты.`
+            })
         }
         const roomId = RoomsManager.addRoom({id: socket.userId });
         await UsersManager.joinRoom(roomId, socket.userId);
@@ -99,12 +107,18 @@ module.exports = {
     },
     joinRoom: (socket) => async (data) => {
         const { roomId } = data;
+
+
         const userRoomId = UserStore.get(socket.userId) && UserStore.get(socket.userId).roomId;
 
         if (Number(roomId) === Number(userRoomId)) {
-            socket.server.to(`user_${socket.userId}`).emit('global.error', { message: 'Уже в комнате', type: 'error', code: 2 });
-            return;
+            throw new RnskvError({
+                type: 'default',
+                code: 0,
+                message: `Вы уже в этой комнате.`
+            })
         }
+
         if (userRoomId) {
             UsersManager.leaveRoom(userRoomId, socket.userId);
             SocketsManager.emitAll(socket, 'room.leave', { roomId: userRoomId, userId: socket.userId });
@@ -118,15 +132,18 @@ module.exports = {
     leaveRoom: (socket) => (data) => {
         const { roomId } = data;
         const userRoomId = UsersStore.get(socket.userId).roomId;
+        const room = RoomsManager.getRoom(roomId);
+
         if (userRoomId !== roomId) {
-            socket.server.to(`user_${socket.userId}`).emit('global.error', { message: 'Вы не в этой комнате', type: 'error', code: 3 });
-            return;
+            throw new RnskvError({
+                type: 'default',
+                code: 0,
+                message: `Вы не находитесь в этой комнате.`
+            });
         }
 
         UsersManager.leaveRoom(roomId, socket.userId);
 
-
-        const room = RoomsManager.getRoom(roomId);
         SocketsManager.emitUser(socket, 'game.update.room', { room });
         SocketsManager.emitUser(socket, 'game.leave');
 

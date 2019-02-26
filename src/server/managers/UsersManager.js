@@ -8,7 +8,6 @@ class UsersManager extends Manager {
     }
 
     async joinRoom(roomId, userId) {
-
         const { HttpManager, RoomsManager } = this.managers;
 
         UsersStore.modify(userId, data => {
@@ -23,7 +22,13 @@ class UsersManager extends Manager {
                 id: userId
             }
         });
-
+        if (!user) {
+            throw new RnskvError({
+                type: 'default',
+                code: 0,
+                message: `Пользователь не найден.`
+            })
+        }
         RoomsManager.addParticipant(roomId, UserSelectors.roomData(user));
         return UserSelectors.roomData(user);
     }
