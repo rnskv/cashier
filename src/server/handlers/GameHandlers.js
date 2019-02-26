@@ -42,6 +42,6 @@ module.exports = {
         const roomId = UsersStore.get(socket.userId).roomId;
         const game = RoomsManager.getRoomGame(roomId);
         game.nextStep();
-        SocketsManager.emitUser(socket, 'game.update', { game })
+        SocketsManager.emitUser(socket, 'game.update.state', { game })
     }
 };

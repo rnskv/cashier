@@ -1,5 +1,5 @@
 import { computed, observable, action, values } from "mobx";
-import { socket } from '../utils';
+import { socket, history } from '../utils';
 
 import userStore from './user';
 
@@ -23,10 +23,18 @@ class GameStore {
         this.game = new Game();
         this.isLoading = true;
         socket.on('game.state', this.onGetState);
-        socket.on('game.update', this.onUpdateGame);
 
+        socket.on('game.update.state', this.onUpdateState);
+        socket.on('game.update.room', this.onUpdateRoom);
+
+        socket.on('game.leave', this.onGameLeave);
 
         console.log('construct')
+    }
+
+    @action
+    onGameLeave() {
+        history.replace('/')
     }
 
     @action
@@ -43,8 +51,15 @@ class GameStore {
     };
 
     @action
-    onUpdateGame = (data) => {
+    onUpdateState = (data) => {
         this.game.step = data.game.step;
+    };
+
+    @action
+    onUpdateRoom = (data) => {
+        this.room.id = data.room.id;
+        this.room.creator = data.room.creatorId;
+        this.room.participants = data.room.participants;
     };
 
     @action

@@ -122,7 +122,13 @@ module.exports = {
             socket.server.to(`user_${socket.userId}`).emit('global.error', { message: 'Вы не в этой комнате', type: 'error', code: 3 });
             return;
         }
+
         UsersManager.leaveRoom(roomId, socket.userId);
+
+
+        const room = RoomsManager.getRoom(roomId);
+        SocketsManager.emitUser(socket, 'game.update.room', { room });
+        SocketsManager.emitUser(socket, 'game.leave');
 
         SocketsManager.emitUser(socket, 'user.roomId', { roomId: null });
         SocketsManager.emitAll(socket, 'room.leave', { roomId, userId: socket.userId });
