@@ -13,22 +13,22 @@ module.exports = {
         let result = null;
         const profile = req.body.profile;
         const params = req.body.params;
-
-        let userData = await User.findOne({id: profile.id});
+        console.log(profile);
+        let userData = await User.findOne({ uid: profile.id });
         let token;
 
         let profileData;
 
         if (userData) {
-            profileData = userSelector.dbData({...profile, ...params});
+            profileData = userSelector.dbData({ ...profile, ...params });
             await User.updateOne({_id: userData._id}, profileData)
         } else {
-            profileData = userSelector.dbData({...profile, ...params});
+            profileData = userSelector.dbData({ ...profile, ...params });
             userData = await new User(profileData).save();
         }
 
-        token = jwt.sign({id: userData._id}, config.jwt.secret);
-        result = await User.updateOne({_id: userData._id}, { token });
+        token = jwt.sign({ id: userData._id }, config.jwt.secret);
+        result = await User.updateOne({ _id: userData._id }, { token });
 
         await store.set('token', token);
 
