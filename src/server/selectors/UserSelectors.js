@@ -22,7 +22,7 @@ module.exports = {
         accessLevel: dbData.accessLevel
     }),
     storeData: (dbData) => ({
-        uid: dbData._id,
+        id: dbData._id,
         name: dbData.name,
         avatar: dbData.avatar,
         token: dbData.token,

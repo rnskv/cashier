@@ -35,8 +35,7 @@ class RoomsManager extends Manager {
     kickAllPlayersFromRoom(id) {
         this.rooms[id].participants.forEach(participant => {
             this.removeParticipant(id, participant.id);
-            UserRoomStore.delete(participant.id)
-            UsersStore.modify(userId, data => {
+            UsersStore.modify(participant.id, data => {
                 data.roomId = null;
                 return data;
             });

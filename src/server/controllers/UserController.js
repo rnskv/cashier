@@ -14,7 +14,7 @@ module.exports = {
         const profile = req.body.profile;
         const params = req.body.params;
 
-        let userData = await User.findOne({uid: profile.id});
+        let userData = await User.findOne({id: profile.id});
         let token;
 
         let profileData;
