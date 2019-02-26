@@ -1,56 +1,55 @@
 import { decorate, observable, action } from "mobx";
 import { socket } from '../utils';
 
-class MainStore {
-    @observable login;
-    @observable password;
-    @observable avatar;
-    @observable level;
-    @observable actions;
+class Profile {
+    @observable uid = null;
+    @observable name = null;
+    @observable avatar = null;
+}
 
+class Session {
+    @observable roomId = null;
+    @observable token = localStorage.getItem('token') || null;
+}
+
+class UserStore {
     @observable isLoading;
-    @observable token;
 
-    @observable roomId;
+
+    @observable profile;
 
     constructor() {
-        this.profile = {};
-        this.login = '';
-        this.password = '';
+        this.profile = new Profile();
+        this.session = new Session();
 
         this.isLoading = false;
 
-        this.token = localStorage.getItem('token') || null;
-
-        this.roomId = null;
-
-        socket.on('user.getToken', this.onGetToken);
-        socket.on('user.roomId', this.onRoomId);
         socket.on('user.joinRoom', this.onJoinRoom);
         socket.on('user.leaveRoom', this.onLeaveRoom);
 
         socket.on('user.login', this.onLogIn);
         socket.on('user.logout', this.onLogOut);
-        socket.on('global.error', (data) => {
-            alert(data.message);
-            switch (data.type) {
-                case 1:
-                    localStorage.removeItem("token");
-                    window.location = '/login';
-                    break;
-            }
-        });
+
+        socket.on('user.profile', this.onGetProfile);
+
     }
 
     @action
-    onGetToken = (data) => {
-        console.log('onGetToken', data)
-    };
+    getProfile(data) {
+        socket.emit('user.profile', { data });
+    }
 
     @action
-    onRoomId = (data) => {
-        console.log('onRoomId', data);
-        this.roomId = data.roomId;
+    onGetProfile = (data) => {
+        console.log('onGetProfile', data);
+        this.profile.avatar = data.profile.avatar;
+        this.profile.name = data.profile.name;
+        this.profile.uid = data.profile.uid;
+        this.profile.id = data.profile.id;
+
+        this.session.token = data.session.token;
+        this.session.roomId = data.session.roomId;
+        socket.emit('rooms.get');
     };
 
     @action
@@ -66,21 +65,17 @@ class MainStore {
 
     @action
     onLogIn = (data) => {
-        this.token = data.token;
-        this.profile = data.profile;
-        this.login = data.profile.login;
-
-        this.loading = false;
-
         localStorage.setItem("token", data.token);
-
-        socket.emit('rooms.get');
+        console.log(data)
+        this.getProfile(data);
     };
 
     @action
     onLogOut = () => {
         this.token = null;
-        this.profile = {};
+
+        this.profile = null;
+        this.session.token = null;
 
         localStorage.removeItem("token");
     };
@@ -92,6 +87,7 @@ class MainStore {
 
     @action
     logIn(data) {
+        console.log('logIn', data);
         this.loading = true;
         socket.emit('user.login', { token: data.token.split('*').join('.') })
     }
@@ -100,18 +96,6 @@ class MainStore {
     logInVk() {
         window.location = "http://localhost:1337/api/v1/login/vk"
     }
-
-    @action
-    setToken = (token) => {
-        this.token = token;
-        localStorage.setItem('userToken', token);
-    };
-
-    @action
-    setProfile = (profile) => {
-        this.profile = profile;
-        this.isLoading = false;
-    }
 }
 
-export default new MainStore()
+export default new UserStore()

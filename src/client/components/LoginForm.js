@@ -17,7 +17,7 @@ class LoginForm extends Component {
         const data = {
             token: localStorage.getItem("token") || this.props.match.params.token,
         };
-
+        console.log("MOUNT;", data.token)
         if (data.token) {
             store.logIn(data);
         }
@@ -39,8 +39,8 @@ class LoginForm extends Component {
 
     render() {
         const { store } = this.props;
-
-        if (!!store.token) {
+        console.log('render login form', store.session.token)
+        if (!!store.session.token) {
             return <Redirect to='/'/>;
         }
 

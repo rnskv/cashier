@@ -31,7 +31,8 @@ class Main extends Component {
     componentWillUnmount() {/* some code will be there */}
 
     render() {
-        if (!userStore.token) {
+        console.log('token', userStore.session.token);
+        if (!userStore.session.token) {
             return <Redirect to={'/login'} />
         }
 

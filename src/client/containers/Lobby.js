@@ -15,10 +15,10 @@ class Lobby extends Component {
     }
 
     componentWillUnmount() {
-        socket.emit('lobby.leave', userStore.token);
+        socket.emit('lobby.leave', userStore.session.token);
     }
     componentDidMount() {
-        socket.emit('lobby.join', userStore.token);
+        socket.emit('lobby.join', userStore.session.token);
     }
     render() {
         const { store } = this.props;

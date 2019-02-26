@@ -11,7 +11,7 @@ class Room extends Component {
     }
 
     gameInit = (id) => () => {
-        socket.emit('room.join', { token: userStore.token, roomId: id })
+        socket.emit('room.join', { token: userStore.session.token, roomId: id })
     };
 
     render() {

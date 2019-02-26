@@ -16,23 +16,23 @@ class Rooms extends Component {
     }
 
     startGame = (id) => () => {
-        socket.emit('game.start', { token: userStore.token, roomId: id })
+        socket.emit('game.start', { token: userStore.session.token, roomId: id })
     };
 
     joinRoom = (id) => () => {
-        socket.emit('room.join', { token: userStore.token, roomId: id })
+        socket.emit('room.join', { token: userStore.session.token, roomId: id })
     };
 
     leaveRoom = (id) => () => {
-        socket.emit('room.leave', { token: userStore.token, roomId: id})
+        socket.emit('room.leave', { token: userStore.session.token, roomId: id})
     };
 
     addRoom() {
-        socket.emit('room.add', { token: userStore.token })
+        socket.emit('room.add', { token: userStore.session.token })
     }
 
     removeRoom = (id) => () => {
-        socket.emit('room.remove', { token: userStore.token, id })
+        socket.emit('room.remove', { token: userStore.session.token, id })
     };
 
     render() {
@@ -48,8 +48,8 @@ class Rooms extends Component {
                         // })
                         roomsStore.rooms.reverse().map(room =>
                             <Room key={room.id}
-                                  isUserRoom={room.id === userStore.roomId}
-                                  isUserCreator={room.creator === userStore.profile._id}
+                                  isUserRoom={room.id === userStore.session.roomId}
+                                  isUserCreator={room.creator === userStore.profile.id}
                                   creator={room.creator}
                                   participants={room.participants}
                                   startGame={this.startGame(room.id)}

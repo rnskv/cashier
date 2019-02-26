@@ -27,5 +27,16 @@ module.exports = {
         avatar: dbData.avatar,
         token: dbData.token,
         accessLvl: dbData.accessLvl
+    }),
+    clientProfileData: (profile) => ({
+        id: profile.id,
+        uid: profile.uid,
+        name: profile.name,
+        avatar: profile.avatar,
+        accessLvl: profile.accessLvl
+    }),
+    clientSessionData: (profile) => ({
+        token: profile.token,
+        roomId: profile.roomId
     })
 };

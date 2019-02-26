@@ -49,6 +49,16 @@ module.exports = {
         SocketsManager.emitUser(socket, 'user.login', { profile: response, token: response.token });
         SocketsManager.emitAll(socket, 'lobby.connect', { users: GlobalManager.getUsers() });
     },
+    profile: (socket) => (data) => {
+        console.log('want get profile', socket.userId);
+        const profile = UsersStore.get(socket.userId);
+
+        SocketsManager.emitUser(socket, 'user.profile', {
+            profile: UserSelector.clientProfileData(profile),
+            session: UserSelector.clientSessionData(profile)
+        });
+
+    },
     logout: (socket) => () => {
         GlobalManager.removeUser(socket.id);
 
@@ -92,9 +102,9 @@ module.exports = {
     joinRoom: (socket) => async (data) => {
         const { roomId } = data;
         const userRoomId = UserStore.get(socket.userId) && UserStore.get(socket.userId).roomId;
-        console.log('join room, ', userRoomId)
+
         if (Number(roomId) === Number(userRoomId)) {
-            socket.to(`user_${socket.userId}`).emit('global.error', { message: 'Уже в комнате', type: 'error', code: 2 });
+            socket.server.to(`user_${socket.userId}`).emit('global.error', { message: 'Уже в комнате', type: 'error', code: 2 });
             return;
         }
         if (userRoomId) {
@@ -106,7 +116,6 @@ module.exports = {
 
         SocketsManager.emitUser(socket, 'user.roomId', { roomId });
         SocketsManager.emitAll(socket, 'room.join', { roomId, user });
-
     },
     leaveRoom: (socket) => (data) => {
         const { roomId } = data;

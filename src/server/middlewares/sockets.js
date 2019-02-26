@@ -23,19 +23,21 @@ const checkAccess = async (data) => {
 
     let user = null;
     const decodedToken = jwt.decode(data.token, config.jwt.secret);
+    console.log(decodedToken);
     if (decodedToken) {
         user = UsersStore.get(decodedToken.id);
         if (!user) {
             user = await HttpManager.request({
                 method: 'POST',
-                url: `${config.server.protocol}://${config.server.host}:${config.server.port}/api/v1/user/profile`,
+                url: `${config.server.protocol}://${config.server.host}:${config.server.port}/api/v1/user`,
                 body: {
-                    token: data.token
+                    id: decodedToken.id
                 }
             });
         }
     }
-
+    if (!user) return false;
+    console.log(user);
     return user.accessLvl >= data.accessLvl;
 };
 
@@ -55,6 +57,8 @@ module.exports = (io) => (app) => {
 
         socket.on('user.login', userHandler.execute('login'));
         socket.on('user.logout', userHandler.execute('logout'));
+
+        socket.on('user.profile', userHandler.execute('profile'));
 
         socket.on('rooms.get', userHandler.execute('getRooms'));
 

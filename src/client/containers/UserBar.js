@@ -18,7 +18,7 @@ class UserBar extends Component {
                                 <img src={store.profile.avatar} alt="avatar"/>
                             </div>
                             <div className="userbar-login">
-                                <span className="userbar-loginfield">{store.login}</span>
+                                <span className="userbar-loginfield">{store.profile.name}</span>
                                 <span className="userbar-levelfield">{store.profile.level} lvl</span>
                                 <input className="button userbar-button" type="button" value="Выйти" onClick={store.logOut}/>
                             </div>
