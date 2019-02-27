@@ -30,6 +30,7 @@ class RoomsManager extends Manager {
 
     removeRoom(id) {
         this.kickAllPlayersFromRoom(id);
+        this.rooms[id].remove();
         delete this.rooms[id];
     }
 
@@ -71,6 +72,12 @@ class RoomsManager extends Manager {
             creator: UserSelector.clientProfileData(UsersStore.get(room.creatorId)),
             participants: room.participants
         }
+    }
+
+    getRoomParticipantsCount(id) {
+        const room = this.rooms[id];
+        //To selector
+        return room.participants.length;
     }
 
     addParticipant(roomId, user) {

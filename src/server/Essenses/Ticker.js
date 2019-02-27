@@ -1,7 +1,6 @@
 class Ticker {
     constructor() {
         this.timers = new Map();
-        this.isPause = false;
 
         this.step = 1000;
         setInterval(this.tickTimers.bind(this), this.step);
@@ -19,13 +18,23 @@ class Ticker {
         this.timers.forEach((timer) => {
 
             if (timer.time  <= 0) {
-                this.timers.delete(timer.name);
-                setTimeout(timer.finishCb, this.step, timer.time);
+                this.deleteTimer(timer.name);
+                timer.finishCb(timer.time);
             }
 
             timer.stepCb(timer.time);
             timer.time -= this.step;
         });
+    }
+
+    deleteTimer(name) {
+        this.timers.delete(name);
+    }
+
+    deleteAllTimers() {
+        this.timers.forEach(timer => {
+            this.timers.delete(timer.name);
+        })
     }
 }
 

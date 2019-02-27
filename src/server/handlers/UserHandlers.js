@@ -132,6 +132,7 @@ module.exports = {
     leaveRoom: (socket) => (data) => {
         const { roomId } = data;
         const userRoomId = UsersStore.get(socket.userId).roomId;
+
         const room = RoomsManager.getRoom(roomId);
 
         if (userRoomId !== roomId) {
@@ -144,7 +145,12 @@ module.exports = {
 
         UsersManager.leaveRoom(roomId, socket.userId);
 
-        SocketsManager.emitUser(socket, 'game.update.room', { room });
+        if (RoomsManager.getRoomParticipantsCount(roomId) <= 0) {
+            RoomsManager.removeRoom(roomId);
+            SocketsManager.emitAll(socket, 'room.remove', { roomId: roomId });
+        }
+
+        SocketsManager.emitUser(socket, 'game.update.room', { room: room });
         SocketsManager.emitUser(socket, 'game.leave');
 
         SocketsManager.emitUser(socket, 'user.roomId', { roomId: null });

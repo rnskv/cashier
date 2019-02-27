@@ -34,6 +34,13 @@ class Room {
     startGame() {
         this.game = new Game(this.getId());
     }
+
+    remove() {
+        console.log('remove room');
+        if (this.game) {
+            this.game.Ticker.deleteAllTimers();
+        }
+    }
 }
 
 module.exports = Room;
