@@ -88,7 +88,7 @@ module.exports = {
             })
         }
         const roomId = RoomsManager.addRoom({id: socket.userId });
-        await UsersManager.joinRoom(roomId, socket.userId);
+        await UsersManager.joinRoom(roomId, RoomsManager.findFreePosition(roomId), socket.userId);
 
         SocketsManager.emitUser(socket, 'user.roomId', { roomId });
         SocketsManager.emitAll(socket, 'room.add', { room: RoomsManager.getRoom(roomId) });
@@ -106,8 +106,15 @@ module.exports = {
         SocketsManager.emitAll(socket, 'rooms.get', { rooms: RoomsManager.getRooms() });
     },
     joinRoom: (socket) => async (data) => {
-        const { roomId } = data;
+        const { roomId, position = RoomsManager.findFreePosition(roomId)} = data;
 
+        if (position === false) {
+            throw new RnskvError({
+                type: 'default',
+                code: 0,
+                message: `Свободных мест нет.`
+            })
+        }
 
         const userRoomId = UserStore.get(socket.userId) && UserStore.get(socket.userId).roomId;
 
@@ -120,21 +127,21 @@ module.exports = {
         }
 
         if (userRoomId) {
-            UsersManager.leaveRoom(userRoomId, socket.userId);
+            UsersManager.leaveRoom(userRoomId, RoomsManager.getParticipantPosition(userRoomId, socket.userId), socket.userId);
             SocketsManager.emitAll(socket, 'room.leave', { roomId: userRoomId, userId: socket.userId });
         }
 
-        let user = await UsersManager.joinRoom(roomId, socket.userId);
+        let user = await UsersManager.joinRoom(roomId, position, socket.userId);
 
         SocketsManager.emitUser(socket, 'user.roomId', { roomId });
-        SocketsManager.emitAll(socket, 'room.join', { roomId, user });
+        SocketsManager.emitAll(socket, 'room.join', { roomId, user, position });
     },
     leaveRoom: (socket) => (data) => {
-        const { roomId } = data;
-        const userRoomId = UsersStore.get(socket.userId).roomId;
-
+        const userId = socket.userId;
+        const { roomId, position = RoomsManager.getParticipantPosition(roomId, userId)} = data;
+        const userRoomId = UsersStore.get(userId).roomId;
+        //
         const room = RoomsManager.getRoom(roomId);
-
         if (userRoomId !== roomId) {
             throw new RnskvError({
                 type: 'default',
@@ -142,19 +149,21 @@ module.exports = {
                 message: `Вы не находитесь в этой комнате.`
             });
         }
+        //
 
-        UsersManager.leaveRoom(roomId, socket.userId);
+        UsersManager.leaveRoom(roomId, position, socket.userId);
 
         if (RoomsManager.getRoomParticipantsCount(roomId) <= 0) {
             RoomsManager.removeRoom(roomId);
             SocketsManager.emitAll(socket, 'room.remove', { roomId: roomId });
         }
 
+
         SocketsManager.emitUser(socket, 'game.update.room', { room: room });
         SocketsManager.emitUser(socket, 'game.leave');
 
         SocketsManager.emitUser(socket, 'user.roomId', { roomId: null });
-        SocketsManager.emitAll(socket, 'room.leave', { roomId, userId: socket.userId });
+        SocketsManager.emitAll(socket, 'room.leave', { roomId, userId, position });
 
     },
     leaveLobby: function() {

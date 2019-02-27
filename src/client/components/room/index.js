@@ -50,7 +50,7 @@ class Room extends Component {
                 {
                     !isShowInstructions || isUserRoom
                         ? <React.Fragment>
-                            <Users participants={participants}/>
+                            <Users participants={Object.values(participants)}/>
 
                             {
                                 isUserCreator && isUserRoom

@@ -7,7 +7,7 @@ class UsersManager extends Manager {
         super(settings);
     }
 
-    async joinRoom(roomId, userId) {
+    async joinRoom(roomId, position, userId) {
         const { HttpManager, RoomsManager } = this.managers;
 
         UsersStore.modify(userId, data => {
@@ -29,17 +29,17 @@ class UsersManager extends Manager {
                 message: `Пользователь не найден.`
             })
         }
-        RoomsManager.addParticipant(roomId, UserSelectors.roomData(user));
+        RoomsManager.addParticipant(roomId, position, UserSelectors.roomData(user));
         return UserSelectors.roomData(user);
     }
 
-    leaveRoom(roomId, userId) {
+    leaveRoom(roomId, position, userId) {
         const { RoomsManager } = this.managers;
         UsersStore.modify(userId, data => {
             data.roomId = null;
             return data;
         });
-        RoomsManager.removeParticipant(roomId, userId);
+        RoomsManager.removeParticipant(roomId, position, userId);
     }
 }
 

@@ -80,12 +80,20 @@ class RoomsManager extends Manager {
         return room.participants.length;
     }
 
-    addParticipant(roomId, user) {
-        this.rooms[roomId].join(user);
+    findFreePosition(roomId) {
+        return this.rooms[roomId].findFreePosition();
     }
 
-    removeParticipant(roomId, userId) {
-        this.rooms[roomId].leave(userId);
+    getParticipantPosition(roomId, userId) {
+        return this.rooms[roomId].getParticipantPosition(userId);
+    }
+
+    addParticipant(roomId, position,  user) {
+        this.rooms[roomId].join(user, position);
+    }
+
+    removeParticipant(roomId, position, userId) {
+        this.rooms[roomId].leave(userId, position);
     }
 
     userInRoom(roomId, userId) {

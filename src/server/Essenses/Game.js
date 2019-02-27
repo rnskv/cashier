@@ -1,7 +1,8 @@
 const Ticker = require( './Ticker');
 
 class Game {
-    constructor() {
+    constructor(data) {
+        const { playersCount } = data;
         this.Ticker = new Ticker();
         this.step = 0;
     }
@@ -37,6 +38,7 @@ class Game {
 
     nextStep() {
         console.log('nextStep');
+
         this.step += 1;
     }
 }

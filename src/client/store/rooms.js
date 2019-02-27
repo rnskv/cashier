@@ -45,19 +45,16 @@ class RoomsStore {
 
     @action
     onJoinUser = (data) => {
-        const room = {...this.roomsMap[data.roomId]};
-        room.participants.push(data.user);
-        this.roomsMap[data.roomId] = room;
+        this.roomsMap[data.roomId].participants[data.position] = data.user;
+        console.log('ощшт гыук сщьздуеу');
     };
 
     @action
     onLeaveUser = (data) => {
         const room = {...this.roomsMap[data.roomId]};
+        console.log('leave', data);
         if (room.participants) {
-            room.participants = room.participants.filter((participant) => {
-                return participant.id !== data.userId
-            });
-            this.roomsMap[data.roomId] = room;
+            room.participants[data.position] = null;
         }
     };
 

@@ -5,7 +5,12 @@ class Room {
         this.id = data.id;
         this.maxParticipantsCount = 4;
         this.creatorId = data.creatorId;
-        this.participants = [];
+        this.participants = {
+            1: null,
+            2: null,
+            3: null,
+            4: null
+        };
         this.game = null;
     }
 
@@ -17,18 +22,36 @@ class Room {
         return this.maxParticipantsCount;
     }
 
-    join(user) {
-        this.participants.push(user)
+    findFreePosition() {
+        for (let participantPosition in this.participants) {
+            if (this.participants.hasOwnProperty(participantPosition) && !this.participants[participantPosition]) {
+                console.log('find freePosition ' + participantPosition)
+                return participantPosition
+            }
+        }
+        return false;
     }
 
-    leave(userId) {
-        this.participants = [...this.participants].filter(participant => {
-            return participant.id !== userId
-        })
+    getParticipantPosition(id) {
+        for (let participantPosition in this.participants) {
+            if (this.participants.hasOwnProperty(participantPosition) &&
+                this.participants[participantPosition].id === id) {
+                return participantPosition
+            }
+        }
+        return false
+    }
+
+    join(user, position) {
+        this.participants[position] = user;
+    }
+
+    leave(userId, position) {
+        this.participants[position] = null;
     }
 
     inRoom(userId) {
-        return !!this.participants.filter(participant => participant.id === userId).length
+        return !!this.getParticipantPosition(userId)
     }
 
     startGame() {

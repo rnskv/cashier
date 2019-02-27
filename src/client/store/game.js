@@ -31,12 +31,10 @@ class GameStore {
         socket.on('game.state', this.onGetState);
         socket.on('game.time', this.onGetTime);
 
-        console.log('construct', socket);
     }
 
     @action
     getTime = () => {
-        console.log('sync client time');
         if (this.room.id) {
             socket.emit('game.time', {token: userStore.session.token, roomId: this.room.id});
         }
@@ -44,7 +42,6 @@ class GameStore {
 
     @action
     onGetTime = (data) => {
-        console.log('onGetTime', data);
         this.game.time = data.time;
     }
 
@@ -55,8 +52,6 @@ class GameStore {
 
     @action
     onGetState = (data) => {
-        console.log('try get state', data);
-
         this.room.id = data.room.id;
         this.room.creator = data.room.creatorId;
         this.room.participants = data.room.participants;
