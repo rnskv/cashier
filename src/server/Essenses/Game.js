@@ -3,27 +3,36 @@ const Ticker = require( './Ticker');
 class Game {
     constructor() {
         this.Ticker = new Ticker();
-        this.timer = null;
         this.step = 0;
-        this.setUserStepTimer();
     }
 
-    setUserStepTimer() {
+    setUserStepTimer(data) {
+        const { name, time, stepCb, finishCb } = data;
         this.Ticker.setTimer({
-            name: 'step',
-            time: 4000,
-            stepCb: this.remindTick.bind(this),
-            finishCb: this.finishTick.bind(this)
-        })
+            name,
+            time,
+            stepCb,
+            finishCb: (time) => {
+                this.setUserStepTimer(data);
+                finishCb(time)
+            }
+        });
+        console.log('init timer');
     }
 
-    remindTick(time) {
-        console.log('timer tick', time)
+    stepCb(emitFunction) {
+        return (time) => {
+            console.log('timer tick', time);
+            emitFunction(time);
+        }
     };
 
-    finishTick(time) {
-        console.log('finish tick', time);
-        this.setUserStepTimer();
+    finishCb(emitFunction) {
+        return (time) => {
+            console.log('finish tick', time);
+            this.nextStep();
+            emitFunction(time);
+        }
     };
 
     nextStep() {

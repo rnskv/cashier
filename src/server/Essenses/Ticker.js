@@ -14,6 +14,15 @@ class Ticker {
         });
     }
 
+    getTimer(name) {
+        return this.timers.get(name);
+    }
+
+    getTime(data) {
+        const { name } = data;
+        return this.timers.get(name).time;
+    }
+
     tickTimers() {
         this.timers.forEach((timer) => {
 

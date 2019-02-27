@@ -73,6 +73,8 @@ module.exports = (io) => (app) => {
 
         socket.on('game.start', gameHandler.execute('startGame', { accessLvl: 1 }));
         socket.on('game.state', gameHandler.execute('getState', { accessLvl: 1 }));
+
+        // socket.on('game.time', gameHandler.execute('getTime', { accessLvl: 1 }));
         socket.on('game.nextStep', gameHandler.execute('nextStep', { accessLvl: 1 }));
 
 

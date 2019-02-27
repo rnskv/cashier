@@ -12,11 +12,17 @@ class Room extends Component {
         socket.on('user.login', () => {
             this.getState()
         });
+        // this.timer = setInterval(gameStore.getTime, 1000);
     }
 
     componentDidMount() {
         this.getState()
     };
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
+        this.timer = null;
+    }
 
     getState = () =>  {
         socket.emit('game.state', { roomId: this.props.match.params.id, token: userStore.session.token })
@@ -58,7 +64,7 @@ class Room extends Component {
                             Step
                         </td>
                         <td>
-                            { gameStore.game.step }
+                            { gameStore.game.step } - { gameStore.game.time / 1000} сек
                         </td>
                     </tr>
                 </tbody>

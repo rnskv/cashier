@@ -53,10 +53,12 @@ class RoomsStore {
     @action
     onLeaveUser = (data) => {
         const room = {...this.roomsMap[data.roomId]};
-        room.participants = room.participants.filter((participant) => {
-            return participant.id !== data.userId
-        });
-        this.roomsMap[data.roomId] = room;
+        if (room.participants) {
+            room.participants = room.participants.filter((participant) => {
+                return participant.id !== data.userId
+            });
+            this.roomsMap[data.roomId] = room;
+        }
     };
 
     @action

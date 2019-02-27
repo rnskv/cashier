@@ -38,7 +38,7 @@ class Rooms extends Component {
     render() {
         const { data } = this.props;
         if (roomsStore.isLoading) return <div>Комнаты загружаются</div>;
-
+        console.log(roomsStore.rooms);
         return (
             <React.Fragment>
                 <input type="button" value="Создать комнату" onClick={this.addRoom}/>
@@ -48,7 +48,7 @@ class Rooms extends Component {
                         //     return <div key={room.id}>Комната ${room.id} <button onClick={this.removeRoom(room.id)} >Remove</button></div>
                         // })
                         roomsStore.rooms.reverse().map(room => {
-                            console.log(room)
+                            console.log(room);
                             return (
                                 <Room key={room.id}
                                      isUserRoom={room.id === userStore.session.roomId}

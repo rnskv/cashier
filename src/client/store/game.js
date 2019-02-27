@@ -5,6 +5,7 @@ import userStore from './user';
 
 class Game {
     @observable step;
+    @observable time;
 }
 
 class Room {
@@ -23,16 +24,32 @@ class GameStore {
         this.game = new Game();
         this.isLoading = true;
 
-        socket.on('game.state', this.onGetState);
         socket.on('game.update.state', this.onUpdateState);
         socket.on('game.update.room', this.onUpdateRoom);
         socket.on('game.leave', this.onGameLeave);
+
+        socket.on('game.state', this.onGetState);
+        socket.on('game.time', this.onGetTime);
 
         console.log('construct', socket);
     }
 
     @action
-    onGameLeave() {
+    getTime = () => {
+        console.log('sync client time');
+        if (this.room.id) {
+            socket.emit('game.time', {token: userStore.session.token, roomId: this.room.id});
+        }
+    }
+
+    @action
+    onGetTime = (data) => {
+        console.log('onGetTime', data);
+        this.game.time = data.time;
+    }
+
+    @action
+    onGameLeave = () => {
         history.replace('/')
     }
 

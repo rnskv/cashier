@@ -25,7 +25,7 @@ class RoomsManager extends Manager {
     }
 
     startGame(id) {
-        this.rooms[id].startGame();
+        return this.rooms[id].startGame();
     }
 
     removeRoom(id) {
