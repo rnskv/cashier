@@ -1,40 +1,28 @@
 const jwt = require('jsonwebtoken');
+const request = require('request');
 
 const Managers = require('../managers');
-const GlobalManager = Managers.GlobalManager;
-const RoomsManager = Managers.RoomsManager;
 const HttpManager = Managers.HttpManager;
 const UsersManager = Managers.UsersManager;
+const RoomsManager = Managers.RoomsManager;
 const ErrorsManager = Managers.ErrorsManager;
+const GlobalManager = Managers.GlobalManager;
 const SocketsManager = Managers.SocketsManager;
 
 const UserStore = require('../store/Users');
-const SocketUserStore = require('../store/SocketUser');
 const UsersStore = require('../store/Users');
+const SocketUserStore = require('../store/SocketUser');
 
 const UserSelector = require('../selectors/UserSelectors');
 
 const User = require('../Essenses/User');
 
-const request = require('request');
 const config = require('../config');
 
 const RnskvError = require('../Essenses/RnskvError');
 
 module.exports = {
-    userTimerFinishCallbak: (socket) => (data) => {
-
-    },
-
-    userTimerStepCallbak: (socket) => (data) => {
-
-    },
-
-    setUserTimer: (socket) => (data) => {
-
-    },
     startGame: (socket) => (data) => {
-        console.log('Start game');
         const room = RoomsManager.getRoom(data.roomId);
         const game = RoomsManager.startGame(data.roomId);
 
@@ -42,15 +30,8 @@ module.exports = {
             name: 'userStep',
             time: 5000,
             stepCb: game.stepCb((time) => SocketsManager.emitAll(socket, 'game.time', { time } )),
-            finishCb: game.finishCb((time) => {
-                SocketsManager.emitAll(socket, 'game.update.state', { game: RoomsManager.getRoomGame(data.roomId) })
-            }),
+            finishCb: game.finishCb((time) => SocketsManager.emitAll(socket, 'game.update.state', { game })),
         });
-
-        console.log('_____', this);
-
-       //Отсю.да выкидываю коллбек с емитом в таймер. Профит.
-
 
         room.participants.forEach(participant => {
             SocketsManager.emitOtherUser(socket, participant.id, 'game.start', { roomId: data.roomId });
