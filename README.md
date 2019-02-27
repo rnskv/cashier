@@ -9,7 +9,11 @@ Task tracker:
 
 Prepare:
 ======================
-Go to the project folder and run command:
+First what you mast do - install `Redis` database and run on port 6379.
+Second what you mast do - install `MongoDB` database or create in cloud (for example - `mlab.com`).
+Then configurate project in configs (in folders `src/client` and `src/server`).
+
+After `all done` - go to the project folder and run command:
 ```
 npm run i // Install required packages.
 ```
