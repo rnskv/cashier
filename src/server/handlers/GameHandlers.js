@@ -40,9 +40,11 @@ module.exports = {
 
         game.setUserStepTimer({
             name: 'userStep',
-            time: 15000,
+            time: 5000,
             stepCb: game.stepCb((time) => SocketsManager.emitAll(socket, 'game.time', { time } )),
-            finishCb: game.stepCb((time) => SocketsManager.emitAll(socket, 'game.time', { time } )),
+            finishCb: game.finishCb((time) => {
+                SocketsManager.emitAll(socket, 'game.update.state', { game: RoomsManager.getRoomGame(data.roomId) })
+            }),
         });
 
         console.log('_____', this);

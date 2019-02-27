@@ -36,6 +36,7 @@ class Game {
     };
 
     nextStep() {
+        console.log('nextStep');
         this.step += 1;
     }
 }
