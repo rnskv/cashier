@@ -8,6 +8,11 @@ branches:
   only:
     - master
 
+jobs:
+  include:
+    - stage: test
+      script: echo "test skip"
+
 deploy:
   provider: heroku
   app: "rnskv-cashier"
