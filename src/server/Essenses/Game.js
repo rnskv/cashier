@@ -18,7 +18,7 @@ class Game {
                 finishCb(time)
             }
         });
-        console.log('init timer');
+        console.log('init timer 21');
     }
 
     stepCb(emitFunction) {

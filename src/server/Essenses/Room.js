@@ -60,7 +60,7 @@ class Room {
     }
 
     remove() {
-        console.log('remove room');
+        console.log('remove room 1');
         if (this.game) {
             this.game.Ticker.deleteAllTimers();
         }
