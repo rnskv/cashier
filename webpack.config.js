@@ -7,11 +7,11 @@ const path = require('path');
 module.exports = {
     mode: 'development',
     entry: {
-        "main": path.join(__dirname, '/src/client/app.js')
+        "main": path.join(__dirname + '/src/client/app.js')
     },
     output: {
-        path: path.join(__dirname, '/dist'),
-        publicPath: path.join(__dirname, '/dist'),
+        path: path.join(__dirname + '/dist'),
+        publicPath: path.join('/'),
         filename: '[name].js'
     },
     module: {
@@ -62,12 +62,17 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'src/client/index.html')
+            minify: {
+                collapseWhitespace: true,
+                preserveLineBreaks: false
+            },
+            hash: true,
+            template: path.join(__dirname + '/src/client/index.html'),
         }),
         new webpack.HotModuleReplacementPlugin(),
     ],
     devServer: {
-        contentBase: path.join(__dirname, 'dist'),
+        contentBase: path.join(__dirname + '/dist'),
         compress: true,
         hot: true,
         inline: true,

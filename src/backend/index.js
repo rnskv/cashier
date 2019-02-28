@@ -1,6 +1,6 @@
  /**
      All code in this file DEPRECATED
-     New server entry point - main.js
+     New backend entry point - main.js
  **/
 
 
