@@ -4,6 +4,7 @@
   "description": "Fuck it",
   "main": "index.js",
   "scripts": {
+    "build": "webpack",
     "devserver": "webpack-dev-server",
     "back": "node ./src/server/main.js",
     "backend": "node ./src/server/index.js",
