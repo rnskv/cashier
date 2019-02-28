@@ -1,0 +1,15 @@
+sudo: false
+
+language: node_js
+node_js:
+  - 9
+
+branches:
+  only:
+    - master
+
+deploy:
+  provider: heroku
+  app: "rnskv-cashier"
+  api_key:
+    secure: "62809ebe-1c05-430f-87b6-38da11913b54"
