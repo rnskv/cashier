@@ -1,6 +1,7 @@
 const Manager = require('../Essenses/Manager');
 const UserSelectors = require('../selectors/UserSelectors');
 const UsersStore = require('../store/Users');
+const config = require('config');
 
 class UsersManager extends Manager {
     constructor(settings) {
