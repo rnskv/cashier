@@ -1,11 +1,11 @@
 module.exports = {
     client: {
-        host: window.location.hostname,
+        host: '91.240.84.15',
         port: 8000,
         protocol: 'http',
     },
     server: {
-        host: window.location.hostname,
+        host: '91.240.84.15',
         port: 1337,
         protocol: 'http',
         startMessage: `-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n`+
