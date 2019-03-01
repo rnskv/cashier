@@ -3,4 +3,4 @@
 /dist/
 /.dump.rdb
 /package-lock.json
-/.env/
+/.env
