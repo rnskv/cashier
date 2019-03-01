@@ -19,16 +19,15 @@ const User = require('../Essenses/User');
 const RnskvError = require('../Essenses/RnskvError');
 
 const request = require('request');
-const config = require('../config');
 
 module.exports = {
     login: (socket) => async (data) => {
         //отправляем запрос на сервер с data.password and data.login;
-        const decodedToken = jwt.decode(data.token, config.jwt.secret);
+        const decodedToken = jwt.decode(data.token, process.env.JWT_SECRET);
 
         const response = await HttpManager.request({
             method: 'POST',
-            url: `${config.server.protocol}://${config.server.host}:${config.server.port}/api/v1/user/`,
+            url: `${process.env.BACKEND_URL}:${process.env.BACKEND_PORT}/api/v1/user/`,
             body: {
                 id: decodedToken.id
             }
@@ -78,7 +77,7 @@ module.exports = {
     },
     addRoom: (socket) => async (data) => {
         const { token } = data;
-        const payload = jwt.decode(token, config.jwt.secret);
+        const payload = jwt.decode(token, process.env.JWT_SECRET);
         const userRoomId = UserStore.get(socket.userId) && UserStore.get(socket.userId).roomId;
         if (userRoomId) {
             throw new RnskvError({

@@ -1,3 +1,5 @@
+require('dotenv').load();
+
 const express = require('express');
 const http = require('http');
 const redis = require('redis');
@@ -12,8 +14,6 @@ const io = require('socket.io')(server);
 const useMainMiddlewares = require('./middlewares/main');
 const useSocketMiddlewares = require('./middlewares/sockets');
 
-const config = require('./config');
-
 const MongoManager = require('./managers').MongoManager;
 
 MongoManager.connect();
@@ -21,6 +21,7 @@ MongoManager.connect();
 useMainMiddlewares(app);
 useSocketMiddlewares(io)(app);
 
-server.listen(config.server.port, function () {
-    console.log(config.server.startMessage);
+console.log('WOOOHOOO', process.env.PORT);
+server.listen(process.env.BACKEND_PORT, function () {
+    console.log('ЗАПУЩЕН СЕРВЕР');
 });

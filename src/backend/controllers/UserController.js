@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require( '../models/User');
 const store = require('store');
-const config = require('../config');
 
 const userSelector = require('../selectors/UserSelectors');
 
@@ -27,7 +26,7 @@ module.exports = {
             userData = await new User(profileData).save();
         }
 
-        token = jwt.sign({ id: userData._id }, config.jwt.secret);
+        token = jwt.sign({ id: userData._id }, process.env.JWT_SECRET);
         result = await User.updateOne({ _id: userData._id }, { token });
 
         await store.set('token', token);
@@ -35,7 +34,7 @@ module.exports = {
         res.json(result);
     },
     loginRedirect: function(req, res) {
-        res.redirect(`${config.client.protocol}://${config.client.host}:${config.client.port}/login/${store.get('token').split('.').join('*')}`);
+        res.redirect(`${process.env.FRONTEND_URL}:${process.env.FRONTEND_PORT}/login/${store.get('token').split('.').join('*')}`);
     },
     getUserByToken: async function(req, res) {
         //@todo Сделать нормальный jwt;

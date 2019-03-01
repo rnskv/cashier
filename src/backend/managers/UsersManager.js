@@ -1,7 +1,6 @@
 const Manager = require('../Essenses/Manager');
 const UserSelectors = require('../selectors/UserSelectors');
 const UsersStore = require('../store/Users');
-const config = require('../config');
 
 class UsersManager extends Manager {
     constructor(settings) {
@@ -18,7 +17,7 @@ class UsersManager extends Manager {
 
         const user = await HttpManager.request({
             method: 'POST',
-            url: 'http://'+config.server.host+':1337' + '/api/v1/user',
+            url: `${process.env.BACKEND_URL}:${process.env.BACKEND_PORT}/api/v1/user`,
             body: {
                 id: userId
             }

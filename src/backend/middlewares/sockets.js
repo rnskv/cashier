@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 
 const redisAdapter = require('socket.io-redis');
-const config = require('../config.js');
 
 const userHandlers = require('../handlers/UserHandlers');
 const gameHandlers = require('../handlers/GameHandlers');
@@ -26,13 +25,13 @@ const checkAccess = async (data) => {
     if (!data.accessLvl) return true;
 
     let user = null;
-    const decodedToken = jwt.decode(data.token, config.jwt.secret);
+    const decodedToken = jwt.decode(data.token, process.env.JW);
     if (decodedToken) {
         user = UsersStore.get(decodedToken.id);
         if (!user) {
             user = await HttpManager.request({
                 method: 'POST',
-                url: `${config.server.protocol}://${config.server.host}:${config.server.port}/api/v1/user`,
+                url: `${process.env.BACKEND_URL}:${process.env.BACKEND_PORT}/api/v1/user`,
                 body: {
                     id: decodedToken.id
                 }
@@ -48,7 +47,7 @@ const socketToReq = (socket) => (req, res) => {
 };
 
 module.exports = (io) => (app) => {
-    io.adapter(redisAdapter({ host: config.redis.host, port: config.redis.port }));
+    io.adapter(redisAdapter({ host: process.env.REDIS_HOST, port: process.env.REDIS_PORT }));
 
     io.on('connection', (socket) => {
         app.use(socketToReq(socket));

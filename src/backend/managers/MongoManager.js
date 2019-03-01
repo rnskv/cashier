@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-const config = require('../config');
 class MongoManager {
     constructor() {
         this.mongoose = mongoose;
@@ -8,7 +7,7 @@ class MongoManager {
 
     init() {
         this.mongoose.connect(
-            `mongodb://${config.db.user}:${config.db.password}@ds131765.mlab.com:31765/cashier`,
+            `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@ds131765.mlab.com:31765/cashier`,
             { useNewUrlParser: true }
         );
     }

@@ -17,8 +17,6 @@ const UserSelector = require('../selectors/UserSelectors');
 
 const User = require('../Essenses/User');
 
-const config = require('../config');
-
 const RnskvError = require('../Essenses/RnskvError');
 
 module.exports = {
