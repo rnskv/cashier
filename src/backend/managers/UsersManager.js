@@ -17,7 +17,7 @@ class UsersManager extends Manager {
 
         const user = await HttpManager.request({
             method: 'POST',
-            url: 'http://localhost:1337' + '/api/v1/user',
+            url: 'http://'+config.server.host+':1337' + '/api/v1/user',
             body: {
                 id: userId
             }

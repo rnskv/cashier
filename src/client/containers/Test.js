@@ -83,7 +83,7 @@ class Test extends Component {
     }
 
     logInVk() {
-        window.location = "http://localhost:1337/api/v1/login/vk"
+        window.location = "http://"+config.server.host+":1337/api/v1/login/vk"
     }
 
     render() {

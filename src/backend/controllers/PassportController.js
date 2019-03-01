@@ -13,7 +13,7 @@ module.exports = {
     vkLoginCallback: async function(accessToken, refreshToken, params, profile, done) {
         await HttpManager.request({
             method: 'POST',
-            url: 'http://localhost:1337' + '/api/v1/user/login',
+            url: 'http://'+config.server.host+':1337' + '/api/v1/user/login',
             body: {
                 profile: profile._json,
                 params,

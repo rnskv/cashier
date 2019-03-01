@@ -5,7 +5,7 @@ module.exports = {
         protocol: 'http',
     },
     server: {
-    host: window.location.hostname,
+        host: window.location.hostname,
         port: 1337,
         protocol: 'http',
         startMessage: `-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n`+
