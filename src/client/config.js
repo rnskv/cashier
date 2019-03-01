@@ -1,6 +1,6 @@
 export default {
     api: {
-        domain: window.location.hostname + ':1337',
+        domain: process.env.BACKEND_URL,
         prefix: '/api/v1'
     }
 }

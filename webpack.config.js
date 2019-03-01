@@ -1,9 +1,11 @@
 'use strict';
+require('dotenv').load();
+
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const path = require('path');
-
+console.log(process.env)
 module.exports = {
     mode: 'development',
     entry: {
@@ -61,6 +63,10 @@ module.exports = {
 
     },
     plugins: [
+        new webpack.DefinePlugin({
+            "process.env.BACKEND_URL": JSON.stringify(process.env.BACKEND_URL),
+            "process.env.BACKEND_PORT": JSON.stringify(process.env.BACKEND_PORT),
+        }),
         new HtmlWebpackPlugin({
             minify: {
                 collapseWhitespace: true,

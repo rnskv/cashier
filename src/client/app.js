@@ -40,6 +40,7 @@ class Main extends Component {
     }
 
     render() {
+        console.log("ENV", process.env.BACKEND_URL);
         return (
             <div className="wrapper">
                 <Router />
