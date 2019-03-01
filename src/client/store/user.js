@@ -107,7 +107,7 @@ class UserStore {
 
     @action
     logInVk() {
-        window.location = process.env.BACKEND_URL+ "/api/v1/login/vk"
+        window.location = process.env.BACKEND_URL + ':' + process.env.BACKEND_PORT + "/api/v1/login/vk"
     }
 }
 
