@@ -19,7 +19,6 @@ class Store {
         const result = [];
         this.state.forEach((user, token) => {
             if (user.id === id) {
-                // console.log('Нашел сокет юзера');
                 result.push(token);
             }
         });
@@ -27,16 +26,12 @@ class Store {
     }
 
     update(key, value) {
-        // console.log('update', value);
-        // console.log('update old',key, this.get(key));
         this.set(key, {...this.get(key) || {}, ...value});
-        // console.log('Update store to from', this.get(key), {...this.get(key) || {}, ...value} )
     }
 
     modify(key, fn) {
         const value = this.get(key);
         const newValue = fn({...value});
-        // console.log('Модифицирую стор,', key, newValue);
         this.set(key, newValue)
     }
 }

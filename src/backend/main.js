@@ -21,7 +21,6 @@ MongoManager.connect();
 useMainMiddlewares(app);
 useSocketMiddlewares(io)(app);
 
-console.log('WOOOHOOO', process.env.PORT);
 server.listen(process.env.BACKEND_PORT, function () {
-    console.log('ЗАПУЩЕН СЕРВЕР');
+    console.log('Shut up and write code!');
 });

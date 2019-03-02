@@ -83,7 +83,7 @@ module.exports = {
         hot: true,
         inline: true,
         open: true,
-        port: 9000,
+        port: process.env.FRONTEND_PORT,
         host: 'localhost',
         historyApiFallback: true
     }

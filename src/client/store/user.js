@@ -53,7 +53,7 @@ class UserStore {
 
     @action
     getProfile(data) {
-        socket.emit('user.profile', { data });
+        socket.emit('user.profile', { data, token: this.session.token });
     }
 
     @action

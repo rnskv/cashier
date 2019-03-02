@@ -4,7 +4,6 @@ class Ticker {
 
         this.step = 1000;
         setInterval(this.tickTimers.bind(this), this.step);
-        console.log('init timer');
     }
 
     setTimer(data) {

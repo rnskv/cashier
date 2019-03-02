@@ -46,13 +46,11 @@ class RoomsStore {
     @action
     onJoinUser = (data) => {
         this.roomsMap[data.roomId].participants[data.position] = data.user;
-        console.log('ощшт гыук сщьздуеу');
     };
 
     @action
     onLeaveUser = (data) => {
         const room = {...this.roomsMap[data.roomId]};
-        console.log('leave', data);
         if (room.participants) {
             room.participants[data.position] = null;
         }

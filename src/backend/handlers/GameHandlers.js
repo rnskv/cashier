@@ -41,7 +41,6 @@ module.exports = {
         SocketsManager.emitUser(socket, 'game.state', { game, room })
     },
     nextStep: (socket) => (data) => {
-        console.log('nextStep');
         const roomId = UsersStore.get(socket.userId).roomId;
         const game = RoomsManager.getRoomGame(roomId);
         game.nextStep();

@@ -37,10 +37,12 @@ class Main extends Component {
             }
         });
 
+        socket.on('disconnect', () => {
+            console.log('Handled disconnect')
+        })
     }
 
     render() {
-        console.log("ENV", process.env.BACKEND_URL);
         return (
             <div className="wrapper">
                 <Router />

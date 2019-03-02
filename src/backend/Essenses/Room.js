@@ -25,7 +25,6 @@ class Room {
     findFreePosition() {
         for (let participantPosition in this.participants) {
             if (this.participants.hasOwnProperty(participantPosition) && !this.participants[participantPosition]) {
-                console.log('find freePosition ' + participantPosition)
                 return participantPosition
             }
         }
@@ -60,7 +59,6 @@ class Room {
     }
 
     remove() {
-        console.log('remove room 1');
         if (this.game) {
             this.game.Ticker.deleteAllTimers();
         }

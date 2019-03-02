@@ -18,19 +18,16 @@ class Game {
                 finishCb(time)
             }
         });
-        console.log('init timer 21');
     }
 
     stepCb(emitFunction) {
         return (time) => {
-            console.log('timer tick', time);
             emitFunction(time);
         }
     };
 
     finishCb(emitFunction) {
         return (time) => {
-            console.log('finish tick', time);
             this.nextStep();
             emitFunction(time);
         }

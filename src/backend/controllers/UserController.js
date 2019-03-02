@@ -12,7 +12,7 @@ module.exports = {
         let result = null;
         const profile = req.body.profile;
         const params = req.body.params;
-        console.log(profile);
+
         let userData = await User.findOne({ uid: profile.id });
         let token;
 

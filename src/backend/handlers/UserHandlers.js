@@ -23,6 +23,7 @@ const request = require('request');
 module.exports = {
     login: (socket) => async (data) => {
         //отправляем запрос на сервер с data.password and data.login;
+        const { token } = data;
         const decodedToken = jwt.decode(data.token, process.env.JWT_SECRET);
 
         const response = await HttpManager.request({
@@ -45,18 +46,20 @@ module.exports = {
 
         UsersStore.update(decodedToken.id, UserSelector.storeData(user.profile));
 
-        socket.userId = decodedToken.id;
-
         SocketUserStore.set(socket.id, UserSelector.socketData(user.profile));
         GlobalManager.addUser(socket.id, user);
-        console.log('PREV SYNC USERS');
+
         SocketsManager.syncUsersSockets(socket);
 
         SocketsManager.emitUser(socket, 'user.login', { profile: response, token: response.token });
         SocketsManager.emitAll(socket, 'lobby.connect', { users: GlobalManager.getUsers() });
     },
     profile: (socket) => (data) => {
-        const profile = UsersStore.get(socket.userId);
+        const { token } = data;
+        const decodedToken = jwt.decode(data.token, process.env.JWT_SECRET);
+        const userId = decodedToken.id;
+
+        const profile = UsersStore.get(userId);
 
         SocketsManager.emitUser(socket, 'user.profile', {
             profile: UserSelector.clientProfileData(profile),
@@ -77,8 +80,16 @@ module.exports = {
     },
     addRoom: (socket) => async (data) => {
         const { token } = data;
-        const payload = jwt.decode(token, process.env.JWT_SECRET);
-        const userRoomId = UserStore.get(socket.userId) && UserStore.get(socket.userId).roomId;
+        const decodedToken = jwt.decode(token, process.env.JWT_SECRET);
+        const userId = decodedToken.id;
+        const userRoomId = UserStore.get(userId) && UserStore.get(userId).roomId;
+        if (!decodedToken.id) {
+            throw new RnskvError({
+                type: 'default',
+                code: 0,
+                message: 'Невалидный userId'
+            })
+        }
         if (userRoomId) {
             throw new RnskvError({
                 type: 'default',
@@ -86,8 +97,8 @@ module.exports = {
                 message: `Сначала выйдите из комнаты.`
             })
         }
-        const roomId = RoomsManager.addRoom({id: socket.userId });
-        await UsersManager.joinRoom(roomId, RoomsManager.findFreePosition(roomId), socket.userId);
+        const roomId = RoomsManager.addRoom({id: userId });
+        await UsersManager.joinRoom(roomId, RoomsManager.findFreePosition(roomId), userId);
 
         SocketsManager.emitUser(socket, 'user.roomId', { roomId });
         SocketsManager.emitAll(socket, 'room.add', { room: RoomsManager.getRoom(roomId) });
@@ -105,7 +116,9 @@ module.exports = {
         SocketsManager.emitAll(socket, 'rooms.get', { rooms: RoomsManager.getRooms() });
     },
     joinRoom: (socket) => async (data) => {
-        const { roomId, position = RoomsManager.findFreePosition(roomId)} = data;
+        const { token, roomId, position = RoomsManager.findFreePosition(roomId)} = data;
+        const decodedToken = jwt.decode(token, process.env.JWT_SECRET);
+        const userId = decodedToken.id;
 
         if (position === false) {
             throw new RnskvError({
@@ -115,7 +128,7 @@ module.exports = {
             })
         }
 
-        const userRoomId = UserStore.get(socket.userId) && UserStore.get(socket.userId).roomId;
+        const userRoomId = UserStore.get(userId) && UserStore.get(userId).roomId;
 
         if (Number(roomId) === Number(userRoomId)) {
             throw new RnskvError({
@@ -126,20 +139,24 @@ module.exports = {
         }
 
         if (userRoomId) {
-            UsersManager.leaveRoom(userRoomId, RoomsManager.getParticipantPosition(userRoomId, socket.userId), socket.userId);
-            SocketsManager.emitAll(socket, 'room.leave', { roomId: userRoomId, userId: socket.userId });
+            UsersManager.leaveRoom(userRoomId, RoomsManager.getParticipantPosition(userRoomId, userId), userId);
+            SocketsManager.emitAll(socket, 'room.leave', { roomId: userRoomId, userId });
         }
 
-        let user = await UsersManager.joinRoom(roomId, position, socket.userId);
+        let user = await UsersManager.joinRoom(roomId, position, userId);
 
         SocketsManager.emitUser(socket, 'user.roomId', { roomId });
         SocketsManager.emitAll(socket, 'room.join', { roomId, user, position });
     },
     leaveRoom: (socket) => (data) => {
-        const userId = socket.userId;
+        const { token } = data;
+
+        const decodedToken = jwt.decode(token, process.env.JWT_SECRET);
+        const userId = decodedToken.id;
+
         const { roomId, position = RoomsManager.getParticipantPosition(roomId, userId)} = data;
         const userRoomId = UsersStore.get(userId).roomId;
-        //
+
         const room = RoomsManager.getRoom(roomId);
         if (userRoomId !== roomId) {
             throw new RnskvError({
@@ -148,9 +165,8 @@ module.exports = {
                 message: `Вы не находитесь в этой комнате.`
             });
         }
-        //
 
-        UsersManager.leaveRoom(roomId, position, socket.userId);
+        UsersManager.leaveRoom(roomId, position, userId);
 
         if (RoomsManager.getRoomParticipantsCount(roomId) <= 0) {
             RoomsManager.removeRoom(roomId);
