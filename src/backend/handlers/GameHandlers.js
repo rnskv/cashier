@@ -30,10 +30,16 @@ module.exports = {
         //     stepCb: game.stepCb((time) => SocketsManager.emitAll(socket, 'game.time', { time } )),
         //     finishCb: game.finishCb((time) => SocketsManager.emitAll(socket, 'game.update.state', { game })),
         // });
+        //
+        // room.participants.forEach(participant => {
+        //     SocketsManager.emitOtherUser(socket, participant.id, 'game.start', { roomId: data.roomId });
+        // });
 
-        room.participants.forEach(participant => {
-            SocketsManager.emitOtherUser(socket, participant.id, 'game.start', { roomId: data.roomId });
+        Object.values(room.participants).forEach(participant => {
+            participant && SocketsManager.emitOtherUser(socket, participant.id, 'game.start', { roomId: data.roomId });
+            participant && console.log('emit to', participant.id)
         });
+
     },
     getState: (socket) => (data) => {
         const game = RoomsManager.getRoomGame(data.roomId);

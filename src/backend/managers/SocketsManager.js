@@ -3,8 +3,9 @@ class SocketsManager {
         this.state = {};
     }
 
-    syncUsersSockets(socket) {
-        socket.join(`user_${socket.userId}`);
+    syncUsersSockets(socket, userId) {
+        socket.userId = userId;
+        socket.join(`user_${userId}`);
     }
 
     joinRoom(socket, roomName) {
@@ -24,6 +25,7 @@ class SocketsManager {
     }
 
     emitOtherUser(socket, userId, event, data) {
+        console.log('emit', userId, event);
         socket.server.to(`user_${userId}`).emit(event, data);
     }
 
@@ -34,6 +36,7 @@ class SocketsManager {
     emitAll(socket, event, data) {
         socket.server.emit(event, data);
     }
+
 }
 
 

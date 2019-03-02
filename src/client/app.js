@@ -37,8 +37,9 @@ class Main extends Component {
             }
         });
 
-        socket.on('disconnect', () => {
-            console.log('Handled disconnect')
+        socket.on('disconnect', (socket) => {
+            console.log('Handled disconnect');
+            socket.socket.connect();
         })
     }
 

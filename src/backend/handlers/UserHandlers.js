@@ -25,7 +25,7 @@ module.exports = {
         //отправляем запрос на сервер с data.password and data.login;
         const { token } = data;
         const decodedToken = jwt.decode(data.token, process.env.JWT_SECRET);
-
+        const userId = decodedToken.id;
         const response = await HttpManager.request({
             method: 'POST',
             url: `${process.env.BACKEND_URL}:${process.env.BACKEND_PORT}/api/v1/user/`,
@@ -49,7 +49,7 @@ module.exports = {
         SocketUserStore.set(socket.id, UserSelector.socketData(user.profile));
         GlobalManager.addUser(socket.id, user);
 
-        SocketsManager.syncUsersSockets(socket);
+        SocketsManager.syncUsersSockets(socket, userId);
 
         SocketsManager.emitUser(socket, 'user.login', { profile: response, token: response.token });
         SocketsManager.emitAll(socket, 'lobby.connect', { users: GlobalManager.getUsers() });

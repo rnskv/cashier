@@ -33,14 +33,6 @@ class Room extends Component {
         if (gameStore.isLoading) return <div>Get initial game state....</div>;
         return <div>
             <h1>Welcome to the game {this.props.match.params.id}</h1>
-            <div style={{width: '500px', padding: 10 + 'px', border: '2px solid black'}}>
-                {
-                    gameStore.room.participants.map((participant, index) => {
-                        const isCurrentUser = participant.id === userStore.profile.id;
-                        return (<div key={index} style={{background: isCurrentUser ? 'red' : 'black'}}><img src={participant.avatar} width={50}/> {participant.name}</div>)
-                    })
-                }
-            </div>
             <table>
                 <tbody>
                     <tr>
@@ -57,14 +49,6 @@ class Room extends Component {
                         </td>
                         <td>
                             { gameStore.room.creator }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Participants
-                        </td>
-                        <td>
-                            { gameStore.room.participants && gameStore.room.participants.map(participant => participant.name) }
                         </td>
                     </tr>
                     <tr>
