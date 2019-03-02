@@ -24,16 +24,12 @@ module.exports = {
         const room = RoomsManager.getRoom(data.roomId);
         const game = RoomsManager.startGame(data.roomId);
 
-        // game.setUserStepTimer({
-        //     name: 'userStep',
-        //     time: 5000,
-        //     stepCb: game.stepCb((time) => SocketsManager.emitAll(socket, 'game.time', { time } )),
-        //     finishCb: game.finishCb((time) => SocketsManager.emitAll(socket, 'game.update.state', { game })),
-        // });
-        //
-        // room.participants.forEach(participant => {
-        //     SocketsManager.emitOtherUser(socket, participant.id, 'game.start', { roomId: data.roomId });
-        // });
+        game.setUserStepTimer({
+            name: 'userStep',
+            time: 5000,
+            stepCb: game.stepCb((time) => SocketsManager.emitAll(socket, 'game.time', { time } )),
+            finishCb: game.finishCb((time) => SocketsManager.emitAll(socket, 'game.update.state', { game })),
+        });
 
         Object.values(room.participants).forEach(participant => {
             participant && SocketsManager.emitOtherUser(socket, participant.id, 'game.start', { roomId: data.roomId });
