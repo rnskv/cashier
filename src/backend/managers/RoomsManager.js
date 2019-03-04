@@ -70,7 +70,8 @@ class RoomsManager extends Manager {
         return {
             id: room.id,
             creator: UserSelector.clientProfileData(UsersStore.get(room.creatorId)),
-            participants: room.participants
+            participants: room.participants,
+            isStarted: room.isStarted()
         }
     }
 
@@ -89,6 +90,7 @@ class RoomsManager extends Manager {
     }
 
     addParticipant(roomId, position,  user) {
+        console.log('Join into', roomId, ' at position ', position, ' user: ', user)
         this.rooms[roomId].join(user, position);
     }
 

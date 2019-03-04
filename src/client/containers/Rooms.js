@@ -44,11 +44,13 @@ class Rooms extends Component {
                 <input type="button" value="Создать комнату" onClick={this.addRoom}/>
                 <div className="rooms">
                     {
-                        roomsStore.rooms.reverse().map(room => {
+                        roomsStore.rooms.map(room => {
+                                { console.log(room) }
                             return (
                                 <Room key={room.id}
                                      isUserRoom={room.id === userStore.session.roomId}
                                      isUserCreator={room.creator.id === userStore.profile.id}
+                                     isStarted={room.isStarted}
                                      creator={room.creator}
                                      participants={room.participants}
                                      startGame={this.startGame(room.id)}

@@ -26,8 +26,11 @@ class RoomsStore {
 
     @action
     onGetRooms = (data) => {
+        console.log('onGetRooms', data);
         this.isLoading = false;
-        this.roomsMap = data.rooms;
+        Object.values(data.rooms).forEach(room => {
+            this.roomsMap[room.id] = room;
+        });
     };
 
     @action
@@ -45,14 +48,15 @@ class RoomsStore {
 
     @action
     onJoinUser = (data) => {
-        this.roomsMap[data.roomId].participants[data.position] = data.user;
+        console.log('onJoinUser', data)
+        this.roomsMap[data.roomId].participants[+data.position] = data.user;
     };
 
     @action
     onLeaveUser = (data) => {
-        const room = {...this.roomsMap[data.roomId]};
+        const room = this.roomsMap[data.roomId];
         if (room.participants) {
-            room.participants[data.position] = null;
+            room.participants[+data.position] = null;
         }
     };
 
@@ -65,7 +69,7 @@ class RoomsStore {
 
     @computed
     get rooms() {
-        return values(this.roomsMap);
+        return values(this.roomsMap).reverse();
     }
 
 }

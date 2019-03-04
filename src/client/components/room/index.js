@@ -31,7 +31,7 @@ class Room extends Component {
     };
 
     render() {
-        const { participants, isUserCreator, creator, isUserRoom, userJoin, userLeave, removeRoom, startGame } = this.props;
+        const { participants, isUserCreator, creator, isUserRoom, userJoin, userLeave, removeRoom, startGame, isStarted } = this.props;
         const { isShowInstructions } = this.state;
 
         return <div className="room" onMouseLeave={this.onMouseLeave} onMouseEnter={this.onMouseEnter}>
@@ -44,7 +44,7 @@ class Room extends Component {
                         : <div className="flashbox">About game</div>
                 }
 
-                <InteractionButton isUserRoom={isUserRoom} join={userJoin} leave={userLeave}/>
+                <InteractionButton isStarted={isStarted} isUserRoom={isUserRoom} join={userJoin} leave={userLeave}/>
             </div>
             <div className="room-component">
                 {
@@ -62,7 +62,6 @@ class Room extends Component {
                                     />
                                     : <div className="room-component-host room-component-section">
                                         <div className="title title--grey title--room">Room's host</div>
-
                                         <div className="room-component-userinfo">
                                             <div className="room-component-user">
                                                 <img className="room-component-user__avatar" src={creator.avatar} />

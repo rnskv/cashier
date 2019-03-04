@@ -1,4 +1,5 @@
 const Game = require('./Game');
+const RnskvError = require('../Essenses/RnskvError');
 
 class Room {
     constructor(data) {
@@ -16,6 +17,10 @@ class Room {
 
     getId() {
         return this.id;
+    }
+
+    isStarted() {
+        return !!this.game;
     }
 
     getMaxParticipantCount() {
@@ -42,7 +47,21 @@ class Room {
     }
 
     join(user, position) {
-        this.participants[position] = user;
+        if (!this.participants[position]) {
+            this.participants[position] = user;
+        } else if (this.participants[position] === undefined) {
+            throw new RnskvError({
+                type: 'default',
+                code: 0,
+                message: `Вы пытаетесь занять несуществующее место.`
+            })
+        } else {
+            throw new RnskvError({
+                type: 'default',
+                code: 0,
+                message: `Место занято.`
+            })
+        }
     }
 
     leave(userId, position) {
