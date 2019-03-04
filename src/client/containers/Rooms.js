@@ -12,7 +12,8 @@ class Rooms extends Component {
     }
 
     componentDidMount() {
-
+        // alert('mount')
+        socket.emit('rooms.get');
     }
 
     startGame = (id) => () => {
@@ -33,6 +34,9 @@ class Rooms extends Component {
 
     removeRoom = (id) => () => {
         socket.emit('room.remove', { token: userStore.session.token, id })
+    };
+    connectGame = (id) => () => {
+        socket.emit('game.connect', { token: userStore.session.token, roomId: id })
     };
 
     render() {
@@ -57,6 +61,7 @@ class Rooms extends Component {
                                      userJoin={this.joinRoom(room.id)}
                                      userLeave={this.leaveRoom(room.id)}
                                      removeRoom={this.removeRoom(room.id)}
+                                     connectGame={this.connectGame(room.id)}
                                 />
                             )
                         }

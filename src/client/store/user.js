@@ -65,7 +65,7 @@ class UserStore {
 
         this.session.token = data.session.token;
         this.session.roomId = data.session.roomId;
-        socket.emit('rooms.get');
+        // socket.emit('rooms.get');
     };
 
     @action

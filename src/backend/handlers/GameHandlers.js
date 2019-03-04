@@ -37,6 +37,9 @@ module.exports = {
         });
 
     },
+    connectGame: (socket) => (data) => {
+        SocketsManager.emitUser(socket, 'game.connect', { roomId: data.roomId });
+    },
     getState: (socket) => (data) => {
         const game = RoomsManager.getRoomGame(data.roomId);
         const room = RoomsManager.getRoom(data.roomId);

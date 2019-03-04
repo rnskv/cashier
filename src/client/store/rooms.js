@@ -17,6 +17,7 @@ class RoomsStore {
         socket.on('room.leave', this.onLeaveUser);
 
         socket.on('game.start', this.onStartGame);
+        socket.on('game.connect', this.onConnectGame);
 
         socket.on('error', () => {
             alert('error')
@@ -67,6 +68,10 @@ class RoomsStore {
         history.replace('/game/' + data.roomId)
     };
 
+    @action
+    onConnectGame = (data) => {
+        history.replace('/game/' + data.roomId)
+    };
 
     @computed
     get rooms() {

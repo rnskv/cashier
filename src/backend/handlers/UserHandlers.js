@@ -83,6 +83,7 @@ module.exports = {
         const decodedToken = jwt.decode(token, process.env.JWT_SECRET);
         const userId = decodedToken.id;
         const userRoomId = UserStore.get(userId) && UserStore.get(userId).roomId;
+
         if (!decodedToken.id) {
             throw new RnskvError({
                 type: 'default',
@@ -97,6 +98,7 @@ module.exports = {
                 message: `Сначала выйдите из комнаты.`
             })
         }
+
         const roomId = RoomsManager.addRoom({id: userId });
         await UsersManager.joinRoom(roomId, RoomsManager.findFreePosition(roomId), userId);
 

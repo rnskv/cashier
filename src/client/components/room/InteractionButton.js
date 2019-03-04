@@ -7,10 +7,10 @@ class InteractionButton extends React.Component {
     render() {
         const { isStarted, isUserRoom, join, leave } = this.props;
 
-        if (isStarted) return 'Вступить в игру'
-        return isUserRoom
-            ? <button className="room-info__button button" onClick={leave}>Leave</button>
-            : <button className="room-info__button button" onClick={join}>Join</button>
+        // if (isStarted && isUserRoom) return <button className="room-info__button button" onClick={leave}>Connect</button>;
+        if (isUserRoom) return <button className="room-info__button button" onClick={leave}>Leave</button>;
+
+        return <button className="room-info__button button" onClick={join}>Join</button>
     }
 }
 
