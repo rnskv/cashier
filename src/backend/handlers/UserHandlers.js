@@ -116,11 +116,12 @@ module.exports = {
         SocketsManager.emitAll(socket, 'rooms.get', { rooms: RoomsManager.getRooms() });
     },
     joinRoom: (socket) => async (data) => {
+        console.log(data);
         const { token, roomId, position = RoomsManager.findFreePosition(roomId)} = data;
         const decodedToken = jwt.decode(token, process.env.JWT_SECRET);
         const userId = decodedToken.id;
 
-        if (position === false) {
+        if (!position) {
             throw new RnskvError({
                 type: 'default',
                 code: 0,
@@ -140,9 +141,9 @@ module.exports = {
 
         if (userRoomId) {
             UsersManager.leaveRoom(userRoomId, RoomsManager.getParticipantPosition(userRoomId, userId), userId);
-            SocketsManager.emitAll(socket, 'room.leave', { roomId: userRoomId, userId });
+            SocketsManager.emitAll(socket, 'room.leave', { roomId: userRoomId, position });
         }
-
+        console.log('position', position);
         let user = await UsersManager.joinRoom(roomId, position, userId);
 
         SocketsManager.emitUser(socket, 'user.roomId', { roomId });
@@ -170,7 +171,7 @@ module.exports = {
 
         if (RoomsManager.getRoomParticipantsCount(roomId) <= 0) {
             RoomsManager.removeRoom(roomId);
-            SocketsManager.emitAll(socket, 'room.remove', { roomId: roomId });
+            SocketsManager.emitAll(socket, 'room.remove', { roomId, position });
         }
 
 

@@ -90,7 +90,7 @@ class RoomsManager extends Manager {
     }
 
     addParticipant(roomId, position,  user) {
-        console.log('Join into', roomId, ' at position ', position, ' user: ', user)
+        // console.log('Join into', roomId, ' at position ', position, ' user: ', user)
         this.rooms[roomId].join(user, position);
     }
 

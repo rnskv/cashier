@@ -48,15 +48,16 @@ class RoomsStore {
 
     @action
     onJoinUser = (data) => {
-        console.log('onJoinUser', data)
+        console.log('onJoinUser', data.roomId, data.position)
         this.roomsMap[data.roomId].participants[+data.position] = data.user;
     };
 
     @action
     onLeaveUser = (data) => {
         const room = this.roomsMap[data.roomId];
+        console.log(data.position)
         if (room.participants) {
-            room.participants[+data.position] = null;
+            room.participants[data.position] = null;
         }
     };
 
