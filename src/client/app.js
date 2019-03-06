@@ -39,7 +39,12 @@ class Main extends Component {
 
         socket.on('disconnect', (socket) => {
             console.log('Handled disconnect');
-            socket.socket.connect();
+        });
+
+        socket.on('reconnect', () => {
+            console.log('Handled connect');
+            alert('Проблема с соединением, страница будет обновлена');
+            window.location = '/';
         })
     }
 
