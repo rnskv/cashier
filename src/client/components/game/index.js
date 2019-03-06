@@ -11,7 +11,7 @@ class Room extends Component {
     constructor(props) {
         super();
         socket.on('user.login', () => {
-            this.getState()
+            // this.getState()
         });
         // this.timer = setInterval(gameStore.getTime, 1000);
     }

@@ -1,5 +1,8 @@
-class SocketsManager {
+const Manager = require('../Essenses/Manager');
+
+class SocketsManager extends Manager{
     constructor(state) {
+        super(state);
         this.state = {};
     }
 
@@ -35,6 +38,13 @@ class SocketsManager {
 
     emitAll(socket, event, data) {
         socket.server.emit(event, data);
+    }
+    emitGameRoom(socket, roomId, event, data) {
+        const room = this.managers.RoomsManager.getRoom(roomId);
+        Object.values(room.participants).forEach(participant => {
+            participant && this.emitOtherUser(socket, participant.id, event, data);
+            participant && console.log('emit to', participant.id)
+        });
     }
 
 }

@@ -27,22 +27,29 @@ module.exports = {
         game.setUserStepTimer({
             name: 'userStep',
             time: 5000,
-            stepCb: game.stepCb((time) => SocketsManager.emitAll(socket, 'game.time', { time } )),
-            finishCb: game.finishCb((time) => SocketsManager.emitAll(socket, 'game.update.state', { game })),
+            stepCb: game.stepCb((time) => SocketsManager.emitGameRoom(socket, room.id, 'game.time', { time } )),
+            finishCb: game.finishCb((time) => SocketsManager.emitGameRoom(socket, room.id, 'game.update.state', { game })),
         });
 
-        Object.values(room.participants).forEach(participant => {
-            participant && SocketsManager.emitOtherUser(socket, participant.id, 'game.start', { roomId: data.roomId });
-            participant && console.log('emit to', participant.id)
-        });
-
+        SocketsManager.emitGameRoom(socket, room.id, 'game.start', { roomId: data.roomId });
     },
     connectGame: (socket) => (data) => {
         SocketsManager.emitUser(socket, 'game.connect', { roomId: data.roomId });
     },
     getState: (socket) => (data) => {
+        console.log('Compare', data.user.roomId, data.roomId);
+        if (data.user.roomId && Number(data.user.roomId) !== Number(data.roomId)) {
+            throw new RnskvError({
+                type: 'default',
+                code: 0,
+                message: `Вы находитесь в другой комнате.`
+            })
+        }
         const game = RoomsManager.getRoomGame(data.roomId);
         const room = RoomsManager.getRoom(data.roomId);
+
+        console.log('getState', data);
+
         SocketsManager.emitUser(socket, 'game.state', { game, room })
     },
     nextStep: (socket) => (data) => {

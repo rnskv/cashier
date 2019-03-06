@@ -11,6 +11,10 @@ class Manager {
     setManagers(managers) {
         this.managers = managers;
     }
+
+    setManager(name, manager) {
+        this.managers[name] = manager;
+    }
 }
 
 module.exports = Manager;

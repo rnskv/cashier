@@ -46,6 +46,12 @@ const socketToReq = (socket) => (req, res) => {
     res.socket = socket;
 };
 
+const setUser = async (data) => {
+    const decodedToken = jwt.decode(data.token, process.env.JW);
+    data.user = UsersStore.get(decodedToken.id);
+    return data;
+};
+
 module.exports = (io) => (app) => {
     io.adapter(redisAdapter({ host: process.env.REDIS_HOST, port: process.env.REDIS_PORT }));
 
@@ -57,6 +63,7 @@ module.exports = (io) => (app) => {
 
         gameHandler.setSocket(socket);
         gameHandler.addMiddleware(checkAccess);
+        gameHandler.addMiddleware(setUser);
 
         socket.on('user.login', userHandler.execute('login'));
         socket.on('user.logout', userHandler.execute('logout'));

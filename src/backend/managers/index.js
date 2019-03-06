@@ -18,6 +18,7 @@ const SocketsManager = new Sockets();
 const RoomsManager = new Rooms({managers: {HttpManager, GlobalManager}});
 const UsersManager = new Users({managers: {HttpManager, RoomsManager, ErrorsManager}});
 
+SocketsManager.setManager('RoomsManager', RoomsManager);
 
 module.exports.HttpManager = HttpManager;
 module.exports.LobbyManager = LobbyManager;

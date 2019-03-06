@@ -25,7 +25,7 @@ class Handler {
             routineData = {...data, ...params};
 
             for (let mwId in this.middlewares) {
-
+                // console.log(mwId, data);
                 const next = await this.middlewares[mwId](routineData);
 
                 if (!next) {
