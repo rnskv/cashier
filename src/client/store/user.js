@@ -66,6 +66,8 @@ class UserStore {
         this.session.token = data.session.token;
         this.session.roomId = data.session.roomId;
         // socket.emit('rooms.get');
+        socket.emit('rooms.get', { token: this.session.token});
+
     };
 
     @action
@@ -83,6 +85,7 @@ class UserStore {
     onLogIn = (data) => {
         localStorage.setItem("token", data.token);
         this.getProfile(data);
+
     };
 
     @action

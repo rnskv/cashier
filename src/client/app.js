@@ -42,9 +42,10 @@ class Main extends Component {
         });
 
         socket.on('reconnect', () => {
-            console.log('Handled connect');
-            alert('Проблема с соединением, страница будет обновлена');
-            window.location = '/';
+            console.log('Handled reconnect');
+            // alert('Проблема с соединением, страница будет обновлена');
+            // window.location = '/';
+            socket.emit('user.login', { token: userStore.session.token });
         })
     }
 

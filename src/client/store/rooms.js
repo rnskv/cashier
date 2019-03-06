@@ -6,7 +6,7 @@ class RoomsStore {
     @observable isLoading;
 
     constructor() {
-        this.roomsMap = {};
+        this.roomsMap = new Map();
 
         this.isLoading = true;
 
@@ -29,33 +29,34 @@ class RoomsStore {
     onGetRooms = (data) => {
         console.log('onGetRooms', data);
         this.isLoading = false;
+
+        this.roomsMap = new Map();
+
         Object.values(data.rooms).forEach(room => {
-            this.roomsMap[room.id] = room;
+            this.roomsMap.set(room.id, room);
         });
     };
 
     @action
     onAddRoom = (data) => {
-        // this.hello = 'mobX';
-        this.roomsMap[data.room.id] = data.room;
+        this.roomsMap.set(data.room.id, data.room);
     };
 
     @action
     onRemoveRoom = (data) => {
-        // this.hello = 'mobX';
         const { roomId } = data;
-        delete this.roomsMap[roomId];
+        this.roomsMap.delete(roomId);
     };
 
     @action
     onJoinUser = (data) => {
-        console.log('onJoinUser', data.roomId, data.position)
-        this.roomsMap[data.roomId].participants[+data.position] = data.user;
+        console.log('onJoinUser', data.roomId, data.position);
+        this.roomsMap.get(data.roomId).participants[+data.position] = data.user;
     };
 
     @action
     onLeaveUser = (data) => {
-        const room = this.roomsMap[data.roomId];
+        const room = this.roomsMap.get(data.roomId);
         console.log(data.position)
         if (room.participants) {
             room.participants[data.position] = null;
