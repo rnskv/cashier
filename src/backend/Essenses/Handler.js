@@ -19,6 +19,12 @@ class Handler {
         this.middlewares.push(fn);
     }
 
+    addMiddlewares(middlewares) {
+        for (let middleware of middlewares) {
+            this.addMiddleware(middleware)
+        }
+    }
+
     execute(methodName, params) {
         let routineData = {};
         return async (data) => {

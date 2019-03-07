@@ -4,7 +4,7 @@ const redisAdapter = require('socket.io-redis');
 
 const userHandlers = require('../handlers/UserHandlers');
 const gameHandlers = require('../handlers/GameHandlers');
-
+const roomHandlers = require('../handlers/RoomHandlers');
 const rolesMiddleware = require('./roles');
 const ErrorsHandlers = require('../handlers/ErrorsHandlers');
 
@@ -17,9 +17,11 @@ const HttpManager = Managers.HttpManager;
 
 const userHandler = new Handler();
 const gameHandler = new Handler();
+const roomHandler = new Handler();
 
 userHandler.setMethods(userHandlers);
 gameHandler.setMethods(gameHandlers);
+roomHandler.setMethods(roomHandlers);
 
 const checkAccess = async (data) => {
     if (!data.accessLvl) return true;
@@ -38,8 +40,8 @@ const checkAccess = async (data) => {
             });
         }
     }
-    if (!user) return false;
-    return user.accessLvl >= data.accessLvl;
+
+    return user.accessLvl >= data.accessLvl ? data : false;
 };
 
 const socketToReq = (socket) => (req, res) => {
@@ -48,7 +50,11 @@ const socketToReq = (socket) => (req, res) => {
 
 const setUser = async (data) => {
     const decodedToken = jwt.decode(data.token, process.env.JW);
-    data.user = UsersStore.get(decodedToken.id);
+    console.log('setUser', decodedToken);
+    if (decodedToken) {
+        data.user = UsersStore.get(decodedToken.id);
+    }
+
     return data;
 };
 
@@ -59,29 +65,26 @@ module.exports = (io) => (app) => {
         app.use(socketToReq(socket));
 
         userHandler.setSocket(socket);
-        userHandler.addMiddleware(checkAccess);
-
+        roomHandler.setSocket(socket);
         gameHandler.setSocket(socket);
-        gameHandler.addMiddleware(checkAccess);
-        gameHandler.addMiddleware(setUser);
+
+        userHandler.addMiddlewares([checkAccess, setUser]);
+        roomHandler.addMiddlewares([checkAccess, setUser]);
+        gameHandler.addMiddlewares([checkAccess, setUser]);
 
         socket.on('user.login', userHandler.execute('login'));
         socket.on('user.logout', userHandler.execute('logout'));
-
         socket.on('user.profile', userHandler.execute('profile'));
 
-        socket.on('rooms.get', userHandler.execute('getRooms'));
-
-        socket.on('room.add', userHandler.execute('addRoom', { accessLvl: 1 }));
-        socket.on('room.remove', userHandler.execute('removeRoom', { accessLvl: 1 }));
-        socket.on('room.join', userHandler.execute('joinRoom', { accessLvl: 1 }));
-        socket.on('room.leave', userHandler.execute('leaveRoom', { accessLvl: 1 }));
+        socket.on('room.add', roomHandler.execute('addRoom', { accessLvl: 1 }));
+        socket.on('room.remove', roomHandler.execute('removeRoom', { accessLvl: 1 }));
+        socket.on('room.join', roomHandler.execute('joinRoom', { accessLvl: 1 }));
+        socket.on('room.leave', roomHandler.execute('leaveRoom', { accessLvl: 1 }));
+        socket.on('rooms.get', roomHandler.execute('getRooms'));
 
         socket.on('game.start', gameHandler.execute('startGame', { accessLvl: 1 }));
         socket.on('game.connect', gameHandler.execute('connectGame', { accessLvl: 1 }));
         socket.on('game.state', gameHandler.execute('getState', { accessLvl: 1 }));
-
-        // socket.on('game.time', gameHandler.execute('getTime', { accessLvl: 1 }));
         socket.on('game.nextStep', gameHandler.execute('nextStep', { accessLvl: 1 }));
 
 
