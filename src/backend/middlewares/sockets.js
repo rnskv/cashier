@@ -27,7 +27,9 @@ const checkAccess = async (data) => {
     if (!data.accessLvl) return true;
 
     let user = null;
-    const decodedToken = jwt.decode(data.token, process.env.JW);
+    console.log('checkAcess', data.debugName);
+
+    const decodedToken = jwt.decode(data.token, process.env.JWT_SECRET);
     if (decodedToken) {
         user = UsersStore.get(decodedToken.id);
         if (!user) {
@@ -41,7 +43,7 @@ const checkAccess = async (data) => {
         }
     }
 
-    return user.accessLvl >= data.accessLvl ? data : false;
+    return user && user.accessLvl >= data.accessLvl ? data : false;
 };
 
 const socketToReq = (socket) => (req, res) => {
@@ -72,9 +74,9 @@ module.exports = (io) => (app) => {
         roomHandler.addMiddlewares([checkAccess, setUser]);
         gameHandler.addMiddlewares([checkAccess, setUser]);
 
-        socket.on('user.login', userHandler.execute('login'));
+        socket.on('user.login', userHandler.execute('login'), { debugName: 'login' });
         socket.on('user.logout', userHandler.execute('logout'));
-        socket.on('user.profile', userHandler.execute('profile'));
+        socket.on('user.profile', userHandler.execute('profile', { debugName: 'profile', accessLvl: 1 }));
 
         socket.on('room.add', roomHandler.execute('addRoom', { accessLvl: 1 }));
         socket.on('room.remove', roomHandler.execute('removeRoom', { accessLvl: 1 }));

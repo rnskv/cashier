@@ -84,6 +84,7 @@ class UserStore {
     @action
     onLogIn = (data) => {
         localStorage.setItem("token", data.token);
+        this.session.token = data.token;
         this.getProfile(data);
 
     };

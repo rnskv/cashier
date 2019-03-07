@@ -55,11 +55,7 @@ module.exports = {
         SocketsManager.emitAll(socket, 'lobby.connect', { users: GlobalManager.getUsers() });
     },
     profile: (socket) => (data) => {
-        const { token } = data;
-        const decodedToken = jwt.decode(data.token, process.env.JWT_SECRET);
-        const userId = decodedToken.id;
-
-        const profile = UsersStore.get(userId);
+        const profile = UsersStore.get(data.user.id);
 
         SocketsManager.emitUser(socket, 'user.profile', {
             profile: UserSelector.clientProfileData(profile),
