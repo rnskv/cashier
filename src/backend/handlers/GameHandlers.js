@@ -37,7 +37,14 @@ module.exports = {
         SocketsManager.emitUser(socket, 'game.connect', { roomId: data.roomId });
     },
     getState: (socket) => (data) => {
-        console.log('Compare', data.user.roomId, data.roomId);
+        if (!data.user.roomId) {
+            throw new RnskvError({
+                type: 'default',
+                code: 0,
+                message: `Вы не находитесь в комнате.`
+            })
+        }
+
         if (data.user.roomId && Number(data.user.roomId) !== Number(data.roomId)) {
             throw new RnskvError({
                 type: 'default',
@@ -45,10 +52,11 @@ module.exports = {
                 message: `Вы находитесь в другой комнате.`
             })
         }
+
         const game = RoomsManager.getRoomGame(data.roomId);
         const room = RoomsManager.getRoom(data.roomId);
 
-        console.log('getState', data);
+        console.log('getState', room);
 
         SocketsManager.emitUser(socket, 'game.state', { game, room })
     },

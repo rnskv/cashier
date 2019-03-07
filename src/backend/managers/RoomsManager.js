@@ -43,12 +43,14 @@ class RoomsManager extends Manager {
     }
 
     kickAllPlayersFromRoom(id) {
-        this.rooms[id].participants.forEach(participant => {
-            this.removeParticipant(id, participant.id);
-            UsersStore.modify(participant.id, data => {
-                data.roomId = null;
-                return data;
-            });
+        Object.values(this.rooms[id].participants).forEach(participant => {
+            if (participant) {
+                this.removeParticipant(id, participant.id);
+                UsersStore.modify(participant.id, data => {
+                    data.roomId = null;
+                    return data;
+                });
+            }
         });
     }
 
@@ -78,7 +80,7 @@ class RoomsManager extends Manager {
     getRoomParticipantsCount(id) {
         const room = this.rooms[id];
         //To selector
-        return room.participants.length;
+        return Object.values(room.participants).filter(participant => participant !== null).length;
     }
 
     findFreePosition(roomId) {
