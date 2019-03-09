@@ -51,8 +51,13 @@ class Main extends Component {
 
     render() {
         return (
-            <div className="wrapper">
-                <Router />
+            <div className="row">
+                <div className="sidebar">
+                    Sidebar
+                </div>
+                <div className="content">
+                    <Router />
+                </div>
             </div>
         )
     }
