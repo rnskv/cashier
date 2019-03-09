@@ -1,11 +1,18 @@
+.button--room {
+  height: 60px;
+  font-size: 16pt;
+  margin: 10px 0;
+}
 
+.button--default {
+  font-size: 10pt;
+}
 
 .button {
   border: none;
   background: #F6E444;
   padding: 5px 10px;
   border-radius: 3px;
-  font-size: 10pt;
   cursor: pointer;
   transition: .3s;
 }

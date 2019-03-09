@@ -15,9 +15,9 @@ const About = () => <h2>About</h2>;
 
 export default () => (
     <Fragment>
-        <Link to="/about">About</Link>
-        <Link to="/">Main</Link>
-        <Link to="/login">Auth</Link>
+        {/*<Link to="/about">About</Link>*/}
+        {/*<Link to="/">Main</Link>*/}
+        {/*<Link to="/login">Auth</Link>*/}
 
         <Route exact path="/" component={MainContainer} />
         <Route path="/login/:token?" component={LoginContainer} />

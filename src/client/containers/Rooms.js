@@ -28,7 +28,7 @@ class Rooms extends Component {
         socket.emit('room.leave', { token: userStore.session.token, roomId: id})
     };
 
-    addRoom() {
+    addRoom = () => {
         socket.emit('room.add', { token: userStore.session.token })
     }
 
@@ -44,8 +44,20 @@ class Rooms extends Component {
         if (roomsStore.isLoading) return <div>Комнаты загружаются</div>;
 
         return (
-            <React.Fragment>
-                <input type="button" value="Создать комнату" onClick={this.addRoom}/>
+            <div className="section">
+                <h1 className="title title--section">Rooms</h1>
+                <div className="split">
+                    <p className="description description-rooms">
+                        Join an existing room or create your own. When creating you can choose the game,
+                        the type of room, the number of participants as well as the progress of each player.
+                        Create a room, invite friends. Together get the opportunity to be in the game, play and win!
+                    </p>
+                    <div className="column">
+                        <input type="button" className="button button--room" value="Create room" onClick={this.addRoom}/>
+                        <input type="button" className="button button--room" value="Join room" onClick={this.addRoom}/>
+                    </div>
+                </div>
+
                 <div className="rooms">
                     {
                         roomsStore.rooms.map(room => {
@@ -68,7 +80,7 @@ class Rooms extends Component {
                         )
                     }
                 </div>
-            </React.Fragment>
+            </div>
         )
     }
 }

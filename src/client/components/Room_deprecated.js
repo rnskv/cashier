@@ -37,8 +37,8 @@ class Room_deprecated extends Component {
     renderInfoButtons() {
         return (
             this.props.isUserRoom
-                ? <button className="room-info__button button" onClick={this.props.leave}>Leave</button>
-                : <button className="room-info__button button" onClick={this.props.join}>Join</button>
+                ? <button className="room-info__button button--default button" onClick={this.props.leave}>Leave</button>
+                : <button className="room-info__button button--default button" onClick={this.props.join}>Join</button>
         )
     }
 
