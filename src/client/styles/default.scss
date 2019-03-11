@@ -13,7 +13,32 @@ body {
 .sidebar {
   width: 300px;
   background: black;
+
 }
+
+.sidebar-menu {
+  background: #172228;
+  border-left: 20px solid #3a4365;
+}
+
+.sidebar-menu--item {
+  font-size: 16pt;
+  color: #fff;
+  font-weight: 800;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #213137;
+}
+
+.sidebar-menu--item:hover {
+  color: #f6e344;
+}
+
+.sidebar-menu--item__active {
+  color: #f6e344;
+  background: #0c0d11;
+}
+
 
 .description {
   font-size: 15pt;

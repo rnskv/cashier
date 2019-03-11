@@ -53,7 +53,32 @@ class Main extends Component {
         return (
             <div className="row">
                 <div className="sidebar">
-                    Sidebar
+                    <div className="sidebar-menu">
+                        <div className="sidebar-menu--item">
+                            Classic
+                        </div>
+                        <div className="sidebar-menu--item sidebar-menu--item__active">
+                            FAQ
+                        </div>
+                        <div className="sidebar-menu--item">
+                            Help
+                        </div>
+                        <div className="sidebar-menu--item">
+                            More
+                        </div>
+                        <div className="sidebar-menu--item">
+                            Mocking
+                        </div>
+                        <div className="sidebar-menu--item">
+                            Pages
+                        </div>
+                        <div className="sidebar-menu--item">
+                            For
+                        </div>
+                        <div className="sidebar-menu--item">
+                            Sidebar
+                        </div>
+                    </div>
                 </div>
                 <div className="content">
                     <Router />
