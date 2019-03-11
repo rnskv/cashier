@@ -30,6 +30,12 @@ body {
   border-bottom: 1px solid #213137;
 }
 
+.block {
+  background: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2560x1701/60be935ae58329217f6c1957d04f801a/photo-1446669052213-5dcff53f1f3f");
+  padding: 10px 10px;
+  border-radius: 5px;
+}
+
 .sidebar-menu--item:hover {
   color: #f6e344;
 }
@@ -41,7 +47,7 @@ body {
 
 
 .description {
-  font-size: 15pt;
+  font-size: 13pt;
   color: #fff;
 }
 
@@ -54,6 +60,7 @@ body {
 .description-rooms {
   width: 500px;
   padding: 0 15px 0 0;
+  text-shadow: 0 0 1px #00000061;
 }
 
 .content {

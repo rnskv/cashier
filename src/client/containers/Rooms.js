@@ -45,16 +45,18 @@ class Rooms extends Component {
 
         return (
             <div className="section">
-                <h1 className="title title--section">Rooms</h1>
-                <div className="split">
-                    <p className="description description-rooms">
-                        Join an existing room or create your own. When creating you can choose the game,
-                        the type of room, the number of participants as well as the progress of each player.
-                        Create a room, invite friends. Together get the opportunity to be in the game, play and win!
-                    </p>
-                    <div className="column">
-                        <input type="button" className="button button--room" value="Create room" onClick={this.addRoom}/>
-                        <input type="button" className="button button--room" value="Join room" onClick={this.addRoom}/>
+                <div className="block">
+                    <h1 className="title title--section">Rooms</h1>
+                    <div className="split">
+                        <p className="description description-rooms">
+                            Join an existing room or create your own. When creating you can choose the game,
+                            the type of room, the number of participants as well as the progress of each player.
+                            Create a room, invite friends. Together get the opportunity to be in the game, play and win!
+                        </p>
+                        <div className="column">
+                            <input type="button" className="button button--room" value="Create room" onClick={this.addRoom}/>
+                            <input type="button" className="button button--room" value="Join room" onClick={this.addRoom}/>
+                        </div>
                     </div>
                 </div>
 
