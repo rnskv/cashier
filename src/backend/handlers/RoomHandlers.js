@@ -34,13 +34,14 @@ module.exports = {
                 message: 'Невалидный userId'
             })
         }
-        if (userRoomId) {
-            throw new RnskvError({
-                type: 'default',
-                code: 0,
-                message: `Сначала выйдите из комнаты.`
-            })
-        }
+
+        // if (userRoomId) {
+        //     throw new RnskvError({
+        //         type: 'default',
+        //         code: 0,
+        //         message: `Сначала выйдите из комнаты.`
+        //     })
+        // }
 
         const roomId = RoomsManager.addRoom({id: userId });
         await UsersManager.joinRoom(roomId, RoomsManager.findFreePosition(roomId), userId);

@@ -2,7 +2,6 @@
     min-width: 200px;
     width: 280px;
     background: black;
-
 }
 
 .sidebar-menu {
@@ -29,6 +28,9 @@
     padding: 10px 15px;
     cursor: pointer;
     border-bottom: 1px solid #213137;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
 }
 
 .sidebar-menu--item:hover {
