@@ -37,10 +37,6 @@ class Main extends Component {
 
         return (
             <React.Fragment>
-                <div className="header">
-                    <UserBarContainer store={userStore}/>
-                    {/*<LobbyContainer userStore={userStore} store={lobbyStore}/>*/}
-                </div>
                 <RoomsContainer/>
             </React.Fragment>
         )

@@ -7,7 +7,6 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   margin-top: 50px;
   padding: 25px 0;
 }
@@ -74,7 +73,6 @@
   margin-right: 10px;
 }
 
-
 .room-component-user {
   width: 35px;
   height: 35px;
@@ -127,7 +125,6 @@
 
 }
 
-
 .room-component-information__title {
   background: #3a4364;
   display: block;
@@ -142,4 +139,10 @@
   padding: 0 15px;
   color: #fff;
   font-size: 9pt;
+}
+
+.description--rooms {
+  width: 500px;
+  padding: 0 15px 0 0;
+  text-shadow: 0 0 1px #00000061;
 }

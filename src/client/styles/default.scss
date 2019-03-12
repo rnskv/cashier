@@ -3,31 +3,13 @@
 @import './rooms.scss';
 @import './titles.scss';
 @import './userbar.scss';
-
+@import './sidebar.scss';
+@import './header.scss';
+@import './blocks.scss';
 body {
   padding: 0;
   margin: 0;
   font-family: 'PT Sans', sans-serif;
-}
-
-.sidebar {
-  width: 300px;
-  background: black;
-
-}
-
-.sidebar-menu {
-  background: #172228;
-  border-left: 20px solid #3a4365;
-}
-
-.sidebar-menu--item {
-  font-size: 16pt;
-  color: #fff;
-  font-weight: 800;
-  padding: 10px 15px;
-  cursor: pointer;
-  border-bottom: 1px solid #213137;
 }
 
 .block {
@@ -35,16 +17,6 @@ body {
   padding: 10px 10px;
   border-radius: 5px;
 }
-
-.sidebar-menu--item:hover {
-  color: #f6e344;
-}
-
-.sidebar-menu--item__active {
-  color: #f6e344;
-  background: #0c0d11;
-}
-
 
 .description {
   font-size: 13pt;
@@ -57,41 +29,14 @@ body {
   align-items: center;
 }
 
-.description-rooms {
-  width: 500px;
-  padding: 0 15px 0 0;
-  text-shadow: 0 0 1px #00000061;
-}
-
-.content {
-  width: 100%;
-  min-width: 900px;
-  margin: 0 auto;
-  background: linear-gradient(180deg, #182227, black);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .column {
   display: flex;
   flex-direction: column;
 }
+
 .row {
   display: flex;
   flex-direction: row;
-}
-
-.section {
-  width: 900px;
-  margin: 25px 0 0 0;
-}
-
-.header {
-  width: 100%;
-  display: flex;
-  background: #00000087;
-  flex-direction: row-reverse;
 }
 
 .flashbox {
